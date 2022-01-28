@@ -6,9 +6,11 @@ res/
 .vs/
 Assets/
 gslib_2021/
+doc/
 
 #コミットに含まない拡張子
 *.vcxproj.user
+*.vcxproj.filters
 *.sdf
 *.suo
 *.VC.opendb
