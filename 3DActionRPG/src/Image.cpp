@@ -6,7 +6,7 @@ int Image::bossImage{ -1 };
 
 void Image::load(const std::string& scene)
 {
-    bossImage= load_texture("Image/test.png");
+    bossImage= load_texture("Assets/Image/test.png");
 }
 
 int Image::load_texture(const char* file_name, const std::string& scene, std::vector<std::string> use_sceces)
