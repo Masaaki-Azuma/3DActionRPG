@@ -14,6 +14,11 @@ public:
 		Damage,
 		Avoid,
 	};
+	struct Parameter
+	{
+		int hp = 1000;             //体力
+		int attack = 200;         //攻撃力
+	};
 public:
 	Player(IWorld* world);
 	virtual void update(float delta_time) override;
@@ -25,12 +30,21 @@ private:
 	void update_state(float delta_time);
 	//状態を変化させる
 	void change_state(State state, unsigned int motion, bool loop = true);
+	//移動状態更新
 	void move(float delta_time);
+	//攻撃状態更新
 	void attack(float delta_time);
+	//ダメージ状態更新
 	void damage(float delta_time);
+	//回避状態更新
 	void avoid(float delta_time);
+
+	//攻撃判定を生成
 	void generate_attack(float lifespan, float delay = 0.0f);
+	//コンボ攻撃
 	void combo_attack(unsigned motion, float lifespan, float delay = 0.0f);
+	//ダメージを受ける
+	void take_damage(int damage);
 
 	//ForDebug
 	void select_motion();
@@ -48,6 +62,8 @@ private:
 	unsigned int motion_;
 	//モーションループするか？
 	bool motion_loop_;
+	//戦闘パラメーター
+	Parameter parameter_;
 };
 #endif//!PLAYER_H_
 

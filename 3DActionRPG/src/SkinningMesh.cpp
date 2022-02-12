@@ -40,9 +40,6 @@ void SkinningMesh::update(float delta_time)
 void SkinningMesh::draw() const
 {
 	MV1DrawModel(model_handle_);
-
-	//ForDebug
-	DxLib::DrawFormatString(0, 100, DxLib::GetColor(255, 255, 255), "anim_total_time:%f", anim_total_frame_);
 }
 
 void SkinningMesh::set_position(const VECTOR& position)

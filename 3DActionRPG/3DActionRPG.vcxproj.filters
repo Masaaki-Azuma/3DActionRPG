@@ -21,8 +21,9 @@
     <ClCompile Include="src\Util\Vector3.cpp" />
     <ClCompile Include="src\World.cpp" />
     <ClCompile Include="src\Util\MyMath.cpp" />
-    <ClCompile Include="src\PlayerParameter.cpp" />
+    <ClCompile Include="src\PlayerDatabase.cpp" />
     <ClCompile Include="src\Util\CsvReader.cpp" />
+    <ClCompile Include="src\EnemyDatabase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor.h" />
@@ -46,8 +47,9 @@
     <ClInclude Include="src\Util\Vector3.h" />
     <ClInclude Include="src\World.h" />
     <ClInclude Include="src\Util\MyMath.h" />
-    <ClInclude Include="src\PlayerParameter.h" />
+    <ClInclude Include="src\PlayerDatabase.h" />
     <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\Util\CsvReader.h" />
+    <ClInclude Include="src\EnemyDatabase.h" />
   </ItemGroup>
 </Project>

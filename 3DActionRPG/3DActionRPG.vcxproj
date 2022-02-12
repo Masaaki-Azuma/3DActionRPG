@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EnemyDatabase.cpp" />
     <ClCompile Include="src\Actor.cpp" />
     <ClCompile Include="src\ActorManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -33,7 +34,7 @@
     <ClCompile Include="src\Util\Matrix4x4.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\PlayerParameter.cpp" />
+    <ClCompile Include="src\PlayerDatabase.cpp" />
     <ClCompile Include="src\SkinningMesh.cpp" />
     <ClCompile Include="src\Slime.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
@@ -43,6 +44,7 @@
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\EnemyDatabase.h" />
     <ClInclude Include="src\Actor.h" />
     <ClInclude Include="src\ActorManager.h" />
     <ClInclude Include="src\Application.h" />
@@ -57,7 +59,7 @@
     <ClInclude Include="src\Util\Matrix4x4.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\PlayerParameter.h" />
+    <ClInclude Include="src\PlayerDatabase.h" />
     <ClInclude Include="src\Screen.h" />
     <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\SkinningMesh.h" />
@@ -146,6 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\GitProjects\3DActionRPG\3DActionRPG\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -160,6 +163,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\GitProjects\3DActionRPG\3DActionRPG\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -174,6 +178,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\GitProjects\3DActionRPG\3DActionRPG\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -188,6 +193,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\GitProjects\3DActionRPG\3DActionRPG\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

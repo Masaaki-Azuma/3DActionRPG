@@ -32,8 +32,6 @@ void Camera::draw() const
 	//弧度法へ変換
 	Vector3 rad = rotation_ * MyMath::Deg2Rad;
 	DxLib::SetCameraPositionAndAngle(DxConverter::GetVECTOR(position_), rad.x, rad.y, rad.z);
-	//ForDebug
-	DxLib::DrawFormatString(0, 50, GetColor(255, 255, 255), "Camera:(%f, %f, %f)", rotation_.x, rotation_.y, rotation_.z);
 }
 
 void Camera::follow_target(float delta_time)

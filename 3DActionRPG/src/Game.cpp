@@ -9,6 +9,8 @@
 #include "Slime.h"
 #include "Camera.h"
 #include "AttackCollider.h"
+#include "PlayerDatabase.h"
+#include "EnemyDatabase.h"
 
 Game::Game()
 {
@@ -24,6 +26,9 @@ void Game::Init() {
 	Mesh::load();
 
 	//ForDebug
+	PlayerDatabase::GetInstance().load("Assets/Parameters/player_parameter.csv");
+	EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");
+
 	//DxLib::SetGlobalAmbientLight(DxLib::GetColorF(0.0f, 0.0f, 0.0f, 1.0f));
 	//DxLib::ChangeLightTypePoint(VGet(0.0f, 300.0f, 0.0f), 2000.0f, 0.0f, 0.0006f, 0.0f);
 	DxLib::SetCameraNearFar(200.0f, 50000.0f);
