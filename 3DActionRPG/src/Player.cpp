@@ -1,9 +1,10 @@
 #include "Player.h"
 #include "IWorld.h"
 #include "Input.h"
-#include "DxConverter.h"
+
+#include "Util/DxConverter.h"
 #include "Mesh.h"
-#include "Matrix4x4.h"
+#include "Util/Matrix4x4.h"
 #include "Util/MyMath.h"
 #include "AttackCollider.h"
 

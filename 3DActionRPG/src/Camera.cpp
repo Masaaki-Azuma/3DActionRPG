@@ -1,9 +1,9 @@
 #include "Camera.h"
 #include <DxLib.h>
 #include "Input.h"
-#include "DxConverter.h"
+#include "Util/DxConverter.h"
 #include "Util/MyMath.h"
-#include "Matrix4x4.h"
+#include "Util/Matrix4x4.h"
 #include "IWorld.h"
 
 const float RotateSpeed{ 1.0f };

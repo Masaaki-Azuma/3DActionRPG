@@ -1,8 +1,8 @@
 #include "SkinningMesh.h"
 
 #include "Mesh.h"
-#include "Vector3.h"
-#include "DxConverter.h"
+#include "Util/Vector3.h"
+#include "Util/DxConverter.h"
 #include "Util/MyMath.h"
 #include <cmath>
 

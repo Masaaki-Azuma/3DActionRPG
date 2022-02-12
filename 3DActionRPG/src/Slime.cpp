@@ -2,7 +2,7 @@
 #include <cassert>
 #include "Mesh.h"
 #include "IWorld.h"
-#include "DxConverter.h"
+#include "Util/DxConverter.h"
 #include "Util/MyMath.h"
 
 enum //モーション

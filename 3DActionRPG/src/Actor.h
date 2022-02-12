@@ -5,7 +5,7 @@
 #include <string>
 //#include "BoundingSphere.h"
 #include "Sphere.h"
-#include "Vector3.h"
+#include "Util/Vector3.h"
 
 class IWorld;   // ワールド抽象インターフェースの前方宣言
 

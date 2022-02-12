@@ -1,6 +1,6 @@
 #include "Sphere.h"
 #include <DxLib.h>
-#include "DxConverter.h"
+#include "Util/DxConverter.h"
 
 Sphere::Sphere(float radius, const Vector3& center):
 	radius{radius},

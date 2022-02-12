@@ -1,7 +1,7 @@
 #ifndef SPHERE_H_
 #define SPHERE_H_
 
-#include "Vector3.h"
+#include "Util/Vector3.h"
 
 class Sphere
 {
