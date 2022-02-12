@@ -2,24 +2,21 @@
 #define GAME_H_
 
 
+#include "World.h"
 
-class SceneManager;
-class GameManager;
-class PlayerParameter;
-
-class Game
-{
+class Game {
 public:
-	Game();
-	‾Game() = default;
-	void init();
-	void update();
-	void draw();  //dxlibを使う場合、constにできない
-	void end();
+    Game();
+    ‾Game();
+    void Init();
+    void Update();
+    void Draw();
+    void End();
 
 private:
-	SceneManager& sm;
-	GameManager& gm;
-	PlayerParameter& player_paremeter;
+    World world_;
+    //Player player_;
+    //Camera camera_;
 };
-#endif//!GAME_H_
+
+#endif
