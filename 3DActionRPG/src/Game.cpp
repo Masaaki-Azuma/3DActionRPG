@@ -1,45 +1,70 @@
 #include "Game.h"
 
-#include <memory>
+#include <DxLib.h>
 
-#include "Image.h"
-#include "Screen.h"
+#include "Mesh.h"
 #include "Input.h"
-#include "SceneManager.h"
-#include "GameManager.h"
-#include "PlayerParameter.h"
-#include "IScene.h"
 #include "Player.h"
-#include "PlayerBullet.h"
+#include "Enemy.h"
+#include "Slime.h"
+#include "Camera.h"
+#include "AttackCollider.h"
 
-Game::Game():
-	sm{SceneManager::GetInstance()},
-	gm{GameManager::GetInstance()},
-	player_paremeter{PlayerParameter::GetInstance()}
+Game::Game()
 {
+
 }
 
-void Game::init()
-{
-	Image::load();
+Game::‾Game() {
+
+}
+
+void Game::Init() {
 	Input::init();
-	player_paremeter.load();
-	sm.load("TitleScene");
+	Mesh::load();
+
+	//ForDebug
+	//DxLib::SetGlobalAmbientLight(DxLib::GetColorF(0.0f, 0.0f, 0.0f, 1.0f));
+	//DxLib::ChangeLightTypePoint(VGet(0.0f, 300.0f, 0.0f), 2000.0f, 0.0f, 0.0006f, 0.0f);
+	DxLib::SetCameraNearFar(200.0f, 50000.0f);
+	world_.add_camera(new Camera{&world_});
+	world_.add_actor(new Player{&world_});
+	//world_.add_actor(new Enemy{ &world_ });
+	world_.add_actor(new Slime{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+	DxLib::MV1SetupCollInfo(Mesh::stage_handle, -1, 8, 8, 8);
+
 }
 
-void Game::update()
-{
+void Game::Update() {
+	float delta_time = 0.016667f;
 	Input::update();
+	world_.update(delta_time);
+	//player_.update(delta_time);
 
-	sm.current_scene->update();
 }
 
-void Game::draw()
-{
-	sm.current_scene->draw();
+void Game::Draw() {
+
+	//ForDebug
+	//スカイボックスの描画
+	DxLib::SetUseLighting(FALSE);
+	DxLib::MV1DrawModel(Mesh::skybox);
+	DxLib::SetUseLighting(TRUE);
+	//ステージの描画
+	DxLib::MV1DrawModel(Mesh::stage_handle);
+	world_.draw();
+	//camera_.draw();
+
+	//player_.draw();
+
+	//ライトの設定
+	//DxLib::SetLightPosition(VECTOR{ 0, 500, 0 });
+	//DxLib::SetLightDirection(VECTOR{ -1, 1, 1 });
+	VECTOR light_pos = DxLib::GetLightPosition();
+	VECTOR light_dir = DxLib::GetLightDirection();
 }
 
-void Game::end()
+void Game::End()
 {
-	player_paremeter.save();
+	Mesh::clear();
 }

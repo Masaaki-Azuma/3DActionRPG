@@ -1,23 +1,59 @@
-#pragma once
+#ifndef ENEMY_H_
+#define ENEMY_H_
+
 #include "Actor.h"
+#include "SkinningMesh.h"
 
-class GameManager;
-
-class Enemy :
-    public Actor
+class Enemy : public Actor
 {
 public:
-    Enemy(float x, float y, float z = 0);
-    ‾Enemy() = default;
+	struct Parameter
+	{
+		int hp;             //体力
+		int attack;         //攻撃力
+		int max_stun_count; //被弾時に連続で硬直する最大回数
+	};
 
-    virtual void update() = 0;
-    virtual void draw() = 0;
-    virtual void OnCollisionPlayerBulleet(std::shared_ptr<Actor> playerBullet);
+	//HACK:敵によって状態が違うためenumではなく、structでどうにかする。以下は必ず使う状態のみを記述
+	struct State
+	{
+		static const unsigned int Move   = 0;
+		static const unsigned int Attack = 1;
+		static const unsigned int Damage = 2;
+		static const unsigned int Dead    = 3;
+	};
+public:
+	Enemy();
+	virtual ‾Enemy() = default;
 
-private:
-    GameManager& gm;
-    float collisionRadius = 32; // 当たり判定の半径
-    bool isDead = false; // 死亡フラグ
-    float life = 1; // 耐久力
+	virtual void update(float delta_time) override;
+	virtual void draw() const override;
+	virtual void react(Actor& other) override;
+
+protected:
+	void change_state(unsigned int state, unsigned int motion, bool loop = true, bool reset = false);
+	void generate_attack(const Sphere& collider, float lifespan, float delay = 0.0f);
+	virtual void update_state(float delta_time) = 0; 
+
+	//Fordebug
+	void select_motion();
+	virtual void draw_debug() const {};
+
+protected:
+	//HACK:アニメーション付きのアクターは別に基底クラスを設けるべき
+	SkinningMesh mesh_;
+	//状態
+	unsigned int state_;
+	//状態タイマー
+	float state_timer_{ 0.0f };
+	//モーション番号
+	unsigned int motion_;
+	//モーションループするか？
+	bool motion_loop_{ true };
+	//同じモーションでも最初から再生するか？
+	bool motion_reset_{ false };
+	//パラメーター
+	Parameter parameter_;
 };
+#endif//!ENEMY_H_
 

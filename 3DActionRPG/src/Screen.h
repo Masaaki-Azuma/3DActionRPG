@@ -1,10 +1,7 @@
-#ifndef SCREEN_H_
-#define SCREEN_H_
+#pragma once
 
-class Screen
+struct Screen
 {
-public:
-	static const int Width{ 960 };
-	static const int Height{ 540 };
+	static const int Width{ 640 };
+	static const int Height{ 480 };
 };
-#endif//!SCREEN_H_

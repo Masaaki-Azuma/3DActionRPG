@@ -2,40 +2,52 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\Actor.cpp" />
-    <ClCompile Include="src\CsvReader.cpp" />
+    <ClCompile Include="src\ActorManager.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\AttackCollider.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\DxConverter.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\GameManager.cpp" />
-    <ClCompile Include="src\GameOverScene.cpp" />
-    <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Matrix4x4.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\PlayerBullet.cpp" />
-    <ClCompile Include="src\PlayerParameter.cpp" />
-    <ClCompile Include="src\PlayScene.cpp" />
-    <ClCompile Include="src\SceneManager.cpp" />
-    <ClCompile Include="src\TitleScene.cpp" />
+    <ClCompile Include="src\SkinningMesh.cpp" />
+    <ClCompile Include="src\Slime.cpp" />
+    <ClCompile Include="src\Sphere.cpp" />
+    <ClCompile Include="src\Stopwatch.cpp" />
+    <ClCompile Include="src\Vector3.cpp" />
+    <ClCompile Include="src\World.cpp" />
     <ClCompile Include="src\Util\MyMath.cpp" />
+    <ClCompile Include="src\PlayerParameter.cpp" />
+    <ClCompile Include="src\CsvReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor.h" />
-    <ClInclude Include="src\CsvReader.h" />
+    <ClInclude Include="src\ActorManager.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\AttackCollider.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\DxConverter.h" />
     <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\GameManager.h" />
-    <ClInclude Include="src\GameOverScene.h" />
-    <ClInclude Include="src\Image.h" />
     <ClInclude Include="src\Input.h" />
-    <ClInclude Include="src\IScene.h" />
+    <ClInclude Include="src\IWorld.h" />
+    <ClInclude Include="src\Matrix4x4.h" />
+    <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\PlayerBullet.h" />
-    <ClInclude Include="src\PlayerParameter.h" />
-    <ClInclude Include="src\PlayScene.h" />
-    <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\Screen.h" />
-    <ClInclude Include="src\Singleton.h" />
-    <ClInclude Include="src\TitleScene.h" />
+    <ClInclude Include="src\SkinningMesh.h" />
+    <ClInclude Include="src\Slime.h" />
+    <ClInclude Include="src\Sphere.h" />
+    <ClInclude Include="src\Stopwatch.h" />
+    <ClInclude Include="src\Vector3.h" />
+    <ClInclude Include="src\World.h" />
     <ClInclude Include="src\Util\MyMath.h" />
+    <ClInclude Include="src\PlayerParameter.h" />
+    <ClInclude Include="src\Singleton.h" />
+    <ClInclude Include="src\CsvReader.h" />
   </ItemGroup>
 </Project>
