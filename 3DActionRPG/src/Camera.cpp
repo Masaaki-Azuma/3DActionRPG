@@ -14,7 +14,8 @@ Camera::Camera(IWorld* world)
 	world_ = world;
 	name_ = "Camera";
 	tag_ = "CameraTag";
-	position_ = Vector3{ 0, 500, -500 };
+	follow_target();
+	//position_ = Vector3{ 0, 500, -500 };
 	rotation_ = Vector3{ 20.0f, 0.0f, 0.0f };
 
 	Vector3 rad = rotation_ * MyMath::Deg2Rad;
@@ -23,7 +24,7 @@ Camera::Camera(IWorld* world)
 
 void Camera::update(float delta_time)
 {
-	follow_target(delta_time);
+	follow_target();
 	rotate(delta_time);
 }
 
@@ -34,7 +35,7 @@ void Camera::draw() const
 	DxLib::SetCameraPositionAndAngle(DxConverter::GetVECTOR(position_), rad.x, rad.y, rad.z);
 }
 
-void Camera::follow_target(float delta_time)
+void Camera::follow_target()
 {
 	//プレイヤーを検索して背後に張り付く
 	Actor* target = world_->find_actor("Player");

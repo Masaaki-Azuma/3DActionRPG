@@ -28,7 +28,6 @@
     <ClCompile Include="src\MapManager.cpp" />
     <ClCompile Include="src\Util\MyRandom.cpp" />
     <ClCompile Include="src\Image.cpp" />
-    <ClCompile Include="src\GamePlayScene.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\Fade.cpp" />
     <ClCompile Include="src\BattleScene.cpp" />
@@ -64,7 +63,6 @@
     <ClInclude Include="src\MapManager.h" />
     <ClInclude Include="src\Util\MyRandom.h" />
     <ClInclude Include="src\Image.h" />
-    <ClInclude Include="src\GamePlayScene.h" />
     <ClInclude Include="src\IScene.h" />
     <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\Fade.h" />

@@ -13,7 +13,7 @@ public:
 	virtual void draw() const override;
 private:
 	//targetの背後を追跡
-	void follow_target(float delta_time);
+	void follow_target();
 	//水平方向回転
 	void rotate(float delta_time);
 
