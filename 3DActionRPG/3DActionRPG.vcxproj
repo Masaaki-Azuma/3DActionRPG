@@ -50,6 +50,7 @@
     <ClCompile Include="src\Util\MyRandom.cpp" />
     <ClCompile Include="src\Util\Vector3.cpp" />
     <ClCompile Include="src\World.cpp" />
+    <ClCompile Include="src\TitleScene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\MapScene\MapScene.h" />
@@ -87,6 +88,7 @@
     <ClInclude Include="src\Util\MyRandom.h" />
     <ClInclude Include="src\Util\Vector3.h" />
     <ClInclude Include="src\World.h" />
+    <ClInclude Include="src\TitleScene\TitleScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
