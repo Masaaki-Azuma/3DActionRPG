@@ -18,15 +18,16 @@ void PlayerDatabase::load(const std::string& file_name)
 	current_parameter_.total_gem = csv_reader.geti(0, ColTotalGem);
 }
 
-void PlayerDatabase::save()
+void PlayerDatabase::save(const std::string& file_name)
 {
-	std::ofstream of{ "Assets/Parameters/player_parameter.csv" };
+	std::ofstream of{ file_name };
 	std::string data;
 	std::string hp_str = std::to_string(current_parameter_.hp);
 	std::string attack_str = std::to_string(current_parameter_.attack);
 	std::string total_gem_str = std::to_string(current_parameter_.total_gem);
 	data = hp_str + "," + attack_str + "," + total_gem_str;
 	of << data << std::endl;
+	of.close();
 }
 
 void PlayerDatabase::add_hp(int rise_value)

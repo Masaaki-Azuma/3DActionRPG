@@ -19,12 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\MapScene.cpp" />
+    <ClCompile Include="src\BattleScene.cpp" />
+    <ClCompile Include="src\AreaNode.cpp" />
     <ClCompile Include="src\EnemyDatabase.cpp" />
     <ClCompile Include="src\Actor.cpp" />
     <ClCompile Include="src\ActorManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\AttackCollider.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Fade.cpp" />
+    <ClCompile Include="src\GamePlayScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\Image.cpp" />
+    <ClCompile Include="src\MapManager.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\Util\CsvReader.cpp" />
     <ClCompile Include="src\Util\DxConverter.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
@@ -40,16 +53,32 @@
     <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\Stopwatch.cpp" />
     <ClCompile Include="src\Util\MyMath.cpp" />
+    <ClCompile Include="src\Util\MyRandom.cpp" />
     <ClCompile Include="src\Util\Vector3.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\MapScene.h" />
+    <ClInclude Include="src\BattleScene.h" />
+    <ClInclude Include="src\AreaNode.h" />
     <ClInclude Include="src\EnemyDatabase.h" />
     <ClInclude Include="src\Actor.h" />
     <ClInclude Include="src\ActorManager.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\AttackCollider.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Fade.h" />
+    <ClInclude Include="src\GamePlayScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\Image.h" />
+    <ClInclude Include="src\IScene.h" />
+    <ClInclude Include="src\MapManager.h" />
+    <ClInclude Include="src\SceneManager.h" />
+    <ClInclude Include="src\SceneNull.h" />
     <ClInclude Include="src\Util\CsvReader.h" />
     <ClInclude Include="src\Util\DxConverter.h" />
     <ClInclude Include="src\Enemy.h" />
@@ -67,6 +96,7 @@
     <ClInclude Include="src\Sphere.h" />
     <ClInclude Include="src\Stopwatch.h" />
     <ClInclude Include="src\Util\MyMath.h" />
+    <ClInclude Include="src\Util\MyRandom.h" />
     <ClInclude Include="src\Util\Vector3.h" />
     <ClInclude Include="src\World.h" />
   </ItemGroup>

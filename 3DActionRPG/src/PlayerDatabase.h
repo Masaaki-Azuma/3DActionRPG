@@ -16,7 +16,7 @@ public:
 	};
 public:
 	void load(const std::string& file_name);
-	void save();
+	void save(const std::string& file_name);
 	void add_hp(int rise_value);
 	void add_attack(int rise_value);
 	void add_gem(int rise_value);
