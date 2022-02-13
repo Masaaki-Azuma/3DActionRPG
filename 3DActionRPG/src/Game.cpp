@@ -6,10 +6,10 @@
 #include "Mesh.h"
 #include "Input.h"
 #include "Image.h"
-#include "MapManager.h"
 
 #include "BattleScene.h"
-#include "MapScene.h"
+#include "MapScene/MapScene.h"
+#include "MapScene/MapManager.h"
 
 
 Game::Game()
@@ -30,7 +30,10 @@ void Game::Init() {
 
 	scene_manager_.add("BattleScene", new BattleScene{});
 	scene_manager_.add("MapScene", new MapScene{});
-	scene_manager_.change("BattleScene");
+	//scene_manager_.change("BattleScene");
+	scene_manager_.change("MapScene");
+	MapManager::GetInstance().generate();
+
 	//ForDebug
 	/*PlayerDatabase::GetInstance().load("Assets/Parameters/player_parameter.csv");
 	EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");*/

@@ -9,11 +9,19 @@ void MapScene::start(void* data)
     is_end_ = false;
     Image::load();
     MyRandom::Init();
-    MapManager::GetInstance().generate();
+    //MapManager::GetInstance().generate();
+
+    //ForDebug
+    MapManager::GetInstance().make_node_old();
 }
 
 void MapScene::update(float delta_time)
 {
+    MapManager::GetInstance().update(delta_time);
+    if (MapManager::GetInstance().is_picked()) {
+        is_end_ = true;
+    }
+
     //ForDebug:シーン遷移チート
     if (Input::get_button(PAD_INPUT_4)) { //A
         is_end_ = true;
@@ -39,7 +47,7 @@ std::string MapScene::next() const
 void MapScene::end()
 {
     Image::clear();
-    MapManager::GetInstance().clear();
+    //MapManager::GetInstance().clear();
 }
 
 void* MapScene::data()
