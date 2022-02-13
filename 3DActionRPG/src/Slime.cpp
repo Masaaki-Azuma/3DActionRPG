@@ -4,6 +4,7 @@
 #include "IWorld.h"
 #include "Util/DxConverter.h"
 #include "Util/MyMath.h"
+#include "PlayerDatabase.h"
 
 enum //モーション
 {
@@ -43,6 +44,7 @@ void Slime::late_update(float delta_time)
 void Slime::react(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
+		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
 		change_state(State::Damage, Motion_Damage, false, true);
 		mesh_.change_anim(motion_, motion_loop_, motion_reset_);
 	}
@@ -81,7 +83,7 @@ void Slime::move(float delta_time)
 	//距離により状態
 	if (distance <= AttackRadius) { //攻撃状態
 		Vector3 pos_attack = position_ + forward() * 100.0f;
-		generate_attack(Sphere{50.0f, pos_attack}, 0.5f, 0.4f);
+		generate_attack(Sphere{50.0f, pos_attack}, "SlimeAttack", 0.5f, 0.4f);
 		change_state(State::Attack, Motion_Attack02, false);
 		return;
 	}
@@ -125,4 +127,6 @@ void Slime::draw_debug() const
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, green, green, false);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), AttackRadius, 4, red, red, false);
+	DxLib::DrawFormatString(0, 20, DxLib::GetColor(255, 255, 255), "slime_hp:%d", parameter_.hp);
+
 }

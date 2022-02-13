@@ -7,6 +7,7 @@
 #include "Util/Matrix4x4.h"
 #include "Util/MyMath.h"
 #include "AttackCollider.h"
+#include "EnemyDatabase.h"
 
 const float Speed{ 10.0f };
 const float AvoidSpeed{ 15.0f };
@@ -90,13 +91,16 @@ void Player::draw() const
 	mesh_.draw();
 
 	//ForDebug
-	DxLib::DrawFormatString(0, 0, DxLib::GetColor(255, 255, 255), "motion:%d", motion_);
+	//DxLib::DrawFormatString(0, 0, DxLib::GetColor(255, 255, 255), "motion:%d", motion_);
+	DxLib::DrawFormatString(0, 0, DxLib::GetColor(255, 255, 255), "player_hp:%d", parameter_.hp);
 
 }
 
 void Player::react(Actor& other)
 {
 	if (other.tag() == "EnemyAttackTag") {
+		int damage = EnemyDatabase::GetInstance().get_parameter(other.name()).attack;
+		take_damage(damage);
 		change_state(State::Damage, Motion_Damage, false);
 	}
 }
@@ -293,5 +297,10 @@ void Player::combo_attack(unsigned motion, float lifespan, float delay)
 {
 	change_state(State::Attack, motion, false);
 	generate_attack(lifespan, delay);
+}
+
+void Player::take_damage(int damage)
+{
+	parameter_.hp -= damage;
 }
 

@@ -45,9 +45,14 @@ void Enemy::change_state(unsigned int state, unsigned int motion, bool loop, boo
 	state_timer_ = 0.0f;
 }
 
-void Enemy::generate_attack(const Sphere& collider, float lifespan, float delay)
+void Enemy::generate_attack(const Sphere& collider, const std::string& name, float lifespan, float delay)
 {
-	world_->add_actor(new AttackCollider{ world_, collider, "EnemyAttackTag", "AttackCollider", "EnemyTag", lifespan, delay });
+	world_->add_actor(new AttackCollider{ world_, collider, "EnemyAttackTag", name, "EnemyTag", lifespan, delay });
+}
+
+void Enemy::take_damage(int damage)
+{
+	parameter_.hp -= damage;
 }
 
 void Enemy::select_motion()

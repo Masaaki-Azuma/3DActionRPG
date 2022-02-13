@@ -1,6 +1,7 @@
 #ifndef GAME_H_
 #define GAME_H_
 
+#include "SceneManager.h"
 
 #include "World.h"
 
@@ -14,9 +15,8 @@ public:
     void End();
 
 private:
-    World world_;
-    //Player player_;
-    //Camera camera_;
+    SceneManager scene_manager_;
+    //World world_;
 };
 
 #endif
