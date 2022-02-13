@@ -33,6 +33,7 @@
     <ClCompile Include="src\BattleScene.cpp" />
     <ClCompile Include="src\MapScene\MapScene.cpp" />
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="src\GameResultScene\GameResultScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor.h" />
@@ -71,5 +72,6 @@
     <ClInclude Include="src\BattleScene.h" />
     <ClInclude Include="src\MapScene\MapScene.h" />
     <ClInclude Include="src\TitleScene\TitleScene.h" />
+    <ClInclude Include="src\GameResultScene\GameResultScene.h" />
   </ItemGroup>
 </Project>

@@ -35,6 +35,7 @@ std::string TitleScene::next() const
 
 void TitleScene::end()
 {
+    //マップデータを作成
     MapManager::GetInstance().generate();
 }
 

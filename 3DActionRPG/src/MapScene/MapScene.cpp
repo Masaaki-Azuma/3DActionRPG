@@ -4,21 +4,28 @@
 #include "Util/MyRandom.h"
 #include "Input.h"
 
+MapScene::MapScene():
+    map_{MapManager::GetInstance()}
+{
+}
+
 void MapScene::start(void* data)
 {
     is_end_ = false;
     Image::load();
     MyRandom::Init();
-    //MapManager::GetInstance().generate();
 
     //ForDebug
-    MapManager::GetInstance().make_node_old();
+    map_.make_node_old();
 }
 
 void MapScene::update(float delta_time)
 {
-    MapManager::GetInstance().update(delta_time);
-    if (MapManager::GetInstance().is_picked()) {
+    if (map_.is_final_area()) {
+        is_end_ = true;
+    }
+    map_.update(delta_time);
+    if (map_.is_picked()) {
         is_end_ = true;
     }
 
@@ -30,7 +37,7 @@ void MapScene::update(float delta_time)
 
 void MapScene::draw() const
 {
-    MapManager::GetInstance().draw();
+    map_.draw();
 
 }
 
@@ -41,13 +48,13 @@ bool MapScene::is_end() const
 
 std::string MapScene::next() const
 {
-    return "BattleScene";
+    if (map_.is_final_area()) return "GameResultScene";
+    else                      return "BattleScene";
 }
 
 void MapScene::end()
 {
     Image::clear();
-    //MapManager::GetInstance().clear();
 }
 
 void* MapScene::data()

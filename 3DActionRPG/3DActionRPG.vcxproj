@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameResultScene\GameResultScene.cpp" />
     <ClCompile Include="src\MapScene\MapScene.cpp" />
     <ClCompile Include="src\BattleScene.cpp" />
     <ClCompile Include="src\AreaNode.cpp" />
@@ -53,6 +54,7 @@
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameResultScene\GameResultScene.h" />
     <ClInclude Include="src\MapScene\MapScene.h" />
     <ClInclude Include="src\BattleScene.h" />
     <ClInclude Include="src\AreaNode.h" />

@@ -33,7 +33,7 @@ void MapManager::draw()
 			Vector3 pos = node->position();
 			AreaNode::NextNodeList list = node->next();
 			for (auto& np : list) {
-				DxLib::DrawLine(pos.x, pos.y, np->position().x, np->position().y, GetColor(0, 255, 0));
+				DxLib::DrawLineAA(pos.x, pos.y, np->position().x, np->position().y, GetColor(0, 255, 0));
 			}
 		}
 	}
@@ -111,6 +111,7 @@ void MapManager::pick_area()
 	//static int area_index{ 0 };
 	const int num_next_node = prev_area_node_->next().size();
 	if (Input::get_button_down(PAD_INPUT_1)) {
+		if (prev_area_node_->next().empty()) return;
 		current_area_node_ = prev_area_node_->next().at(area_index);
 		area_index = 0;
 		is_picked_ = true;
@@ -127,6 +128,11 @@ void MapManager::pick_area()
 bool MapManager::is_picked()
 {
 	return is_picked_;
+}
+
+bool MapManager::is_final_area()
+{
+	return prev_area_node_->next().empty();
 }
 
 void MapManager::make_node_old()
