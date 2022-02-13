@@ -47,6 +47,11 @@ Player::Player(IWorld* world):
 	tag_ = "PlayerTag";
 	position_ = Vector3{ 0.0f, 0.0f, 0.0f };
 	collider_ = Sphere{ CollisionRadius, CollisionOffset };
+
+	//メッシュ姿勢初期化
+	mesh_.change_anim(motion_, motion_loop_);
+	mesh_.set_position(position_);
+	mesh_.set_rotation(rotation_* MyMath::Deg2Rad);
 }
 
 void Player::update(float delta_time)

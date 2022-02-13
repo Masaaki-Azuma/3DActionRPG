@@ -25,7 +25,6 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 {
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
-	//ForDebug
 	mesh_ = SkinningMesh{ Mesh::slime_handle, 30.0f };
 	world_ = world;
 	name_ = "Slime";
@@ -35,6 +34,11 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
 	motion_ = 0;
 	parameter_ = Parameter{ 500, 100 };
+
+	//メッシュ姿勢初期化
+	mesh_.change_anim(motion_, motion_loop_, motion_reset_);
+	mesh_.set_position(position_);
+	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
 }
 
 void Slime::late_update(float delta_time)
