@@ -22,6 +22,12 @@ public:
 	void change_player_area(int index);
 
 private:
+	//ノードを生成
+	void generate_nodes();
+	//ノードを連結
+	void link_nodes();
+
+private:
 	using PtrNode = std::shared_ptr<AreaNode>;
 	using NodeInADepth = std::vector<PtrNode>;
 	using NodeList = std::vector<NodeInADepth>;
