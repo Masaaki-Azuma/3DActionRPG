@@ -15,6 +15,14 @@ const float AreaVerticalInterval{ 100.0f };           //エリア間の高さ
 const Vector3 StartPosition{ 0.0f, 300.0f };          //スタートノードの位置
 const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
 
+//ForDebug
+int area_index = 0;
+
+void MapManager::update(float delta_time)
+{
+	pick_area();
+}
+
 void MapManager::draw()
 {
 	//浅いノードから上から順に描画
@@ -25,10 +33,14 @@ void MapManager::draw()
 			Vector3 pos = node->position();
 			AreaNode::NextNodeList list = node->next();
 			for (auto& np : list) {
-				DxLib::DrawLine(pos.x, pos.y, np->position().x, np->position().y, GetColor(0, 255, 0));
+				DxLib::DrawLineAA(pos.x, pos.y, np->position().x, np->position().y, GetColor(0, 255, 0));
 			}
 		}
 	}
+	//ForDebug:選択エリアを単純描画
+	DxLib::DrawFormatString(0, 0, GetColor(255, 255, 255), "current_selected_index: %d", area_index);
+	DxLib::DrawCircleAA(current_area_node_->position().x, current_area_node_->position().y, 20, 8, GetColor(0, 255, 0));
+	DxLib::DrawCircleAA(prev_area_node_->position().x, prev_area_node_->position().y, 20, 8, GetColor(255, 0, 0));
 }
 
 
@@ -38,6 +50,10 @@ void MapManager::generate()
 	generate_nodes();
 	//生成したノードをつなげる
 	link_nodes();
+
+	//ForDebug:最初のノードを現在地に設定
+	current_area_node_ = node_list_[0][0];
+	prev_area_node_ = current_area_node_;
 }
 
 void MapManager::clear()
@@ -82,12 +98,39 @@ const std::string MapManager::pick_enemy(int depth)
 	return enemy_name;
 }
 
-void MapManager::change_player_area(int index)
+void MapManager::pick_area()
 {
-	if (Input::get_button_down(KEY_INPUT_UP))
-	{
-
+	//static int area_index{ 0 };
+	const int num_next_node = prev_area_node_->next().size();
+	if (Input::get_button_down(PAD_INPUT_1)) {
+		if (prev_area_node_->next().empty()) return;
+		current_area_node_ = prev_area_node_->next().at(area_index);
+		area_index = 0;
+		is_picked_ = true;
 	}
+
+	if (Input::get_button_down(PAD_INPUT_UP)) {
+		area_index = (area_index + num_next_node - 1) % num_next_node;
+	}
+	if (Input::get_button_down(PAD_INPUT_DOWN)) {
+		area_index = (area_index + 1) % num_next_node;
+	}
+}
+
+bool MapManager::is_picked()
+{
+	return is_picked_;
+}
+
+bool MapManager::is_final_area()
+{
+	return prev_area_node_->next().empty();
+}
+
+void MapManager::make_node_old()
+{
+	prev_area_node_ = current_area_node_;
+	is_picked_ = false;
 }
 
 void MapManager::generate_nodes()

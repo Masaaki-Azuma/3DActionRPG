@@ -2,10 +2,15 @@
 #define MAP_SCENE_H_
 
 #include "IScene.h"
+
+class MapManager;
+
 class MapScene :
     public IScene
 {
 public:
+    MapScene();
+    ‾MapScene() = default;
     virtual void start(void* data = nullptr) override;
     virtual void update(float delta_time) override;
     virtual void draw() const override;
@@ -16,6 +21,7 @@ public:
 
 private:
     bool is_end_;
+    MapManager& map_;
 };
 #endif//!MAP_SCENE_H_
 
