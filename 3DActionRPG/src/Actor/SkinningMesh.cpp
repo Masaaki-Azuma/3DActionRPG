@@ -64,9 +64,7 @@ void SkinningMesh::set_rotation(const VECTOR& rotation)
 //モデルの向き（弧度法）を設定、DxLib用の型にキャスト
 void SkinningMesh::set_rotation(const Vector3& rotation)
 {
-	set_rotation(DxConverter::GetVECTOR(rotation));
 	DxLib::MV1SetRotationXYZ(model_handle_, DxConverter::GetVECTOR(rotation));
-
 }
 
 void SkinningMesh::set_scale(const Vector3& scale)

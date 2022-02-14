@@ -52,6 +52,11 @@ void Slime::react(Actor& other)
 	if (other.tag() == "PlayerAttackTag") {
 		//プレイヤーの攻撃力分ダメージを受ける
 		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
+		if (parameter_.hp <= 0) {
+			change_state(State::Dead, Motion_Die, false);
+			mesh_.change_anim(motion_, motion_loop_, motion_interruption);
+			return;
+		}
 		//ダメージ状態に
 		change_state(State::Damage, Motion_Damage, false, true);
 		mesh_.change_anim(motion_, motion_loop_, motion_interruption);
@@ -125,6 +130,9 @@ void Slime::damage(float delta_time)
 
 void Slime::dead(float delta_time)
 {
+	if (state_timer_ >= mesh_.anim_total_sec()) {
+		die();
+	}
 }
 
 
