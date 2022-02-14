@@ -35,7 +35,23 @@ void BattleScene::start(void* data)
 
 void BattleScene::update(float delta_time)
 {
+	/*バトルリザルトシーン*/
+	//バトルリザルトシーンが続いている間、バトルシーンは更新しない
+	if (!result_scene_.is_end()) {
+		result_scene_.update(delta_time);
+		return;
+	}
+
+	/*バトルシーン*/
 	world_.update(delta_time);
+
+	//戦闘が終了したらリザルトシーンへ
+	if (is_settled()) {
+		//バトルシーンは実質終了
+		is_end_ = true;
+		result_scene_.start();
+		return;
+	}
 
 	//ForDebug:シーン遷移チート
 	if (Input::get_button(PAD_INPUT_4)) { //A
@@ -63,14 +79,15 @@ void BattleScene::draw() const
 	//DxLib::SetLightDirection(VECTOR{ -1, 1, 1 });
 	VECTOR light_pos = DxLib::GetLightPosition();
 	VECTOR light_dir = DxLib::GetLightDirection();
+
+	if(is_end_)result_scene_.draw();
 }
 
 bool BattleScene::is_end() const
 {
 	//敵が全滅するか、プレイヤーが死亡したら終了
-    return
-		world_.count_actor_with_tag("EnemyTag") == 0 ||
-		!world_.find_actor("Player");
+	return  is_end_ && result_scene_.is_end();
+		
 }
 
 std::string BattleScene::next() const
@@ -87,6 +104,13 @@ void BattleScene::end()
 void* BattleScene::data()
 {
     return nullptr;
+}
+
+bool BattleScene::is_settled() const
+{
+	return
+		world_.count_actor_with_tag("EnemyTag") == 0 ||
+		!world_.find_actor("Player");
 }
 
 void BattleScene::spawn_enemy(const std::string& enemy)

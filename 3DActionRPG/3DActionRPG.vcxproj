@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BattleResultScene\BattleResultScene.cpp" />
     <ClCompile Include="src\Actor\BlackKnight.cpp" />
     <ClCompile Include="src\Actor\Mimic.cpp" />
     <ClCompile Include="src\GameResultScene\GameResultScene.cpp" />
@@ -56,6 +57,7 @@
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BattleResultScene\BattleResultScene.h" />
     <ClInclude Include="src\Actor\BlackKnight.h" />
     <ClInclude Include="src\Actor\Mimic.h" />
     <ClInclude Include="src\GameResultScene\GameResultScene.h" />

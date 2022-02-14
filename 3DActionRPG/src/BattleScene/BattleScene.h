@@ -3,11 +3,11 @@
 
 #include "IScene.h"
 #include "World.h"
+#include "BattleResultScene/BattleResultScene.h"
 
 class BattleScene :
     public IScene
 {
-public:
     virtual void start(void* data = nullptr) override;
     virtual void update(float delta_time) override;
     virtual void draw() const override;
@@ -16,6 +16,8 @@ public:
     virtual void end() override;
     virtual void* data() override;
 private:
+    //戦闘が終了したか？
+    bool is_settled() const;
     void spawn_enemy(const std::string& enemy);
 
 private:
@@ -23,6 +25,8 @@ private:
     World world_;
     //シーン終了フラグ
     bool is_end_{ false };
+    //バトルリザルトシーン
+    BattleResultScene result_scene_;
 };
 #endif//!BATTLE_SCENE_H
 
