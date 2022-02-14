@@ -1,6 +1,6 @@
 #include "World.h"
 //#include "Field.h"
-#include "Actor.h"
+#include "Actor/Actor.h"
 
 // デストラクタ
 World::‾World()

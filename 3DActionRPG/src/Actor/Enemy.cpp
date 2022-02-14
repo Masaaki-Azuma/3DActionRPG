@@ -1,9 +1,10 @@
 #include "Enemy.h"
-#include "Mesh.h"
+
 #include "Util/MyMath.h"
-#include "Input.h"
+#include "Util/Input.h"
+#include "AssetsManager/Mesh.h"
+#include "BattleScene/IWorld.h"
 #include "AttackCollider.h"
-#include "IWorld.h"
 
 Enemy::Enemy()
 {

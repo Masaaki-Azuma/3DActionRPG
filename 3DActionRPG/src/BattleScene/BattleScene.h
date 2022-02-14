@@ -20,7 +20,7 @@ private:
     //ワールドクラス
     World world_;
     //シーン終了フラグ
-    bool is_end_;
+    bool is_end_{ false };
 };
 #endif//!BATTLE_SCENE_H
 

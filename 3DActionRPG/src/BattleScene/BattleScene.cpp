@@ -1,13 +1,13 @@
 #include "BattleScene.h"
-#include "PlayerDatabase.h"
-#include "EnemyDatabase.h"
+#include "AssetsManager/PlayerDatabase.h"
+#include "AssetsManager/EnemyDatabase.h"
+#include "AssetsManager/Mesh.h"
+#include "Util/Input.h"
 
-#include "Camera.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Slime.h"
-#include "Mesh.h"
-#include "Input.h"
+#include "Actor/Camera.h"
+#include "Actor/Player.h"
+#include "Actor/Enemy.h"
+#include "Actor/Slime.h"
 
 void BattleScene::start(void* data)
 {

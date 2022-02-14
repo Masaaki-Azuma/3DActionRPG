@@ -1,7 +1,8 @@
 #include "PlayerDatabase.h"
-#include <fstream>
-#include "Util/CsvReader.h"
 
+#include <fstream>
+
+#include "Util/CsvReader.h"
 
 enum
 {

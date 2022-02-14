@@ -1,7 +1,9 @@
-#include "DxLib.h"
+#include "Application.h"
+
+#include <DxLib.h>
+
 #include "Stopwatch.h"
 #include "Game.h"
-#include "Application.h"
 #include "Screen.h"
 
 float Application::currentFPS_{ 0.0f };

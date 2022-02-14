@@ -1,5 +1,5 @@
 #include "ActorManager.h"
-#include "Actor.h"
+#include "Actor/Actor.h"
 
 // デストラクタ
 ActorManager::‾ActorManager()

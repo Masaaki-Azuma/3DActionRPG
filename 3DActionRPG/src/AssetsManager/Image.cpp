@@ -1,4 +1,5 @@
 #include "Image.h"
+
 #include <assert.h>
 
 std::vector<int> Image::texture_id_list(256, -1);

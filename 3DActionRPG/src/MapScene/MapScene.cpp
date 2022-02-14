@@ -1,8 +1,8 @@
 #include "MapScene.h"
 #include "MapManager.h"
-#include "Image.h"
+#include "AssetsManager/Image.h"
 #include "Util/MyRandom.h"
-#include "Input.h"
+#include "Util/Input.h"
 
 MapScene::MapScene():
     map_{MapManager::GetInstance()}

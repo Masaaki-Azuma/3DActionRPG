@@ -1,13 +1,13 @@
 #include "Player.h"
-#include "IWorld.h"
-#include "Input.h"
 
+#include "Util/Input.h"
 #include "Util/DxConverter.h"
-#include "Mesh.h"
 #include "Util/Matrix4x4.h"
 #include "Util/MyMath.h"
+#include "AssetsManager/Mesh.h"
+#include "AssetsManager/EnemyDatabase.h"
+#include "BattleScene/IWorld.h"
 #include "AttackCollider.h"
-#include "EnemyDatabase.h"
 
 const float Speed{ 10.0f };
 const float AvoidSpeed{ 15.0f };

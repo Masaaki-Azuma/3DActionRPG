@@ -1,4 +1,5 @@
 #include "Fade.h"
+
 #include <DxLib.h>
 
 const float FadeSpeed{ 0.04f };

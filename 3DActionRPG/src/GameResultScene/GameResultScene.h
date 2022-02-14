@@ -17,7 +17,7 @@ public:
     virtual void* data() override;
 
 private:
-    bool is_end_;
+    bool is_end_{ false };
 };
 #endif//GAME_RESULT_SCENE_H_
 

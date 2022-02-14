@@ -1,6 +1,6 @@
 #include "TitleScene.h"
 #include <DxLib.h>
-#include "Input.h"
+#include "Util/Input.h"
 #include "MapScene/MapManager.h"
 
 void TitleScene::start(void* data)

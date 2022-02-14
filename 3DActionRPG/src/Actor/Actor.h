@@ -3,7 +3,6 @@
 
 #include <DxLib.h>
 #include <string>
-//#include "BoundingSphere.h"
 #include "Sphere.h"
 #include "Util/Vector3.h"
 

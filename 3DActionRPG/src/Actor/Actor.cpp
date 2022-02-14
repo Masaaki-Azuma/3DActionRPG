@@ -1,7 +1,8 @@
 #include "Actor.h"
-#include "Mesh.h"
+
 #include "Util/DxConverter.h"
 #include "Util/Matrix4x4.h"
+#include "AssetsManager/Mesh.h"
 
 // 更新
 void Actor::update(float delta_time) {}

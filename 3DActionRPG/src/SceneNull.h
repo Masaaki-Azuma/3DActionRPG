@@ -2,6 +2,7 @@
 #define SCENE_NULL_H_
 
 #include "IScene.h"
+
 class SceneNull :
     public IScene
 {

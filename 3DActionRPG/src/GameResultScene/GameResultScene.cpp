@@ -1,6 +1,6 @@
 #include "GameResultScene.h"
 #include <DxLib.h>
-#include "Input.h"
+#include "Util/Input.h"
 #include "MapScene/MapManager.h"
 
 void GameResultScene::start(void* data)

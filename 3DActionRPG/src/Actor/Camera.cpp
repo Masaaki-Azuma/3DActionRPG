@@ -1,10 +1,12 @@
 #include "Camera.h"
+
 #include <DxLib.h>
-#include "Input.h"
+
+#include "Util/Input.h"
 #include "Util/DxConverter.h"
 #include "Util/MyMath.h"
 #include "Util/Matrix4x4.h"
-#include "IWorld.h"
+#include "BattleScene/IWorld.h"
 
 const float RotateSpeed{ 1.0f };
 Vector3 TargetOffset{ 0, 360, -390 };
