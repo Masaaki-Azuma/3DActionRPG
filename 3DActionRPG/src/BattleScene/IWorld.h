@@ -26,6 +26,8 @@ public:
     virtual int count_actor_with_tag(const std::string& tag) const = 0;
     // メッセージの送信
     virtual void send_message(const std::string& message, void* param = nullptr) = 0;
+    //討伐数の加算
+    virtual void add_basterd(const std::string& enemy_name) = 0;
 
     // フィールドの取得
     virtual Field* field() = 0;

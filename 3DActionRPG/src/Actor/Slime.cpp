@@ -53,6 +53,11 @@ void Slime::react(Actor& other)
 		//プレイヤーの攻撃力分ダメージを受ける
 		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
 		if (parameter_.hp <= 0) {
+			//当たり判定を無効化
+			enable_collider_ = false;
+			//敵討伐数を加算
+			world_->add_basterd(name_);
+			//死亡状態に遷移
 			change_state(State::Dead, Motion_Die, false);
 			mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 			return;

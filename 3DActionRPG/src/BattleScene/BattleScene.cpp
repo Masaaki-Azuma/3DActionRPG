@@ -49,7 +49,7 @@ void BattleScene::update(float delta_time)
 	if (is_settled()) {
 		//バトルシーンは実質終了
 		is_end_ = true;
-		result_scene_.start();
+		result_scene_.start(data());
 		return;
 	}
 
@@ -103,7 +103,9 @@ void BattleScene::end()
 
 void* BattleScene::data()
 {
-    return nullptr;
+	result_.battle_result = "win";
+	result_.basterd_list = world_.basterd_list();
+    return &result_;
 }
 
 bool BattleScene::is_settled() const

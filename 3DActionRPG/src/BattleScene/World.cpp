@@ -58,6 +58,8 @@ void World::clear()
     // フィールドを消去
     //delete field_;
     //field_ = nullptr;
+    //敵討伐数リスト
+    basterd_list_.clear();
 }
 
 // カメラの追加
@@ -80,6 +82,11 @@ void World::add_light(Actor* light)
 //    delete field_;	// 現在のフィールドを削除
 //    field_ = field;
 //}
+
+std::unordered_map<std::string, int>& World::basterd_list()
+{
+    return basterd_list_;
+}
 
 // アクターの追加
 void World::add_actor(Actor* actor)
@@ -115,6 +122,12 @@ int World::count_actor_with_tag(const std::string& tag) const
 void World::send_message(const std::string& message, void* param)
 {
     actors_.send_message(message, param);
+}
+
+void World::add_basterd(const std::string& enemy_name)
+{
+    if (basterd_list_.count(enemy_name) == 0) basterd_list_[enemy_name] = 1;
+    else                                      basterd_list_[enemy_name]++;
 }
 
 // カメラの取得

@@ -27,6 +27,8 @@ private:
     bool is_end_{ false };
     //バトルリザルトシーン
     BattleResultScene result_scene_;
+    //リザルト
+    BattleResultScene::BattleResultData result_;
 };
 #endif//!BATTLE_SCENE_H
 
