@@ -37,7 +37,7 @@ void MapManager::draw()
 			}
 		}
 	}
-
+	//ForDebug:選択エリアを単純描画
 	DxLib::DrawFormatString(0, 0, GetColor(255, 255, 255), "current_selected_index: %d", area_index);
 	DxLib::DrawCircleAA(current_area_node_->position().x, current_area_node_->position().y, 20, 8, GetColor(0, 255, 0));
 	DxLib::DrawCircleAA(prev_area_node_->position().x, prev_area_node_->position().y, 20, 8, GetColor(255, 0, 0));
@@ -96,14 +96,6 @@ const std::string MapManager::pick_enemy(int depth)
 		}
 	}
 	return enemy_name;
-}
-
-void MapManager::change_player_area(int index)
-{
-	if (Input::get_button_down(KEY_INPUT_UP))
-	{
-
-	}
 }
 
 void MapManager::pick_area()
