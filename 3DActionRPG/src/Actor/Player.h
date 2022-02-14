@@ -13,11 +13,12 @@ public:
 		Attack,
 		Damage,
 		Avoid,
+		Dead,
 	};
 	struct Parameter
 	{
-		int hp = 1000;             //体力
-		int attack = 200;         //攻撃力
+		int hp = 1;             //体力
+		int attack = 1;         //攻撃力
 	};
 public:
 	Player(IWorld* world);
@@ -38,6 +39,8 @@ private:
 	void damage(float delta_time);
 	//回避状態更新
 	void avoid(float delta_time);
+	//死亡状態更新
+	void dead(float delta_time);
 
 	//攻撃判定を生成
 	void generate_attack(float lifespan, float delay = 0.0f);

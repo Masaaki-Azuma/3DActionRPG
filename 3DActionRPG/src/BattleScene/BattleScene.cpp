@@ -67,7 +67,10 @@ void BattleScene::draw() const
 
 bool BattleScene::is_end() const
 {
-    return world_.count_actor_with_tag("EnemyTag") == 0;
+	//敵が全滅するか、プレイヤーが死亡したら終了
+    return
+		world_.count_actor_with_tag("EnemyTag") == 0 ||
+		!world_.find_actor("Player");
 }
 
 std::string BattleScene::next() const

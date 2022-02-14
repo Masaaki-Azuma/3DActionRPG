@@ -14,7 +14,7 @@ void PlayerDatabase::load(const std::string& file_name)
 {
 	CsvReader csv_reader;
 	csv_reader.load(file_name);
-	current_parameter_.hp = csv_reader.geti(0, ColAttack);
+	current_parameter_.hp = csv_reader.geti(0, ColHp);
 	current_parameter_.attack = csv_reader.geti(0, ColAttack);
 	current_parameter_.total_gem = csv_reader.geti(0, ColTotalGem);
 }

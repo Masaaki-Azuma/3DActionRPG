@@ -106,6 +106,12 @@ void Player::react(Actor& other)
 	if (other.tag() == "EnemyAttackTag") {
 		int damage = EnemyDatabase::GetInstance().get_parameter(other.name()).attack;
 		take_damage(damage);
+		if (parameter_.hp <= 0) {
+			enable_collider_ = false;
+			change_state(State::Dead, Motion_Die, false);
+			mesh_.change_anim(Motion_Die, motion_loop_);
+			return;
+		}
 		change_state(State::Damage, Motion_Damage, false);
 	}
 }
@@ -124,6 +130,7 @@ void Player::update_state(float delta_time)
 	case State::Attack: attack(delta_time); break;
 	case State::Damage: damage(delta_time); break;
 	case State::Avoid:  avoid(delta_time);  break;
+	case State::Dead:   dead(delta_time);   break;
 	}
 
 	//状態タイマーの更新
@@ -254,6 +261,14 @@ void Player::avoid(float delta_time)
 		return;
 	}
 	position_ += velocity_;
+}
+
+void Player::dead(float delta_time)
+{
+	if (state_timer_ >= mesh_.anim_total_sec()) {
+		die();
+		return;
+	}
 }
 
 void Player::generate_attack(float lifespan, float delay)
