@@ -17,6 +17,8 @@ public:
 
     //メッシュの登録
     void store_model_handle(int model_handle);
+    //保持しているメッシュハンドルを破棄する
+    void clear();
     //更新
     void update(float delta_time);
     //描画
@@ -48,9 +50,9 @@ private:
     int motion_index_{ -1 };      //アニメーション番号
     bool motion_loop_{ false };
 
-    Vector3 position_;
-    Vector3 rotation_;
-    Vector3 scale_;
+    Vector3 position_{ 0.0f, 0.0f, 0.0f };
+    Vector3 rotation_{ 0.0f,0.0f,0.0f };
+    Vector3 scale_{ 1.0f, 1.0f, 1.0f };
 };
 #endif//!SKINNING_MESH_H_
 

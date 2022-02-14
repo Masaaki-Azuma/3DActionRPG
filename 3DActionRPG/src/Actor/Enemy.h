@@ -24,7 +24,7 @@ public:
 	};
 public:
 	Enemy();
-	virtual ‾Enemy() = default;
+	virtual ‾Enemy();
 
 	virtual void update(float delta_time) override;
 	virtual void draw() const override;

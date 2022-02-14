@@ -10,6 +10,12 @@ Enemy::Enemy()
 {
 }
 
+Enemy::‾Enemy()
+{
+	//HACK:モデルハンドルの複製場所はSkinningMeshコンストラクタだがわかりづらくないか？
+	mesh_.clear();
+}
+
 void Enemy::update(float delta_time)
 {
 	//現在の状態を更新
