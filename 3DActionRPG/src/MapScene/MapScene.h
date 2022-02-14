@@ -20,6 +20,9 @@ public:
     virtual std::string next() const override;
     virtual void end() override;
     virtual void* data() override;
+private:
+    //ForDebug:
+    void restart_area();
 
 private:
     bool is_end_;

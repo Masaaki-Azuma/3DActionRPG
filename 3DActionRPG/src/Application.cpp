@@ -30,7 +30,7 @@ void Application::Run() {
     SetWaitVSyncFlag(GetRefreshRate() == TargetFPS ? TRUE : FALSE);
     SetWindowText("ゲームタイトル"); // ウィンドウのタイトル
     SetGraphMode(Screen::Width, Screen::Height, 32); // ウィンドウサイズ（画面解像度）の指定
-    ChangeWindowMode(TRUE); // ウィンドウモードにする（FALSEを指定するとフルスクリーンになる）
+    ChangeWindowMode(Screen::IsWindowScreen); // ウィンドウモードにする（FALSEを指定するとフルスクリーンになる）
     SetAlwaysRunFlag(TRUE); // ウィンドウが非アクティブでも動作させる
 
     DxLib_Init(); // DXライブラリの初期化

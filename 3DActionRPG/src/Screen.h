@@ -3,7 +3,8 @@
 
 struct Screen
 {
-	static const int Width{ 640 };
-	static const int Height{ 480 };
+	static const int Width{ 1920 };
+	static const int Height{ 1080 };
+	static const bool IsWindowScreen{ true };
 };
 #endif//!SCREEN_H_
