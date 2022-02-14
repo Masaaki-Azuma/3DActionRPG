@@ -27,6 +27,8 @@ public:
     void set_rotation(const VECTOR& rotation);
     //モデルの向き（弧度法）を設定
     void set_rotation(const Vector3& rotation);
+    //モデルの大きさを設定
+    void set_scale(const Vector3& scale);
     //アニメーションを変更
     void change_anim(int anim_index, bool loop = true, bool reset = false);
     //現在のアニメーションの総再生時間を取得

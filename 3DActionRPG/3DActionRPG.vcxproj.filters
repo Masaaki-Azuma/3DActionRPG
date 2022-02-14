@@ -34,6 +34,8 @@
     <ClCompile Include="src\MapScene\MapScene.cpp" />
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
     <ClCompile Include="src\GameResultScene\GameResultScene.cpp" />
+    <ClCompile Include="src\Actor\Mimic.cpp" />
+    <ClCompile Include="src\Actor\BlackKnight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -73,5 +75,7 @@
     <ClInclude Include="src\MapScene\MapScene.h" />
     <ClInclude Include="src\TitleScene\TitleScene.h" />
     <ClInclude Include="src\GameResultScene\GameResultScene.h" />
+    <ClInclude Include="src\Actor\Mimic.h" />
+    <ClInclude Include="src\Actor\BlackKnight.h" />
   </ItemGroup>
 </Project>

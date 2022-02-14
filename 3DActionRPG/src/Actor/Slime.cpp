@@ -28,6 +28,7 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
 	mesh_ = SkinningMesh{ Mesh::slime_handle, 30.0f };
+	//mesh_ = SkinningMesh{ Mesh::chest_handle, 30.0f };
 	world_ = world;
 	name_ = "Slime";
 	tag_ = "EnemyTag";

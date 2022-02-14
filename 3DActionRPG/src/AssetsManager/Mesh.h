@@ -16,6 +16,8 @@ public:
 	static int test_handle;
 	static int stage_handle;
 	static int slime_handle;
+	static int black_knight_handle;
+	static int chest_handle;
 	static int skybox;
 };
 #endif//!MESH_H_

@@ -8,6 +8,8 @@
 #include "Actor/Player.h"
 #include "Actor/Enemy.h"
 #include "Actor/Slime.h"
+#include "Actor/Mimic.h"
+#include "Actor/BlackKnight.h"
 
 void BattleScene::start(void* data)
 {
@@ -23,7 +25,8 @@ void BattleScene::start(void* data)
 	world_.add_actor(new Player{ &world_ });
 	world_.add_camera(new Camera{ &world_ });
 	//world_.add_actor(new Enemy{ &world_ });
-	world_.add_actor(new Slime{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+	//world_.add_actor(new Slime{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+	world_.add_actor(new BlackKnight{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 	DxLib::MV1SetupCollInfo(Mesh::stage_handle, -1, 8, 8, 8);
 }
 
