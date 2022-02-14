@@ -1,4 +1,5 @@
 #include "Input.h"
+
 #include <DxLib.h>
 
 int Input::prev_state{ 0 };

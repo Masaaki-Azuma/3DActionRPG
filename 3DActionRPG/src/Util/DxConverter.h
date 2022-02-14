@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DX_CONVERTER_H_
+#define DX_CONVERTER_H_
 
 #include <DxLib.h>
 
@@ -10,4 +11,5 @@ public:
 	static VECTOR GetVECTOR(const Vector3& v);
 	static Vector3 GetVector3(const VECTOR& v);
 };
+#endif//!DX_CONVERTER_H_
 

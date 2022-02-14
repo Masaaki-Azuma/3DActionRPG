@@ -1,10 +1,12 @@
 #include "Slime.h"
+
 #include <cassert>
-#include "Mesh.h"
-#include "IWorld.h"
+
+#include "AssetsManager/Mesh.h"
+#include "AssetsManager/PlayerDatabase.h"
 #include "Util/DxConverter.h"
 #include "Util/MyMath.h"
-#include "PlayerDatabase.h"
+#include "BattleScene/IWorld.h"
 
 enum //モーション
 {

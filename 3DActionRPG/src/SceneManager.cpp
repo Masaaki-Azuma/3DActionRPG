@@ -1,6 +1,6 @@
 #include "SceneManager.h"
+
 #include "SceneNull.h"
-#include "Fade.h"
 
 static SceneNull scene_null; //シーンマネージャーの処理の単純化にのみ必要
 

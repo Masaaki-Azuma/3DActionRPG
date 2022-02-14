@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MESH_H_
+#define MESH_H_
 
 #include <string>
 
@@ -17,4 +18,5 @@ public:
 	static int slime_handle;
 	static int skybox;
 };
+#endif//!MESH_H_
 

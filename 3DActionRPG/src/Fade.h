@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FADE_H_
+#define FADE_H_
+
 class Fade
 {
 public:
@@ -38,4 +40,5 @@ private:
 	State state_; //フェード状態
 	int image_handle_{ -1 };
 };
+#endif//!FADE_H_
 

@@ -1,10 +1,11 @@
 #include "SkinningMesh.h"
 
-#include "Mesh.h"
+#include <cmath>
+
 #include "Util/Vector3.h"
 #include "Util/DxConverter.h"
 #include "Util/MyMath.h"
-#include <cmath>
+#include "AssetsManager/Mesh.h"
 
 SkinningMesh::SkinningMesh(int model_handle, float supposed_fps)
 {

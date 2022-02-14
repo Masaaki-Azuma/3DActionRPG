@@ -3,8 +3,6 @@
 
 #include "SceneManager.h"
 
-#include "World.h"
-
 class Game {
 public:
     Game();
@@ -16,7 +14,6 @@ public:
 
 private:
     SceneManager scene_manager_;
-    //World world_;
 };
 
 #endif

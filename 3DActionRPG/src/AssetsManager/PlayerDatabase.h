@@ -2,6 +2,7 @@
 #define PLAYER_DATABASE_H_
 
 #include "Singleton.h"
+
 #include <string>
 
 //プレイヤーに関するセーブデータ管理クラス
@@ -23,7 +24,7 @@ public:
 	const Parameter& get_current_parameter();
 
 private:
-	Parameter current_parameter_;
+	Parameter current_parameter_{ -1, -1, -1 };
 
 private:
 	PlayerDatabase() = default;

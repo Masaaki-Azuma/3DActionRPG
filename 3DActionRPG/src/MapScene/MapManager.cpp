@@ -3,8 +3,8 @@
 #include <sstream>
 #include "AreaNode.h"
 #include "Util/MyRandom.h"
-#include "Image.h"
-#include "Input.h"
+#include "AssetsManager/Image.h"
+#include "Util/Input.h"
 #include "Util/CsvReader.h"
 
 #include <cassert>

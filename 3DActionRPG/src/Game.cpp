@@ -3,13 +3,11 @@
 #include <DxLib.h>
 
 #include "Util/MyRandom.h"
-#include "Input.h"
-#include "Image.h"
-
+#include "Util/Input.h"
+#include "AssetsManager/Image.h"
 #include "TitleScene/TitleScene.h"
-#include "BattleScene.h"
+#include "BattleScene/BattleScene.h"
 #include "MapScene/MapScene.h"
-#include "MapScene/MapManager.h"
 #include "GameResultScene/GameResultScene.h"
 
 
@@ -31,6 +29,8 @@ void Game::Init()
 	scene_manager_.add("BattleScene", new BattleScene{});
 	scene_manager_.add("MapScene", new MapScene{});
 	scene_manager_.add("GameResultScene", new GameResultScene{});
+
+
 	scene_manager_.change("TitleScene");
 	//scene_manager_.change("BattleScene");
 	//scene_manager_.change("MapScene");

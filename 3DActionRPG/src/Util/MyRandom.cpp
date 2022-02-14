@@ -3,11 +3,6 @@
 std::random_device MyRandom::rd;//非決定的乱数生成器
 std::mt19937 MyRandom::mt;//決定的乱数生成器、高速
 
-//MyRandom::MyRandom()
-//{
-//	mt.seed(rd());
-//}
-
 void MyRandom::Init()
 {
 	mt.seed(rd());

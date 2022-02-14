@@ -1,7 +1,7 @@
 #include "AreaNode.h"
 #include <unordered_map>
 #include <DxLib.h>
-#include "Image.h"
+#include "AssetsManager/Image.h"
 
 std::unordered_map<std::string, int> enemy_image_table{
 	{"slime", Texture_test00},

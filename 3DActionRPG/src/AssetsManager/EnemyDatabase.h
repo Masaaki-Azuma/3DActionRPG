@@ -2,8 +2,10 @@
 #define ENEMY_DATABASE_H_
 
 #include "Singleton.h"
+
 #include <string>
 #include <unordered_map>
+
 #include "Util/CsvReader.h"
 
 
