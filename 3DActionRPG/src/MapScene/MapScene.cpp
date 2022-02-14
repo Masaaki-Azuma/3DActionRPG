@@ -1,8 +1,9 @@
 #include "MapScene.h"
-#include "MapManager.h"
-#include "AssetsManager/Image.h"
+
 #include "Util/MyRandom.h"
 #include "Util/Input.h"
+#include "AssetsManager/Image.h"
+#include "MapManager.h"
 
 MapScene::MapScene():
     map_{MapManager::GetInstance()}
@@ -15,8 +16,10 @@ void MapScene::start(void* data)
     Image::load();
     MyRandom::Init();
 
-    //ForDebug
+    //バトルシーンから帰ってきたときの更新処理
     map_.make_node_old();
+
+    //ForDebug:
 }
 
 void MapScene::update(float delta_time)
@@ -29,10 +32,8 @@ void MapScene::update(float delta_time)
         is_end_ = true;
     }
 
-    //ForDebug:シーン遷移チート
-    if (Input::get_button(PAD_INPUT_4)) { //A
-        is_end_ = true;
-    }
+    //ForDebug:エリアを動かずにシーン遷移チート
+    //restart_area();
 }
 
 void MapScene::draw() const
@@ -59,5 +60,12 @@ void MapScene::end()
 
 void* MapScene::data()
 {
-    return nullptr;
+    return &map_.selected_enemy();
+}
+
+void MapScene::restart_area()
+{
+    if (Input::get_button(PAD_INPUT_4)) { //A
+        is_end_ = true;
+    }
 }

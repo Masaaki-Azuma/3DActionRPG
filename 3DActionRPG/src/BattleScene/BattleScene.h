@@ -15,6 +15,8 @@ public:
     virtual std::string next() const override;
     virtual void end() override;
     virtual void* data() override;
+private:
+    void spawn_enemy(const std::string& enemy);
 
 private:
     //ワールドクラス

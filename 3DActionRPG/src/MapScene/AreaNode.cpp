@@ -4,9 +4,9 @@
 #include "AssetsManager/Image.h"
 
 std::unordered_map<std::string, int> enemy_image_table{
-	{"slime", Texture_test00},
-	{"skelton", Texture_test01},
-	{"rizard", Texture_test02},
+	{"Slime", Texture_test00},
+	{"Mimic", Texture_test01},
+	{"BlackKnight", Texture_test02},
 	{"dragon", Texture_test03}
 };
 
@@ -33,5 +33,10 @@ void AreaNode::add_next(AreaNode::PtrNode next)
 const Vector3& AreaNode::position() const
 {
 	return position_;
+}
+
+std::string& AreaNode::enemy()
+{
+	return enemy_;
 }
 

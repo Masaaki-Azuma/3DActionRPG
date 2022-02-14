@@ -7,6 +7,8 @@
 #include "Util/MyMath.h"
 #include "AssetsManager/Mesh.h"
 
+//DxLib由来のモデルハンドルとアニメーションのfpsを設定する
+//意図的にsupposed_fps
 SkinningMesh::SkinningMesh(int model_handle, float supposed_fps)
 {
 	store_model_handle(model_handle);
@@ -65,6 +67,11 @@ void SkinningMesh::set_rotation(const Vector3& rotation)
 	set_rotation(DxConverter::GetVECTOR(rotation));
 	DxLib::MV1SetRotationXYZ(model_handle_, DxConverter::GetVECTOR(rotation));
 
+}
+
+void SkinningMesh::set_scale(const Vector3& scale)
+{
+	DxLib::MV1SetScale(model_handle_, DxConverter::GetVECTOR(scale));
 }
 
 void SkinningMesh::change_anim(int anim_index, bool loop, bool reset)

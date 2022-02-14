@@ -20,7 +20,7 @@ void Enemy::update(float delta_time)
 	//select_motion();
 
 	//メッシュの更新
-	mesh_.change_anim(motion_, motion_loop_, motion_reset_);
+	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
 	mesh_.update(delta_time);
@@ -37,12 +37,12 @@ void Enemy::draw() const
 
 void Enemy::react(Actor& other){}
 
-void Enemy::change_state(unsigned int state, unsigned int motion, bool loop, bool reset)
+void Enemy::change_state(unsigned int state, unsigned int motion, bool loop, bool is_interruptive)
 {
 	state_ = state;
 	motion_ = motion;
 	motion_loop_ = loop;
-	motion_reset_ = reset;
+	motion_interruption = is_interruptive;
 	state_timer_ = 0.0f;
 }
 

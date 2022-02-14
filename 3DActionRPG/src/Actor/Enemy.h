@@ -52,7 +52,7 @@ protected:
 	//モーションループするか？
 	bool motion_loop_{ true };
 	//同じモーションでも最初から再生するか？
-	bool motion_reset_{ false };
+	bool motion_interruption{ false };
 	//パラメーター
 	Parameter parameter_;
 };
