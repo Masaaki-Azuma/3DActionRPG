@@ -29,7 +29,8 @@ void BattleResultScene::draw() const
     //ForDebug:討伐数
     int species_counter = 0;
     for (const auto p : result_.basterd_list) {
-        DxLib::DrawFormatString(0, 50 * (species_counter + 1), GetColor(255, 255, 255), "enemy: %s, num: %d", p.first, p.second);
+        DxLib::DrawFormatString(0, 50 * (species_counter + 1), GetColor(255, 255, 255), "enemy: %s, num: %d", p.first.c_str(), p.second);
+        species_counter++;
     }
 }
 
