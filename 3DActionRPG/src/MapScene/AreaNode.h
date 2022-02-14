@@ -21,6 +21,9 @@ public:
 	void add_next(PtrNode next);
 	//ノードの描画位置を取得
 	const Vector3& position() const;
+	//ノードに配置された敵名を取得
+	std::string& enemy();
+
 private:
 	NextNodeList next_;
 	int node_depth_{ -1 };            //ノードの深さ

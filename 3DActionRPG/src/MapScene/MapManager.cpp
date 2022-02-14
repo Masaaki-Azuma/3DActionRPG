@@ -15,8 +15,8 @@ const float AreaVerticalInterval{ 100.0f };           //エリア間の高さ
 const Vector3 StartPosition{ 0.0f, 300.0f };          //スタートノードの位置
 const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
 
-//ForDebug
-int area_index = 0;
+//ForDebug:関数staticを一時的にグローバルに
+static int area_index = 0;
 
 void MapManager::update(float delta_time)
 {
@@ -131,6 +131,11 @@ void MapManager::make_node_old()
 {
 	prev_area_node_ = current_area_node_;
 	is_picked_ = false;
+}
+
+std::string& MapManager::selected_enemy()
+{
+	return current_area_node_->enemy();
 }
 
 void MapManager::generate_nodes()

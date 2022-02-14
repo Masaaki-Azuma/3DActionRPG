@@ -1,8 +1,9 @@
 #include "MapScene.h"
-#include "MapManager.h"
-#include "AssetsManager/Image.h"
+
 #include "Util/MyRandom.h"
 #include "Util/Input.h"
+#include "AssetsManager/Image.h"
+#include "MapManager.h"
 
 MapScene::MapScene():
     map_{MapManager::GetInstance()}
@@ -59,5 +60,5 @@ void MapScene::end()
 
 void* MapScene::data()
 {
-    return nullptr;
+    return &map_.selected_enemy();
 }

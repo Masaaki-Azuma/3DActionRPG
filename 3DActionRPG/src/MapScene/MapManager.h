@@ -38,6 +38,9 @@ public:
 	//HACK:これはバトルシーンから戻ってきたときに呼び出される関数であるので、適切な名前に変更せよ
 	//前回選択したエリアを過去のエリアへ変更
 	void make_node_old();
+	//選択エリアの敵の名前を取得
+	std::string& selected_enemy();
+
 private:
 	//ノードを生成
 	void generate_nodes();

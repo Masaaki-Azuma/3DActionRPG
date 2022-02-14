@@ -18,7 +18,7 @@ BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& 
 
 	mesh_ = SkinningMesh{ Mesh::black_knight_handle, 20.0f };
 	world_ = world;
-	name_ = "Slime";
+	name_ = "BlackKnight";
 	tag_ = "EnemyTag";
 	position_ = position;
 	rotation_ = rotation;
@@ -27,7 +27,7 @@ BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& 
 	parameter_ = Parameter{ 500, 100 };
 
 	//メッシュ姿勢初期化
-	mesh_.change_anim(motion_, motion_loop_, motion_reset_);
+	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
 	mesh_.set_scale(Vector3{ 2.0f, 2.0f, 2.0f });

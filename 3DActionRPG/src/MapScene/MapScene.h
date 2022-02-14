@@ -3,6 +3,8 @@
 
 #include "IScene.h"
 
+#include <string>
+
 class MapManager;
 
 class MapScene :

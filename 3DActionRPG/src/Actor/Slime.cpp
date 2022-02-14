@@ -28,7 +28,6 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
 	mesh_ = SkinningMesh{ Mesh::slime_handle, 30.0f };
-	//mesh_ = SkinningMesh{ Mesh::chest_handle, 30.0f };
 	world_ = world;
 	name_ = "Slime";
 	tag_ = "EnemyTag";
@@ -39,7 +38,7 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 	parameter_ = Parameter{ 500, 100 };
 
 	//メッシュ姿勢初期化
-	mesh_.change_anim(motion_, motion_loop_, motion_reset_);
+	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
 }
@@ -51,15 +50,17 @@ void Slime::late_update(float delta_time)
 void Slime::react(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
+		//プレイヤーの攻撃力分ダメージを受ける
 		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
+		//ダメージ状態に
 		change_state(State::Damage, Motion_Damage, false, true);
-		mesh_.change_anim(motion_, motion_loop_, motion_reset_);
+		mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	}
 }
 
 void Slime::update_state(float delta_time)
 {
-	motion_reset_ = false;
+	motion_interruption = false;
 	switch (state_) {
 	case State::Move:   move(delta_time);   break;
 	case State::Attack: attack(delta_time); break;
