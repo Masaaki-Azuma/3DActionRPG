@@ -1,6 +1,7 @@
 #include "BattleResultScene.h"
 
 #include <DxLib.h>
+#include <cassert>
 
 #include "Util/Input.h"
 
@@ -41,7 +42,11 @@ bool BattleResultScene::is_end() const
 
 std::string BattleResultScene::next() const
 {
-    return "MapScene";
+    if (result_.battle_result == "Win")  return "MapScene";
+    else if (result_.battle_result == "Lose") return "GameResultScene";
+
+    assert(!"不正なbattle_resultが送られてきています");
+    return "";
 }
 
 void BattleResultScene::end()

@@ -9,6 +9,7 @@
 #include "Actor/Mimic.h"
 #include "Actor/BlackKnight.h"
 
+
 void BattleScene::start(void* data)
 {
     is_end_ = false;
@@ -86,12 +87,11 @@ bool BattleScene::is_end() const
 {
 	//敵が全滅するか、プレイヤーが死亡したら終了
 	return  is_end_ && result_scene_.is_end();
-		
 }
 
 std::string BattleScene::next() const
 {
-    return "MapScene";
+    return result_scene_.next();
 }
 
 void BattleScene::end()
@@ -102,16 +102,17 @@ void BattleScene::end()
 
 void* BattleScene::data()
 {
-	result_.battle_result = "win";
+	//バトル勝敗を保持
+	if      (world_.is_battle_win())  result_.battle_result = "Win";
+	else if (world_.is_battle_lose()) result_.battle_result = "Lose";
+	//敵ごとの討伐数を保持
 	result_.basterd_list = world_.basterd_list();
     return &result_;
 }
 
 bool BattleScene::is_settled() const
 {
-	return
-		world_.count_actor_with_tag("EnemyTag") == 0 ||
-		!world_.find_actor("Player");
+	return world_.is_battle_end();
 }
 
 void BattleScene::spawn_enemy(const std::string& enemy)

@@ -3,6 +3,7 @@
 #include "Util/MyRandom.h"
 #include "Util/Input.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/PlayerDatabase.h"
 #include "MapManager.h"
 
 MapScene::MapScene():
@@ -24,6 +25,7 @@ void MapScene::start(void* data)
 
 void MapScene::update(float delta_time)
 {
+
     if (map_.is_final_area()) {
         is_end_ = true;
     }

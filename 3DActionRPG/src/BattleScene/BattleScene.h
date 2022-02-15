@@ -19,6 +19,7 @@ private:
     //戦闘が終了したか？
     bool is_settled() const;
     void spawn_enemy(const std::string& enemy);
+   
 
 private:
     //ワールドクラス

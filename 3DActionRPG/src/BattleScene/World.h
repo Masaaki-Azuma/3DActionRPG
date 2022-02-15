@@ -28,6 +28,9 @@ public:
     //void add_field(Field* field);
     //敵討伐数を取得
     std::unordered_map<std::string, int>& basterd_list();
+    bool is_battle_win() const;
+    bool is_battle_lose() const;
+    bool is_battle_end() const;
 
     // アクターを追加
     virtual void add_actor(Actor* actor) override;

@@ -88,6 +88,21 @@ std::unordered_map<std::string, int>& World::basterd_list()
     return basterd_list_;
 }
 
+bool World::is_battle_win() const
+{
+    return count_actor_with_tag("EnemyTag") == 0;
+}
+
+bool World::is_battle_lose() const
+{
+    return find_actor("Player") == nullptr;
+}
+
+bool World::is_battle_end() const
+{
+    return is_battle_win() || is_battle_lose();
+}
+
 // アクターの追加
 void World::add_actor(Actor* actor)
 {

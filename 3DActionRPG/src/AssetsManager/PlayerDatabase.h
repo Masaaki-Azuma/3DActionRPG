@@ -5,7 +5,7 @@
 
 #include <string>
 
-//プレイヤーに関するセーブデータ管理クラス
+//プレイヤーに関するセーブデータや進行データの管理クラス
 class PlayerDatabase : public Singleton<PlayerDatabase>
 {
 public:
