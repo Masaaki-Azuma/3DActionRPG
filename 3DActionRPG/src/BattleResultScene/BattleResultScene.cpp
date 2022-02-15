@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "Util/Input.h"
+#include "AssetsManager/EnemyDatabase.h"
 
 void BattleResultScene::start(void* data)
 {
@@ -30,7 +31,9 @@ void BattleResultScene::draw() const
     //ForDebug:討伐数
     int species_counter = 0;
     for (const auto p : result_.basterd_list) {
-        DxLib::DrawFormatString(0, 50 * (species_counter + 1), GetColor(255, 255, 255), "enemy: %s, num: %d", p.first.c_str(), p.second);
+        int gem = calc_gem(p.first, p.second);
+
+        DxLib::DrawFormatString(0, 50 * (species_counter + 1), GetColor(255, 255, 255), "enemy: %s, num: %d, gem: %d", p.first.c_str(), p.second, gem);
         species_counter++;
     }
 }
@@ -56,4 +59,13 @@ void BattleResultScene::end()
 void* BattleResultScene::data()
 {
     return nullptr;
+}
+
+int BattleResultScene::calc_gem(const std::string& enemy, int num_basterd) const
+{
+    //ある種族の敵一体当たりのドロップジェム数
+    int gem_per_enemy = EnemyDatabase::GetInstance().get_drop_gem(enemy);
+    //その種族から得られた総ジェム数
+    int gem_per_species = gem_per_enemy * num_basterd;
+    return gem_per_species;
 }

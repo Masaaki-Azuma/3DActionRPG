@@ -111,7 +111,7 @@ void Player::draw() const
 void Player::react(Actor& other)
 {
 	if (other.tag() == "EnemyAttackTag") {
-		int damage = EnemyDatabase::GetInstance().get_parameter(other.name()).attack;
+		int damage = EnemyDatabase::GetInstance().get_attack(other.name());
 		take_damage(damage);
 		if (parameter_.hp <= 0) {
 			enable_collider_ = false;

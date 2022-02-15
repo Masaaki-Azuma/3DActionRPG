@@ -23,7 +23,8 @@ public:
     virtual std::string next() const override;
     virtual void end() override;
     virtual void* data() override;
-
+private:
+    int calc_gem(const std::string& enemy, int num_basterd) const;
 private:
     bool is_end_{ true };
     BattleResultData result_;

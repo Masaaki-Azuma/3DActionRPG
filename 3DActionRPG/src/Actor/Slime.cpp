@@ -2,10 +2,10 @@
 
 #include <cassert>
 
-#include "AssetsManager/Mesh.h"
-#include "AssetsManager/PlayerDatabase.h"
 #include "Util/DxConverter.h"
 #include "Util/MyMath.h"
+#include "AssetsManager/Mesh.h"
+#include "AssetsManager/PlayerDatabase.h"
 #include "BattleScene/IWorld.h"
 
 enum //モーション
@@ -35,7 +35,8 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 	rotation_ = rotation;
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
 	motion_ = 0;
-	parameter_ = Parameter{ 500, 100 };
+	//TODO:データベースから取得するようにせよ
+	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
@@ -55,8 +56,6 @@ void Slime::react(Actor& other)
 		if (parameter_.hp <= 0) {
 			//当たり判定を無効化
 			enable_collider_ = false;
-			//敵討伐数を加算
-			world_->add_basterd(name_);
 			//死亡状態に遷移
 			change_state(State::Dead, Motion_Die, false);
 			mesh_.change_anim(motion_, motion_loop_, motion_interruption);
@@ -136,6 +135,8 @@ void Slime::damage(float delta_time)
 void Slime::dead(float delta_time)
 {
 	if (state_timer_ >= mesh_.anim_total_sec()) {
+		//敵討伐数を加算
+		world_->add_basterd(name_);
 		die();
 	}
 }
