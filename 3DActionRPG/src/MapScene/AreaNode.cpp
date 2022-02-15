@@ -4,9 +4,9 @@
 #include "AssetsManager/Image.h"
 
 std::unordered_map<std::string, int> enemy_image_table{
-	{"Slime", Texture_test00},
-	{"Mimic", Texture_test01},
-	{"BlackKnight", Texture_test02},
+	{"Slime", Texture_icon_slime},
+	{"Mimic", Texture_icon_mimic},
+	{"BlackKnight", Texture_icon_blackKnight},
 	{"dragon", Texture_test03}
 };
 

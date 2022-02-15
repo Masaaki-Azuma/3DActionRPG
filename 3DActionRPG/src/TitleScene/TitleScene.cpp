@@ -42,7 +42,7 @@ void TitleScene::end()
     //マップデータを作成
     MapManager::GetInstance().generate();
     //パラメータをロード
-    PlayerDatabase::GetInstance().load("Assets/Parameters/player_parameter.csv");
+    PlayerDatabase::GetInstance().set_initial_parameter();
     EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");
 }
 

@@ -5,6 +5,11 @@
 
 #include <string>
 
+/*扱いの説明
+
+ゲームで実際に用いるデータはmaster_parameterを疑似的なセーブデータとして扱う
+*/
+
 //プレイヤーに関するセーブデータや進行データの管理クラス
 class PlayerDatabase : public Singleton<PlayerDatabase>
 {
@@ -16,17 +21,31 @@ public:
 		int total_gem;
 	};
 public:
-	void load(const std::string& file_name);
-	void save(const std::string& file_name);
+	void set_dst_file(const std::string& file_name);
+	void load_master_data();
+	void save_master_data();
+	//1ゲーム開始時に呼ばれるパラメータ読み込み関数
+	void set_initial_parameter();
+
+	//1ゲームプレイ中のパラメーター増減
 	void add_hp(int rise_value);
 	void add_attack(int rise_value);
 	void add_gem(int rise_value);
-
 	void set_hp(int hp);
+	//1ゲームプレイ中のパラメータ取得
 	const Parameter& get_current_parameter();
 
+	//ジェム増加をセーブ
+	void add_possessed_jem(int rise_gem);
+
+
 private:
+	//1プレイ中の残りライフ等パラメーターを保持する
 	Parameter current_parameter_{ -1, -1, -1 };
+	//セーブデータに残るパラメーターを保持する
+	Parameter master_parameter_{ -1, -1, -1 };
+	//データ元ファイル
+	std::string master_file_name_{ "" };
 
 private:
 	PlayerDatabase() = default;

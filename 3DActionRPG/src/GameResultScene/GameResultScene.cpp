@@ -1,5 +1,7 @@
 #include "GameResultScene.h"
+
 #include <DxLib.h>
+
 #include "Util/Input.h"
 #include "MapScene/MapManager.h"
 
@@ -34,6 +36,10 @@ std::string GameResultScene::next() const
 
 void GameResultScene::end()
 {
+    //1プレイで得たジェム数を取得
+    int gained_gem = p_DB_.get_current_parameter().total_gem;
+    //セーブデータに取得ジェムを追加
+    p_DB_.add_possessed_jem(gained_gem);
     //マップデータを削除
     MapManager::GetInstance().clear();
 }

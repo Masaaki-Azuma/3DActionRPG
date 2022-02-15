@@ -96,6 +96,7 @@ std::string BattleScene::next() const
 
 void BattleScene::end()
 {
+	result_scene_.end();
 	world_.clear();
 	Mesh::clear();
 }

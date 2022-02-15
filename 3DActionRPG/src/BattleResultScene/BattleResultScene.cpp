@@ -5,10 +5,14 @@
 #include <numeric>
 
 #include "Util/Input.h"
+#include "AssetsManager/PlayerDatabase.h"
+#include "AssetsManager/Image.h"
 #include "AssetsManager/EnemyDatabase.h"
 
 void BattleResultScene::start(void* data)
 {
+
+
     is_end_ = false;
     //データを本来の型へキャストして取得
     result_ = *(static_cast<BattleResultData*>(data));
@@ -73,6 +77,8 @@ std::string BattleResultScene::next() const
 
 void BattleResultScene::end()
 {
+
+    PlayerDatabase::GetInstance().add_gem(total_gem_);
     gem_list_.clear();
 }
 

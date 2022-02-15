@@ -21,6 +21,9 @@ void Image::load(const std::string& scene)
     test_image02 = load_texture("Assets/Image/test/machoPlayer00.png", Texture_test02);
     test_image03 = load_texture("Assets/Image/test/machoPlayer01.png", Texture_test03);
 
+    load_texture("Assets/Image/icon_slime.png", Texture_icon_slime);
+    load_texture("Assets/Image/icon_mimic.png", Texture_icon_mimic);
+    load_texture("Assets/Image/icon_blackKnight.png", Texture_icon_blackKnight);
 }
 
 void Image::clear(const std::string& scene)
@@ -29,6 +32,9 @@ void Image::clear(const std::string& scene)
     clear_a_texture(Texture_test01);
     clear_a_texture(Texture_test02);
     clear_a_texture(Texture_test03);
+    clear_a_texture(Texture_icon_slime);
+    clear_a_texture(Texture_icon_mimic);
+    clear_a_texture(Texture_icon_blackKnight);
 }
 
 const int Image::texture_handle(int texture_id)
