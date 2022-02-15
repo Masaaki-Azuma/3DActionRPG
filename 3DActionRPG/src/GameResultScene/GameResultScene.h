@@ -3,6 +3,8 @@
 
 #include "IScene.h"
 
+#include "AssetsManager/PlayerDatabase.h"
+
 //プレイ1周分が終了した後の結果表示シーン
 class GameResultScene :
     public IScene
@@ -18,6 +20,7 @@ public:
 
 private:
     bool is_end_{ false };
+    PlayerDatabase& p_DB_{ PlayerDatabase::GetInstance() };
 };
 #endif//GAME_RESULT_SCENE_H_
 

@@ -4,6 +4,8 @@
 #include "IWorld.h"
 #include "ActorManager.h"
 
+#include <unordered_map>
+
 // ワールドクラス
 class World : public IWorld
 {
@@ -24,6 +26,11 @@ public:
     void add_light(Actor* light);
     // フィールドの追加
     //void add_field(Field* field);
+    //敵討伐数を取得
+    std::unordered_map<std::string, int>& basterd_list();
+    bool is_battle_win() const;
+    bool is_battle_lose() const;
+    bool is_battle_end() const;
 
     // アクターを追加
     virtual void add_actor(Actor* actor) override;
@@ -37,6 +44,9 @@ public:
     virtual int count_actor_with_tag(const std::string& tag) const override;
     // メッセージの送信
     virtual void send_message(const std::string& message, void* param = nullptr) override;
+    //討伐数の加算
+    virtual void add_basterd(const std::string& enemy_name) override;
+
 
     // カメラの取得
     virtual Actor* camera() override;
@@ -58,6 +68,9 @@ private:
     Actor* camera_{ nullptr };
     // フィールド
     //Field* field_{ nullptr };
+    //討伐敵リスト
+    std::unordered_map<std::string, int> basterd_list_;
+
 };
 
 #endif

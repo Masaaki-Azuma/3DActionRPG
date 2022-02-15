@@ -47,11 +47,18 @@ Player::Player(IWorld* world):
 	tag_ = "PlayerTag";
 	position_ = Vector3{ 0.0f, 0.0f, 0.0f };
 	collider_ = Sphere{ CollisionRadius, CollisionOffset };
+	//TODO:PlayerDatabaseからパラメーターを受け取れるよう変更せよ
+	parameter_ = p_db_.get_current_parameter();
 
 	//メッシュ姿勢初期化
 	mesh_.change_anim(motion_, motion_loop_);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_* MyMath::Deg2Rad);
+}
+
+Player::‾Player()
+{
+	p_db_.set_hp(parameter_.hp);
 }
 
 void Player::update(float delta_time)
@@ -104,8 +111,15 @@ void Player::draw() const
 void Player::react(Actor& other)
 {
 	if (other.tag() == "EnemyAttackTag") {
-		int damage = EnemyDatabase::GetInstance().get_parameter(other.name()).attack;
+		int damage = EnemyDatabase::GetInstance().get_attack(other.name());
 		take_damage(damage);
+		if (parameter_.hp <= 0) {
+			enable_collider_ = false;
+			parameter_.hp = 0;
+			change_state(State::Dead, Motion_Die, false);
+			mesh_.change_anim(Motion_Die, motion_loop_);
+			return;
+		}
 		change_state(State::Damage, Motion_Damage, false);
 	}
 }
@@ -124,6 +138,7 @@ void Player::update_state(float delta_time)
 	case State::Attack: attack(delta_time); break;
 	case State::Damage: damage(delta_time); break;
 	case State::Avoid:  avoid(delta_time);  break;
+	case State::Dead:   dead(delta_time);   break;
 	}
 
 	//状態タイマーの更新
@@ -254,6 +269,14 @@ void Player::avoid(float delta_time)
 		return;
 	}
 	position_ += velocity_;
+}
+
+void Player::dead(float delta_time)
+{
+	if (state_timer_ >= mesh_.anim_total_sec()) {
+		die();
+		return;
+	}
 }
 
 void Player::generate_attack(float lifespan, float delay)

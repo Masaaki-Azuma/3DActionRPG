@@ -3,6 +3,7 @@
 
 #include "Actor.h"
 #include "SkinningMesh.h"
+#include "AssetsManager/PlayerDatabase.h"
 
 class Player : public Actor
 {
@@ -13,14 +14,12 @@ public:
 		Attack,
 		Damage,
 		Avoid,
+		Dead,
 	};
-	struct Parameter
-	{
-		int hp = 1000;             //体力
-		int attack = 200;         //攻撃力
-	};
+	
 public:
 	Player(IWorld* world);
+	‾Player();
 	virtual void update(float delta_time) override;
 	virtual void draw() const override;
 	virtual void react(Actor& other) override;
@@ -38,6 +37,8 @@ private:
 	void damage(float delta_time);
 	//回避状態更新
 	void avoid(float delta_time);
+	//死亡状態更新
+	void dead(float delta_time);
 
 	//攻撃判定を生成
 	void generate_attack(float lifespan, float delay = 0.0f);
@@ -63,7 +64,9 @@ private:
 	//モーションループするか？
 	bool motion_loop_;
 	//戦闘パラメーター
-	Parameter parameter_;
+	PlayerDatabase::Parameter parameter_;
+	//プレイヤーデータ参照
+	PlayerDatabase& p_db_{ PlayerDatabase::GetInstance() };
 };
 #endif//!PLAYER_H_
 

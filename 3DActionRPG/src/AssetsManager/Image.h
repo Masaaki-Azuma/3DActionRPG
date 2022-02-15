@@ -12,6 +12,9 @@ enum
 	Texture_test01,
 	Texture_test02,
 	Texture_test03,
+	Texture_icon_slime,
+	Texture_icon_mimic,
+	Texture_icon_blackKnight,
 };
 
 /*

@@ -10,9 +10,9 @@
 #include <cassert>
 
 const int MaxDepth{ 6 };                              //マップ上のノードの列数
-const float AreaHorizontalInterval{ 100.0f };         //エリア間の幅
-const float AreaVerticalInterval{ 100.0f };           //エリア間の高さ
-const Vector3 StartPosition{ 0.0f, 300.0f };          //スタートノードの位置
+const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅
+const float AreaVerticalInterval{ 200.0f };           //エリア間の高さ
+const Vector3 StartPosition{ 200.0f, 600.0f };          //スタートノードの位置
 const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
 
 //ForDebug:関数staticを一時的にグローバルに

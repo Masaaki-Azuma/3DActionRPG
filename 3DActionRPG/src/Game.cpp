@@ -5,6 +5,7 @@
 #include "Util/MyRandom.h"
 #include "Util/Input.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/PlayerDatabase.h"
 #include "TitleScene/TitleScene.h"
 #include "BattleScene/BattleScene.h"
 #include "MapScene/MapScene.h"
@@ -24,6 +25,10 @@ Game::‾Game()
 void Game::Init() 
 {	Input::init();
 	MyRandom::Init();
+	//セーブデータをロード
+	PlayerDatabase& p_DB = PlayerDatabase::GetInstance();
+	p_DB.set_dst_file("Assets/Parameters/player_parameter.csv");
+	p_DB.load_master_data();
 
 	scene_manager_.add("TitleScene", new TitleScene{});
 	scene_manager_.add("BattleScene", new BattleScene{});
@@ -52,4 +57,6 @@ void Game::Draw()
 void Game::End()
 {
 	scene_manager_.end();
+	//データをセーブ
+	PlayerDatabase::GetInstance().save_master_data();
 }

@@ -11,7 +11,9 @@
 //意図的にsupposed_fps
 SkinningMesh::SkinningMesh(int model_handle, float supposed_fps)
 {
-	store_model_handle(model_handle);
+	//HACK:複製したハンドルの解放場所はEnemyデストラクタだがわかりづらくないか？
+	//複製したモデルのハンドルを保持
+	store_model_handle(DxLib::MV1DuplicateModel(model_handle));
 	supposed_fps_ = supposed_fps;
 }
 
@@ -23,6 +25,11 @@ void SkinningMesh::store_model_handle(int model_handle)
 {
 	//モデルハンドルを記憶
 	model_handle_ = model_handle;
+}
+
+void SkinningMesh::clear()
+{
+	DxLib::MV1DeleteModel(model_handle_);
 }
 
 void SkinningMesh::update(float delta_time)
@@ -37,41 +44,51 @@ void SkinningMesh::update(float delta_time)
 	else {
 		anim_now_frame_ = (std::min)(anim_now_frame_, anim_total_frame_);
 	}
-	MV1SetAttachAnimTime(model_handle_, anim_attach_index_, anim_now_frame_);
+	//MV1SetAttachAnimTime(model_handle_, anim_attach_index_, anim_now_frame_);
 }
 
 void SkinningMesh::draw() const
 {
+	//モデルの姿勢を変更
+	DxLib::MV1SetPosition(model_handle_, DxConverter::GetVECTOR(position_));
+	DxLib::MV1SetRotationXYZ(model_handle_, DxConverter::GetVECTOR(rotation_));
+	DxLib::MV1SetScale(model_handle_, DxConverter::GetVECTOR(scale_));
+	//現在のフレームのアニメーションを再生
+	MV1SetAttachAnimTime(model_handle_, anim_attach_index_, anim_now_frame_);
+
 	MV1DrawModel(model_handle_);
 }
 
 void SkinningMesh::set_position(const VECTOR& position)
 {
-	MV1SetPosition(model_handle_, position);
+	set_position(DxConverter::GetVector3(position));
 }
 
 void SkinningMesh::set_position(const Vector3& position)
 {
-	set_position(VECTOR{ position.x, position.y, position.z });
+	position_ = position;
 }
 
 //モデルの向き（弧度法）を設定
 void SkinningMesh::set_rotation(const VECTOR& rotation)
 {
-	DxLib::MV1SetRotationXYZ(model_handle_, rotation);
+	set_rotation(DxConverter::GetVector3(rotation));
 }
 
 //モデルの向き（弧度法）を設定、DxLib用の型にキャスト
 void SkinningMesh::set_rotation(const Vector3& rotation)
 {
-	set_rotation(DxConverter::GetVECTOR(rotation));
-	DxLib::MV1SetRotationXYZ(model_handle_, DxConverter::GetVECTOR(rotation));
+	rotation_ = rotation;
+}
 
+void SkinningMesh::set_scale(const VECTOR& scale)
+{
+	set_scale(DxConverter::GetVector3(scale));
 }
 
 void SkinningMesh::set_scale(const Vector3& scale)
 {
-	DxLib::MV1SetScale(model_handle_, DxConverter::GetVECTOR(scale));
+	scale_ = scale;
 }
 
 void SkinningMesh::change_anim(int anim_index, bool loop, bool reset)

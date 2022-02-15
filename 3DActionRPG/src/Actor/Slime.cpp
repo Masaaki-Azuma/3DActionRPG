@@ -2,20 +2,20 @@
 
 #include <cassert>
 
-#include "AssetsManager/Mesh.h"
-#include "AssetsManager/PlayerDatabase.h"
 #include "Util/DxConverter.h"
 #include "Util/MyMath.h"
+#include "AssetsManager/Mesh.h"
+#include "AssetsManager/PlayerDatabase.h"
 #include "BattleScene/IWorld.h"
 
 enum //モーション
 {
-	Motion_Attack01 = 0,
-	Motion_Attack02 = 1,
-	Motion_Die = 2,
-	Motion_Damage = 4,
-	Motion_Idle = 5,
-	Motion_Run = 7,
+	Motion_Attack01    = 0,
+	Motion_Attack02    = 1,
+	Motion_Die         = 2,
+	Motion_Damage      = 4,
+	Motion_Idle        = 5,
+	Motion_Run         = 7,
 	Motion_WalkForward = 12,
 };
 
@@ -34,8 +34,9 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 	position_ = position;
 	rotation_ = rotation;
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
-	motion_ = 0;
-	parameter_ = Parameter{ 500, 100 };
+	motion_ = Motion_Idle;
+	//TODO:データベースから取得するようにせよ
+	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
@@ -52,6 +53,14 @@ void Slime::react(Actor& other)
 	if (other.tag() == "PlayerAttackTag") {
 		//プレイヤーの攻撃力分ダメージを受ける
 		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
+		if (parameter_.hp <= 0) {
+			//当たり判定を無効化
+			enable_collider_ = false;
+			//死亡状態に遷移
+			change_state(State::Dead, Motion_Die, false);
+			mesh_.change_anim(motion_, motion_loop_, motion_interruption);
+			return;
+		}
 		//ダメージ状態に
 		change_state(State::Damage, Motion_Damage, false, true);
 		mesh_.change_anim(motion_, motion_loop_, motion_interruption);
@@ -125,12 +134,18 @@ void Slime::damage(float delta_time)
 
 void Slime::dead(float delta_time)
 {
+	if (state_timer_ >= mesh_.anim_total_sec()) {
+		//敵討伐数を加算
+		world_->add_basterd(name_);
+		die();
+	}
 }
 
 
 
 void Slime::draw_debug() const
 {
+	//ForDebug:
 	static const int green = DxLib::GetColor(0, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, green, green, false);

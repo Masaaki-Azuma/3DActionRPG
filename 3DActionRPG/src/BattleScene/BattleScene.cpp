@@ -1,6 +1,5 @@
 #include "BattleScene.h"
-#include "AssetsManager/PlayerDatabase.h"
-#include "AssetsManager/EnemyDatabase.h"
+
 #include "AssetsManager/Mesh.h"
 #include "Util/Input.h"
 
@@ -10,13 +9,14 @@
 #include "Actor/Mimic.h"
 #include "Actor/BlackKnight.h"
 
+
 void BattleScene::start(void* data)
 {
     is_end_ = false;
 
 	Mesh::load();
-    PlayerDatabase::GetInstance().load("Assets/Parameters/player_parameter.csv");
-    EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");
+  /*  PlayerDatabase::GetInstance().load("Assets/Parameters/player_parameter.csv");
+    EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");*/
 
 	//ステージコライダーの衝突情報を取得できるよう準備
 	DxLib::MV1SetupCollInfo(Mesh::stage_handle, -1, 8, 8, 8);
@@ -35,11 +35,29 @@ void BattleScene::start(void* data)
 
 void BattleScene::update(float delta_time)
 {
+	/*バトルリザルトシーン*/
+	//バトルリザルトシーンが続いている間、バトルシーンは更新しない
+	if (!result_scene_.is_end()) {
+		result_scene_.update(delta_time);
+		return;
+	}
+
+	/*バトルシーン*/
 	world_.update(delta_time);
+
+	//戦闘が終了したらリザルトシーンへ
+	if (is_settled()) {
+		//バトルシーンは実質終了
+		is_end_ = true;
+		result_scene_.start(data());
+		return;
+	}
 
 	//ForDebug:シーン遷移チート
 	if (Input::get_button(PAD_INPUT_4)) { //A
 		is_end_ = true;
+		result_scene_.start(data());
+		return;
 	}
 }
 
@@ -63,27 +81,41 @@ void BattleScene::draw() const
 	//DxLib::SetLightDirection(VECTOR{ -1, 1, 1 });
 	VECTOR light_pos = DxLib::GetLightPosition();
 	VECTOR light_dir = DxLib::GetLightDirection();
+
+	if(is_end_)result_scene_.draw();
 }
 
 bool BattleScene::is_end() const
 {
-    return is_end_;
+	//敵が全滅するか、プレイヤーが死亡したら終了
+	return  is_end_ && result_scene_.is_end();
 }
 
 std::string BattleScene::next() const
 {
-    return "MapScene";
+    return result_scene_.next();
 }
 
 void BattleScene::end()
 {
+	result_scene_.end();
 	world_.clear();
 	Mesh::clear();
 }
 
 void* BattleScene::data()
 {
-    return nullptr;
+	//バトル勝敗を保持
+	if      (world_.is_battle_win())  result_.battle_result = "Win";
+	else if (world_.is_battle_lose()) result_.battle_result = "Lose";
+	//敵ごとの討伐数を保持
+	result_.basterd_list = world_.basterd_list();
+    return &result_;
+}
+
+bool BattleScene::is_settled() const
+{
+	return world_.is_battle_end();
 }
 
 void BattleScene::spawn_enemy(const std::string& enemy)
@@ -91,6 +123,8 @@ void BattleScene::spawn_enemy(const std::string& enemy)
 	//HACK:せっかく敵の名前とそろえたので、もっと簡潔な記述にならないか？
 	if (enemy == "Slime") {
 		world_.add_actor(new Slime{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+		world_.add_actor(new Slime{ &world_,  Vector3{ 500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+		world_.add_actor(new Mimic{ &world_,  Vector3{ -500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 	}
 	else if (enemy == "Mimic") {
 		world_.add_actor(new Mimic{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });

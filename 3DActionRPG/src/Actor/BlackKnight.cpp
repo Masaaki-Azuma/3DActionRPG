@@ -24,7 +24,7 @@ BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& 
 	rotation_ = rotation;
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
 	motion_ = 0;
-	parameter_ = Parameter{ 500, 100 };
+	//parameter_ = Parameter{ 500, 100 };
 
 	//メッシュ姿勢初期化
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);

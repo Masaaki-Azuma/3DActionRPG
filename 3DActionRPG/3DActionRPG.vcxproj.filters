@@ -36,6 +36,7 @@
     <ClCompile Include="src\GameResultScene\GameResultScene.cpp" />
     <ClCompile Include="src\Actor\Mimic.cpp" />
     <ClCompile Include="src\Actor\BlackKnight.cpp" />
+    <ClCompile Include="src\BattleResultScene\BattleResultScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -77,5 +78,6 @@
     <ClInclude Include="src\GameResultScene\GameResultScene.h" />
     <ClInclude Include="src\Actor\Mimic.h" />
     <ClInclude Include="src\Actor\BlackKnight.h" />
+    <ClInclude Include="src\BattleResultScene\BattleResultScene.h" />
   </ItemGroup>
 </Project>

@@ -13,6 +13,7 @@ int Mesh::skybox{ -1 };
 
 void Mesh::load()
 {
+	MV1InitModel();
 	test_handle = load_a_mesh("Assets/Mesh/Player/Swordman.mv1");
 	slime_handle = load_a_mesh("Assets/Mesh/Slime/Slime.mv1");
 	mimic_handle = load_a_mesh("Assets/Mesh/Mimic/Mimic.mv1");
@@ -25,10 +26,11 @@ void Mesh::load()
 void Mesh::clear()
 {
 	clear_a_mesh(test_handle);
-	clear_a_mesh(stage_handle);
-	clear_a_mesh(skybox);
+	clear_a_mesh(slime_handle);
 	clear_a_mesh(mimic_handle);
 	clear_a_mesh(black_knight_handle);
+	clear_a_mesh(stage_handle);
+	clear_a_mesh(skybox);
 }
 
 int Mesh::load_a_mesh(const char* file_name)
@@ -38,7 +40,8 @@ int Mesh::load_a_mesh(const char* file_name)
 	return handle;
 }
 
-void Mesh::clear_a_mesh(int handle)
+void Mesh::clear_a_mesh(int& handle)
 {
 	MV1DeleteModel(handle);
+	handle = -1;
 }
