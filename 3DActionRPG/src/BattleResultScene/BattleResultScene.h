@@ -27,7 +27,13 @@ private:
     int calc_gem(const std::string& enemy, int num_basterd) const;
 private:
     bool is_end_{ true };
+
+    //バトル勝敗と敵ごとの討伐数データ
     BattleResultData result_;
+    //敵種族ごとのジェム獲得数の格納場所
+    std::unordered_map<std::string, int> gem_list_;
+    //1バトルでの合計ジェム獲得数
+    int total_gem_;
 };
 #endif//!BATTLE_RESULT_SCENE_H_
 

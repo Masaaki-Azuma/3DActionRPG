@@ -2,6 +2,7 @@
 
 #include <DxLib.h>
 #include <cassert>
+#include <numeric>
 
 #include "Util/Input.h"
 #include "AssetsManager/EnemyDatabase.h"
@@ -11,6 +12,17 @@ void BattleResultScene::start(void* data)
     is_end_ = false;
     //データを本来の型へキャストして取得
     result_ = *(static_cast<BattleResultData*>(data));
+
+    //個々の種族から得られたジェム数を算出
+    total_gem_ = 0;
+    for (auto& p : result_.basterd_list) {
+        //ある種族から得られたジェム数
+        int gem_per_species = calc_gem(p.first, p.second);
+        //種族ごとにジェム数を保持
+        gem_list_[p.first] = gem_per_species;
+        //総ジェム数に追加
+        total_gem_ += gem_per_species;
+    }
 
 }
 
@@ -36,6 +48,13 @@ void BattleResultScene::draw() const
         DxLib::DrawFormatString(0, 50 * (species_counter + 1), GetColor(255, 255, 255), "enemy: %s, num: %d, gem: %d", p.first.c_str(), p.second, gem);
         species_counter++;
     }
+
+    species_counter = 0;
+    for (const auto p : result_.basterd_list) {
+        //DxLib::DrawGraphF(0, 50 * (species_counter), Image, false);
+        species_counter++;
+    }
+
 }
 
 bool BattleResultScene::is_end() const
@@ -54,6 +73,7 @@ std::string BattleResultScene::next() const
 
 void BattleResultScene::end()
 {
+    gem_list_.clear();
 }
 
 void* BattleResultScene::data()

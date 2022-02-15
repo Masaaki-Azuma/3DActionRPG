@@ -28,8 +28,9 @@ Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation)
 	position_ = position;
 	rotation_ = rotation;
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
-	motion_ = 0;
+	motion_ = Motion_Idle01;
 	//parameter_ = Parameter{ 500, 100 };
+	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);

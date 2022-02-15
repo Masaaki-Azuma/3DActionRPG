@@ -10,12 +10,12 @@
 
 enum //モーション
 {
-	Motion_Attack01 = 0,
-	Motion_Attack02 = 1,
-	Motion_Die = 2,
-	Motion_Damage = 4,
-	Motion_Idle = 5,
-	Motion_Run = 7,
+	Motion_Attack01    = 0,
+	Motion_Attack02    = 1,
+	Motion_Die         = 2,
+	Motion_Damage      = 4,
+	Motion_Idle        = 5,
+	Motion_Run         = 7,
 	Motion_WalkForward = 12,
 };
 
@@ -34,7 +34,7 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 	position_ = position;
 	rotation_ = rotation;
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
-	motion_ = 0;
+	motion_ = Motion_Idle;
 	//TODO:データベースから取得するようにせよ
 	parameter_ = e_DB_.get_parameter(name_);
 
@@ -145,6 +145,7 @@ void Slime::dead(float delta_time)
 
 void Slime::draw_debug() const
 {
+	//ForDebug:
 	static const int green = DxLib::GetColor(0, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, green, green, false);
