@@ -11,7 +11,7 @@ public:
 	static void clear();
 private:
 	static int load_a_mesh(const char* file_name);
-	static void clear_a_mesh(int handle);
+	static void clear_a_mesh(int& handle);
 public:
 	static int test_handle;
 	static int stage_handle;
