@@ -21,7 +21,8 @@ Fade::‾Fade()
 void Fade::FadeIn()
 {
 	alpha_ -= FadeSpeed;
-	if (alpha_ < 0.0f) {
+	//完全にフェードインするために少しオーバーラン
+	if (alpha_ <= 0.0f - FadeSpeed) {
 		alpha_ = 0.0f;
 		state_ = State::OPENED;
 	}
@@ -31,7 +32,8 @@ void Fade::FadeIn()
 void Fade::FadeOut()
 {
 	alpha_ += FadeSpeed;
-	if (alpha_ > 1.0f) {
+	//完全にフェードインするために少しオーバーラン
+	if (alpha_ >= 1.0f + FadeSpeed) {
 		alpha_ = 1.0f;
 		state_ = State::CLOSED;
 	}
@@ -41,9 +43,9 @@ void Fade::Update()
 {
 	//状態に応じてフェード処理
 	switch (state_) {
-	case State::WAIT:               break;
-	case State::FADEIN:  FadeIn();  break;
-	case State::FADEOUT: FadeOut(); break;
+	case State::WAIT:                       break;
+	case State::FADEIN:      FadeIn();      break;
+	case State::FADEOUT:     FadeOut();     break;
 	}
 }
 
