@@ -21,6 +21,8 @@ public:
 	void add_hp(int rise_value);
 	void add_attack(int rise_value);
 	void add_gem(int rise_value);
+
+	void set_hp(int hp);
 	const Parameter& get_current_parameter();
 
 private:

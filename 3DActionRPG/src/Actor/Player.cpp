@@ -48,11 +48,17 @@ Player::Player(IWorld* world):
 	position_ = Vector3{ 0.0f, 0.0f, 0.0f };
 	collider_ = Sphere{ CollisionRadius, CollisionOffset };
 	//TODO:PlayerDatabaseからパラメーターを受け取れるよう変更せよ
+	parameter_ = p_db_.get_current_parameter();
 
 	//メッシュ姿勢初期化
 	mesh_.change_anim(motion_, motion_loop_);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_* MyMath::Deg2Rad);
+}
+
+Player::‾Player()
+{
+	p_db_.set_hp(parameter_.hp);
 }
 
 void Player::update(float delta_time)
@@ -109,6 +115,7 @@ void Player::react(Actor& other)
 		take_damage(damage);
 		if (parameter_.hp <= 0) {
 			enable_collider_ = false;
+			parameter_.hp = 0;
 			change_state(State::Dead, Motion_Die, false);
 			mesh_.change_anim(Motion_Die, motion_loop_);
 			return;

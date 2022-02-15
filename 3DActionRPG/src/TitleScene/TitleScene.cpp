@@ -1,6 +1,10 @@
 #include "TitleScene.h"
+
 #include <DxLib.h>
+
 #include "Util/Input.h"
+#include "AssetsManager/PlayerDatabase.h"
+#include "AssetsManager/EnemyDatabase.h"
 #include "MapScene/MapManager.h"
 
 void TitleScene::start(void* data)
@@ -37,6 +41,9 @@ void TitleScene::end()
 {
     //マップデータを作成
     MapManager::GetInstance().generate();
+    //パラメータをロード
+    PlayerDatabase::GetInstance().load("Assets/Parameters/player_parameter.csv");
+    EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");
 }
 
 void* TitleScene::data()

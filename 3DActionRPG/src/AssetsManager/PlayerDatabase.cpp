@@ -46,6 +46,11 @@ void PlayerDatabase::add_gem(int rise_value)
 	current_parameter_.total_gem += rise_value;
 }
 
+void PlayerDatabase::set_hp(int hp)
+{
+	current_parameter_.hp = hp;
+}
+
 const PlayerDatabase::Parameter& PlayerDatabase::get_current_parameter()
 {
 	return current_parameter_;
