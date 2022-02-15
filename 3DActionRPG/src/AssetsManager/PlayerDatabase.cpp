@@ -41,7 +41,10 @@ void PlayerDatabase::save_master_data()
 //ゲーム開始時にプレイヤーのパラメータを初期化する
 void PlayerDatabase::set_initial_parameter()
 {
+	//現在の強化状態でゲームを開始
 	current_parameter_ = master_parameter_;
+	//ただし、所持ジェム数はいったんゼロに
+	current_parameter_.total_gem = 0;
 }
 
 void PlayerDatabase::add_hp(int rise_value)
@@ -67,6 +70,11 @@ void PlayerDatabase::set_hp(int hp)
 const PlayerDatabase::Parameter& PlayerDatabase::get_current_parameter()
 {
 	return current_parameter_;
+}
+
+const PlayerDatabase::Parameter& PlayerDatabase::get_master_parameter()
+{
+	return master_parameter_;
 }
 
 void PlayerDatabase::add_possessed_jem(int rise_gem)

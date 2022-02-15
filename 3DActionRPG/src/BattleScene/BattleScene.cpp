@@ -56,6 +56,8 @@ void BattleScene::update(float delta_time)
 	//ForDebug:シーン遷移チート
 	if (Input::get_button(PAD_INPUT_4)) { //A
 		is_end_ = true;
+		result_scene_.start(data());
+		return;
 	}
 }
 

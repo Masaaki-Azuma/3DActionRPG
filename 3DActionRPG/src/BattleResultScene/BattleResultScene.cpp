@@ -18,7 +18,6 @@ void BattleResultScene::start(void* data)
     result_ = *(static_cast<BattleResultData*>(data));
 
     //個々の種族から得られたジェム数を算出
-    total_gem_ = 0;
     for (auto& p : result_.basterd_list) {
         //ある種族から得られたジェム数
         int gem_per_species = calc_gem(p.first, p.second);
@@ -77,8 +76,8 @@ std::string BattleResultScene::next() const
 
 void BattleResultScene::end()
 {
-
     PlayerDatabase::GetInstance().add_gem(total_gem_);
+    total_gem_ = 0;
     gem_list_.clear();
 }
 

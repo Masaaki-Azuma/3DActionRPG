@@ -34,6 +34,8 @@ public:
 	void set_hp(int hp);
 	//1ゲームプレイ中のパラメータ取得
 	const Parameter& get_current_parameter();
+	//セーブデータのパラメータ取得
+	const Parameter& get_master_parameter();
 
 	//ジェム増加をセーブ
 	void add_possessed_jem(int rise_gem);

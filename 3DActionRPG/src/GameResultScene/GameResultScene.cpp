@@ -3,6 +3,7 @@
 #include <DxLib.h>
 
 #include "Util/Input.h"
+#include "AssetsManager/PlayerDatabase.h"
 #include "MapScene/MapManager.h"
 
 void GameResultScene::start(void* data)
@@ -20,8 +21,13 @@ void GameResultScene::update(float delta_time)
 
 void GameResultScene::draw() const
 {
+    //ForDebug:仮シーン表示
     DxLib::DrawString(0, 0, "ゲームリザルトシーン", GetColor(255, 255, 255));
-
+    //
+    int gem = PlayerDatabase::GetInstance().get_current_parameter().total_gem;
+    DxLib::DrawFormatString(0, 20, GetColor(255, 255, 255), "totalgem: %d", gem);
+    int master = PlayerDatabase::GetInstance().get_master_parameter().total_gem + gem;
+    DxLib::DrawFormatString(0, 40, GetColor(255, 255, 255), "mastergem: %d", master);
 }
 
 bool GameResultScene::is_end() const
