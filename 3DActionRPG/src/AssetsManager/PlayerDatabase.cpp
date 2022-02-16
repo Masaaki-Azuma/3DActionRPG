@@ -82,3 +82,13 @@ void PlayerDatabase::add_possessed_jem(int rise_gem)
 	master_parameter_.total_gem += rise_gem;
 	save_master_data();
 }
+
+void PlayerDatabase::enhance_hp(int rise_value)
+{
+	master_parameter_.hp += rise_value;
+}
+
+void PlayerDatabase::enhance_attack(int rise_value)
+{
+	master_parameter_.attack += rise_value;
+}

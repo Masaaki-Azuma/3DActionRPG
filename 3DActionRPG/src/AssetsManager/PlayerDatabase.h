@@ -39,6 +39,10 @@ public:
 
 	//ジェム増加をセーブ
 	void add_possessed_jem(int rise_gem);
+	//HPを増加させセーブ
+	void enhance_hp(int rise_hp);
+	//攻撃力を増加させセーブ
+	void enhance_attack(int rize_attack);
 
 
 private:
