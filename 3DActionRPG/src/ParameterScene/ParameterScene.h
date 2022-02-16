@@ -7,6 +7,15 @@
 class ParameterScene :
     public IScene
 {
+private:
+    //メニュー選択状態
+    enum class State
+    {
+        SelectMenu = 0,
+        CheckParameter,
+        EnhanceParamter,
+    };
+
 public:
     virtual void start(void* data = nullptr) override;
     virtual void update(float delta_time) override;
@@ -16,12 +25,18 @@ public:
     virtual void end() override;
     virtual void* data() override;
 private:
+    //
+    void check_parameter();
+    //
+    void select_menu();
     //強化するパラメーターを選択
     void select_enhanced_parameter();
+
 private:
     bool is_end_{ false };
     int selected_parameter_index{ 0 };
-    int selected_icon_index{ 0 };
+    State menu_state{ State::SelectMenu };
+    int selected_menu_index{ 0 };
     PlayerDatabase& p_DB_{ PlayerDatabase::GetInstance() };
 
 };
