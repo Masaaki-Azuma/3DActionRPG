@@ -1,9 +1,9 @@
-#ifndef TITLE_SCENE_H_
-#define TITLE_SCENE_H_
+#ifndef PARAMETER_SCENE_H_
+#define PARAMETER_SCENE_H_
 
 #include "IScene.h"
 
-class TitleScene :
+class ParameterScene :
     public IScene
 {
 public:
@@ -14,12 +14,9 @@ public:
     virtual std::string next() const override;
     virtual void end() override;
     virtual void* data() override;
-private:
-    void select_menu();
 
 private:
     bool is_end_{ false };
-    int select_index_{ 0 };
 };
-#endif//!TITLE_SCENE_H_
+#endif//!PARAMETER_SCENE_H_
 

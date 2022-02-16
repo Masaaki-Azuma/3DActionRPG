@@ -10,6 +10,8 @@
 #include "BattleScene/BattleScene.h"
 #include "MapScene/MapScene.h"
 #include "GameResultScene/GameResultScene.h"
+#include "ParameterScene/ParameterScene.h"
+
 
 
 Game::Game()
@@ -34,6 +36,7 @@ void Game::Init()
 	scene_manager_.add("BattleScene", new BattleScene{});
 	scene_manager_.add("MapScene", new MapScene{});
 	scene_manager_.add("GameResultScene", new GameResultScene{});
+	scene_manager_.add("ParameterScene", new ParameterScene{});
 
 
 	scene_manager_.change("TitleScene");
