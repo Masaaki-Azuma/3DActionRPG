@@ -3,11 +3,13 @@
 #include <DxLib.h>
 
 #include "Util/Input.h"
+#include "AssetsManager/Image.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "MapScene/MapManager.h"
 
 void GameResultScene::start(void* data)
 {
+    Image::load("GameResultScene");
     is_end_ = false;
 }
 
@@ -48,6 +50,8 @@ void GameResultScene::end()
     p_DB_.add_possessed_jem(gained_gem);
     //マップデータを削除
     MapManager::GetInstance().clear();
+
+    Image::clear();
 }
 
 void* GameResultScene::data()

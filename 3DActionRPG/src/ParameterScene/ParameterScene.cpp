@@ -3,6 +3,7 @@
 #include <DxLib.h>
 #include <cassert>
 
+#include "AssetsManager/Image.h"
 #include "Util/Input.h"
 
 //HACK:PlayerDatabaseのenumとまとめられないか？
@@ -33,6 +34,7 @@ const int RiseValue[NumEnhanceableParameter]{ 100, 20 };
 
 void ParameterScene::start(void* data)
 {
+    Image::load("Parameter");
     is_end_ = false;
     selected_parameter_index = 0;
     selected_menu_index = 0;
@@ -97,6 +99,7 @@ std::string ParameterScene::next() const
 
 void ParameterScene::end()
 {
+    Image::clear();
 }
 
 void* ParameterScene::data()

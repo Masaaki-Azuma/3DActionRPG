@@ -11,7 +11,7 @@
 
 void BattleResultScene::start(void* data)
 {
-
+    Image::load("BattleResultScene");
 
     is_end_ = false;
     //データを本来の型へキャストして取得
@@ -79,6 +79,8 @@ void BattleResultScene::end()
     PlayerDatabase::GetInstance().add_gem(total_gem_);
     total_gem_ = 0;
     gem_list_.clear();
+
+    Image::clear();
 }
 
 void* BattleResultScene::data()

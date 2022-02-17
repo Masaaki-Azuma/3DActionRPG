@@ -8,13 +8,10 @@
 //テクスチャID
 enum
 {
-	Texture_test00 = 0,
-	Texture_test01,
-	Texture_test02,
-	Texture_test03,
 	Texture_icon_slime,
 	Texture_icon_mimic,
 	Texture_icon_blackKnight,
+	Texture_background_oldmap,
 };
 
 /*
@@ -31,10 +28,14 @@ public:
 	static void clear(const std::string& scene = "");
 	//dxlib由来のテクスチャハンドルを取得する
 	static const int texture_handle(int texture_id);
+	//位置のみを指定して画像描画
+	static void draw_graph(unsigned int texture_id, float left = 0.0f, float top = 0.0f, bool is_trans = true);
+	//位置、スケール、回転角度を指定して画像描画
+	static void draw_rota_graph(unsigned int texture_id, float x = 0.0f, float y = 0.0f, float ex_rate = 1.0f, float rota_angle = 0.0f, bool is_trans = true);
 private:
 	static int load_texture(const char* file_name, const std::string& scene = "", std::vector<std::string> use_sceces = { "" });
 	//テクスチャを読み込んでIDと紐づける
-	static int load_texture(const char* file_name, int texture_id);
+	static int load_texture(const char* file_name, int texture_id, const std::string& scene = "", std::vector<std::string> use_sceces = { "" });
 	//1枚の画像メモリを解放
 	static void clear_a_texture(int texture_id);
 
@@ -42,10 +43,6 @@ private:
 public:
 	static std::vector<int> texture_id_list;
 	static int texture_couter;
-	static int test_image00;
-	static int test_image01;
-	static int test_image02;
-	static int test_image03;
 };
 #endif//!IMAGE_H_
 

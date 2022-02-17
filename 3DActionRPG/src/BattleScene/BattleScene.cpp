@@ -1,5 +1,6 @@
 #include "BattleScene.h"
 
+#include "AssetsManager/Image.h"
 #include "AssetsManager/Mesh.h"
 #include "Util/Input.h"
 
@@ -14,6 +15,7 @@ void BattleScene::start(void* data)
 {
     is_end_ = false;
 
+	Image::load("BattleScene");
 	Mesh::load();
   /*  PlayerDatabase::GetInstance().load("Assets/Parameters/player_parameter.csv");
     EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");*/
@@ -101,6 +103,7 @@ void BattleScene::end()
 	result_scene_.end();
 	world_.clear();
 	Mesh::clear();
+	Image::clear();
 }
 
 void* BattleScene::data()
