@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "Util/Input.h"
+#include "AssetsManager/Image.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "MapScene/MapManager.h"
@@ -18,6 +19,7 @@ const int NumSelect{ 2 }; //選択肢の数
 
 void TitleScene::start(void* data)
 {
+    Image::load("TitleScene");
     is_end_ = false;
     select_index_ = 0;
 
@@ -36,6 +38,7 @@ void TitleScene::update(float delta_time)
 
 void TitleScene::draw() const
 {
+    Image::draw_graph(Texture_background_oldmap);
     int white = GetColor(255, 255, 255);
     DxLib::DrawString(0, 0, "タイトルシーン", white);
     DxLib::DrawString(20, 40, "ゲームスタート", white);
@@ -72,7 +75,7 @@ void TitleScene::end()
     else if (next() == "ParameterScene") {
         /*マスターデータを読める状態にしておく*/
     }
-   
+    Image::clear();
 }
 
 void* TitleScene::data()

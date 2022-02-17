@@ -13,6 +13,8 @@ MapScene::MapScene():
 
 void MapScene::start(void* data)
 {
+    Image::load("MapScene");
+
     is_end_ = false;
     Image::load();
     MyRandom::Init();

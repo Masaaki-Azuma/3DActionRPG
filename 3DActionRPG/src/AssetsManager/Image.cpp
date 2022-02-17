@@ -2,44 +2,62 @@
 
 #include <assert.h>
 
+
 std::vector<int> Image::texture_id_list(256, -1);
 int Image::texture_couter{ 0 };
-int Image::test_image00{ -1 };
-int Image::test_image01{ -1 };
-int Image::test_image02{ -1 };
-int Image::test_image03{ -1 };
 
 void Image::load(const std::string& scene)
 {
-   /* test_image00 = load_texture("Image/machoB01.png");
-    test_image01 = load_texture("Image/macho.png");
-    test_image02 = load_texture("Image/machoPlayer00.png");
-    test_image03 = load_texture("Image/machoPlayer01.png");*/
+  
+    load_texture("Assets/Image/icon_slime.png", Texture_icon_slime, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_mimic.png", Texture_icon_mimic, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_blackKnight.png", Texture_icon_blackKnight, scene, { "MapScene" });
 
-    test_image00 = load_texture("Assets/Image/test/machoB01.png", Texture_test00);
-    test_image01 = load_texture("Assets/Image/test/macho.png", Texture_test01);
-    test_image02 = load_texture("Assets/Image/test/machoPlayer00.png", Texture_test02);
-    test_image03 = load_texture("Assets/Image/test/machoPlayer01.png", Texture_test03);
-
-    load_texture("Assets/Image/icon_slime.png", Texture_icon_slime);
-    load_texture("Assets/Image/icon_mimic.png", Texture_icon_mimic);
-    load_texture("Assets/Image/icon_blackKnight.png", Texture_icon_blackKnight);
+    load_texture("Assets/Image/background_oldmap01.png", Texture_background_oldmap, scene, { "TitleScene", "MapScene" });
 }
 
 void Image::clear(const std::string& scene)
 {
-    clear_a_texture(Texture_test00);
-    clear_a_texture(Texture_test01);
-    clear_a_texture(Texture_test02);
-    clear_a_texture(Texture_test03);
+    //全画像メモリを解放
+    for (auto& handle : texture_id_list) {
+        DxLib::DeleteGraph(handle);
+        handle = -1;
+    }
+
+    /*
     clear_a_texture(Texture_icon_slime);
     clear_a_texture(Texture_icon_mimic);
-    clear_a_texture(Texture_icon_blackKnight);
+    clear_a_texture(Texture_icon_blackKnight);*/
 }
 
 const int Image::texture_handle(int texture_id)
 {
     return texture_id_list[texture_id];
+}
+
+/// <summary>
+/// DxLib::DrawGraphFのラッパー関数
+/// </summary>
+/// <param name="texture_id"></param>
+/// <param name="left">画像の左端x</param>
+/// <param name="top">画像の上端y</param>
+/// <param name="is_trans"></param>
+void Image::draw_graph(unsigned int texture_id, float left, float top, bool is_trans)
+{
+    DxLib::DrawGraphF(left, top, Image::texture_handle(texture_id), is_trans);
+}
+
+/// DxLib::DrawRotaGraphFのラッパー関数
+/// </summary>
+/// <param name="texture_id"></param>
+/// <param name="x">画像の中心x</param>
+/// <param name="y">画像の中心y画像の中心x</param>
+/// <param name="ex_rate"></param>
+/// <param name="rota_angle"></param>
+/// <param name="is_trans"></param>
+void Image::draw_rota_graph(unsigned int texture_id, float x, float y, float ex_rate, float rota_angle, bool is_trans)
+{
+    DxLib::DrawRotaGraphF(x, y, ex_rate, rota_angle, Image::texture_handle(texture_id), is_trans);
 }
 
 int Image::load_texture(const char* file_name, const std::string& scene, std::vector<std::string> use_sceces)
@@ -49,8 +67,13 @@ int Image::load_texture(const char* file_name, const std::string& scene, std::ve
     return handle;
 }
 
-int Image::load_texture(const char* file_name, int texture_id)
+int Image::load_texture(const char* file_name, int texture_id, const std::string& scene, std::vector<std::string> use_scenes)
 {
+    /*ロードが必要なシーンか判定*/
+    auto scene_itr = std::find(use_scenes.begin(), use_scenes.end(), scene);
+    if (scene_itr == use_scenes.end()) return -1; //読み込むシーンではない
+
+    /*実際のロード処理*/
     int handle = DxLib::LoadGraph(file_name);
     //画像が正しく読み込まれていなければ停止
     assert(handle != -1);

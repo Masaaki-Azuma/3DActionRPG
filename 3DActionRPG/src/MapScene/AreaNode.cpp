@@ -7,7 +7,6 @@ std::unordered_map<std::string, int> enemy_image_table{
 	{"Slime", Texture_icon_slime},
 	{"Mimic", Texture_icon_mimic},
 	{"BlackKnight", Texture_icon_blackKnight},
-	{"dragon", Texture_test03}
 };
 
 AreaNode::AreaNode(const Vector3& position, const std::string& enemy):
