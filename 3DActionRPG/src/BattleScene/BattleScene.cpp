@@ -17,8 +17,6 @@ void BattleScene::start(void* data)
 
 	Image::load("BattleScene");
 	Mesh::load();
-  /*  PlayerDatabase::GetInstance().load("Assets/Parameters/player_parameter.csv");
-    EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");*/
 
 	//ステージコライダーの衝突情報を取得できるよう準備
 	DxLib::MV1SetupCollInfo(Mesh::stage_handle, -1, 8, 8, 8);

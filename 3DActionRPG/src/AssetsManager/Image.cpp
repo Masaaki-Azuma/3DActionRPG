@@ -67,11 +67,11 @@ int Image::load_texture(const char* file_name, const std::string& scene, std::ve
     return handle;
 }
 
-int Image::load_texture(const char* file_name, int texture_id, const std::string& scene, std::vector<std::string> use_sceces)
+int Image::load_texture(const char* file_name, int texture_id, const std::string& scene, std::vector<std::string> use_scenes)
 {
     /*ロードが必要なシーンか判定*/
-    auto scene_itr = std::find(use_sceces.begin(), use_sceces.end(), scene);
-    if (scene_itr == use_sceces.end()) return -1; //読み込むシーンではない
+    auto scene_itr = std::find(use_scenes.begin(), use_scenes.end(), scene);
+    if (scene_itr == use_scenes.end()) return -1; //読み込むシーンではない
 
     /*実際のロード処理*/
     int handle = DxLib::LoadGraph(file_name);

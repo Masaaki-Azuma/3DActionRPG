@@ -35,7 +35,7 @@ public:
 private:
 	static int load_texture(const char* file_name, const std::string& scene = "", std::vector<std::string> use_sceces = { "" });
 	//テクスチャを読み込んでIDと紐づける
-	static int load_texture(const char* file_name, int texture_id, const std::string& scene = "", std::vector<std::string> use_sceces = { "" });
+	static int load_texture(const char* file_name, int texture_id, const std::string& scene = "", std::vector<std::string> use_scenes = { "" });
 	//1枚の画像メモリを解放
 	static void clear_a_texture(int texture_id);
 
