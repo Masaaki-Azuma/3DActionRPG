@@ -88,7 +88,7 @@ void MapManager::load_enemy_possibility_table(const std::string& difficulty)
 const std::string MapManager::pick_enemy(int depth)
 {
 	float rand_num = MyRandom::Range(0.0f, 100.0f);
-	std::string enemy_name;
+	std::string enemy_name = "None"; //スタート地点を表すNone
 	for (size_t i = 0; i < enemy_possibility_table_.size(); ++i) {
 		if (rand_num <= enemy_possibility_table_[i].second) {
 			enemy_name = enemy_possibility_table_[i].first;

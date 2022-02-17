@@ -64,6 +64,7 @@ void MapScene::end()
 
 void* MapScene::data()
 {
+    //次に出現する敵の名前を送信
     return &map_.selected_enemy();
 }
 
