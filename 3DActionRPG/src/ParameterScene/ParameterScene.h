@@ -25,12 +25,15 @@ public:
     virtual void end() override;
     virtual void* data() override;
 private:
-    //
+    //パラメータ閲覧
     void check_parameter();
-    //
+    //メニュー選択
     void select_menu();
     //強化するパラメーターを選択
     void select_enhanced_parameter();
+
+    void try_enhance_hp();
+    void try_enhance_attack();
 
 private:
     bool is_end_{ false };

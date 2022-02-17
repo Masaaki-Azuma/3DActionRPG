@@ -5,6 +5,7 @@
 
 #include "Util/Input.h"
 
+//HACK:PlayerDatabaseのenumとまとめられないか？
 enum //パラメータの強化内容
 {
     Enhance_hp = 0,
@@ -21,6 +22,13 @@ enum //選択可能な項目内容
 const int NumMenu{ 2 };
 //強化可能なパラメータの数
 const int NumEnhanceableParameter{ 2 };
+
+/*以下PlayerDatabaseのenumに対応*/
+
+//必要ジェム数
+const int RequiredGemList[NumEnhanceableParameter]{ 100, 500 };
+//パラメータ上昇値
+const int RiseValue[NumEnhanceableParameter]{ 100, 20 };
 
 
 void ParameterScene::start(void* data)
@@ -71,7 +79,7 @@ void ParameterScene::draw() const
         DxLib::DrawString(200, 40, "attack増加", white);
         DxLib::DrawString(180, 20 + 20 * (selected_parameter_index), "●", white);
 
-        DxLib::DrawFormatString(200, 100, white, "hp: %d, attack: %d", p_DB_.get_master_parameter().hp, p_DB_.get_master_parameter().attack);
+        DxLib::DrawFormatString(200, 100, white, "hp: %d, attack: %d, gem: %d", p_DB_.get_master_parameter().hp, p_DB_.get_master_parameter().attack, p_DB_.get_master_parameter().total_gem);
     }
    
 
@@ -139,9 +147,11 @@ void ParameterScene::select_enhanced_parameter()
 
     //決定時に選択されているパラメータを強化
     if (Input::get_button_down(PAD_INPUT_1)) {
+
+
         switch (selected_parameter_index) {
-        case Enhance_hp:     p_DB_.enhance_hp(100);    break;
-        case Enhance_attack: p_DB_.enhance_attack(20); break;
+        case Enhance_hp:     try_enhance_hp();    break;
+        case Enhance_attack: try_enhance_attack(); break;
         default:             assert(!"selected_parameter_が予期しない値をとっています"); break;
         }
     }
@@ -153,4 +163,31 @@ void ParameterScene::select_enhanced_parameter()
         selected_parameter_index = (selected_parameter_index + NumEnhanceableParameter - 1) % NumEnhanceableParameter;
     }
 
+}
+
+//HACK:引数に扱うパラメータを渡して、まとめようよ
+void ParameterScene::try_enhance_hp()
+{
+    int possesed_gem = p_DB_.get_master_parameter().total_gem;
+    int required_gem = RequiredGemList[ColHp];
+    if (possesed_gem >= required_gem) {
+        p_DB_.use_gem(required_gem);
+        p_DB_.enhance_hp(100);
+    }
+    else {
+        /*足りないことを通知*/
+    }
+}
+
+void ParameterScene::try_enhance_attack()
+{
+    int possesed_gem = p_DB_.get_master_parameter().total_gem;
+    int required_gem = RequiredGemList[ColAttack];
+    if (possesed_gem >= required_gem) {
+        p_DB_.use_gem(required_gem);
+        p_DB_.enhance_hp(20);
+    }
+    else {
+        /*足りないことを通知*/
+    }
 }
