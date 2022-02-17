@@ -11,6 +11,14 @@
 */
 
 //プレイヤーに関するセーブデータや進行データの管理クラス
+
+enum
+{
+	ColHp = 0,
+	ColAttack,
+	ColTotalGem,
+};
+
 class PlayerDatabase : public Singleton<PlayerDatabase>
 {
 public:
@@ -31,6 +39,8 @@ public:
 	void add_hp(int rise_value);
 	void add_attack(int rise_value);
 	void add_gem(int rise_value);
+	void use_gem(int use_value);
+
 	void set_hp(int hp);
 	//1ゲームプレイ中のパラメータ取得
 	const Parameter& get_current_parameter();
@@ -39,6 +49,10 @@ public:
 
 	//ジェム増加をセーブ
 	void add_possessed_jem(int rise_gem);
+	//HPを増加させセーブ
+	void enhance_hp(int rise_hp);
+	//攻撃力を増加させセーブ
+	void enhance_attack(int rize_attack);
 
 
 private:

@@ -4,12 +4,6 @@
 
 #include "Util/CsvReader.h"
 
-enum
-{
-	ColHp = 0,
-	ColAttack,
-	ColTotalGem,
-};
 
 
 void PlayerDatabase::set_dst_file(const std::string& file_name)
@@ -62,6 +56,11 @@ void PlayerDatabase::add_gem(int rise_value)
 	current_parameter_.total_gem += rise_value;
 }
 
+void PlayerDatabase::use_gem(int use_value)
+{
+	master_parameter_.total_gem -= use_value;
+}
+
 void PlayerDatabase::set_hp(int hp)
 {
 	current_parameter_.hp = hp;
@@ -81,4 +80,14 @@ void PlayerDatabase::add_possessed_jem(int rise_gem)
 {
 	master_parameter_.total_gem += rise_gem;
 	save_master_data();
+}
+
+void PlayerDatabase::enhance_hp(int rise_value)
+{
+	master_parameter_.hp += rise_value;
+}
+
+void PlayerDatabase::enhance_attack(int rise_value)
+{
+	master_parameter_.attack += rise_value;
 }

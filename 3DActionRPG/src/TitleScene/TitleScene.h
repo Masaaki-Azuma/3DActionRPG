@@ -14,9 +14,12 @@ public:
     virtual std::string next() const override;
     virtual void end() override;
     virtual void* data() override;
+private:
+    void select_menu();
 
 private:
     bool is_end_{ false };
+    int select_index_{ 0 };
 };
 #endif//!TITLE_SCENE_H_
 
