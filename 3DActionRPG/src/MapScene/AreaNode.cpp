@@ -5,6 +5,8 @@
 
 std::unordered_map<std::string, int> enemy_image_table{
 	{"Slime", Texture_icon_slime},
+	{"Skeleton", Texture_icon_skeleton},
+	{"Mage", Texture_icon_mage},
 	{"Mimic", Texture_icon_mimic},
 	{"BlackKnight", Texture_icon_blackKnight},
 };

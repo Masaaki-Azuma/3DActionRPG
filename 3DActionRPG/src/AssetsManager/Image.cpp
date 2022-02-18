@@ -10,6 +10,8 @@ void Image::load(const std::string& scene)
 {
   
     load_texture("Assets/Image/icon_slime.png", Texture_icon_slime, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_skeleton.png", Texture_icon_skeleton, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_mage.png", Texture_icon_mage, scene, { "MapScene" });
     load_texture("Assets/Image/icon_mimic.png", Texture_icon_mimic, scene, { "MapScene" });
     load_texture("Assets/Image/icon_blackKnight.png", Texture_icon_blackKnight, scene, { "MapScene" });
 
