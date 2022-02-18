@@ -9,6 +9,8 @@
 enum
 {
 	Texture_icon_slime,
+	Texture_icon_skeleton,
+	Texture_icon_mage,
 	Texture_icon_mimic,
 	Texture_icon_blackKnight,
 	Texture_background_oldmap,

@@ -14,6 +14,7 @@ const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅
 const float AreaVerticalInterval{ 200.0f };           //エリア間の高さ
 const Vector3 StartPosition{ 200.0f, 600.0f };          //スタートノードの位置
 const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
+const int NumEnemySpecies{ 5 }; //敵の種類数
 
 //ForDebug:関数staticを一時的にグローバルに
 static int area_index = 0;
@@ -61,37 +62,48 @@ void MapManager::clear()
 	node_list_.clear();
 }
 
+/*
+* 
+* 元データ                         　　　　変換後データ（同列の0でない直上の値+自分の確率を収納）
+* Slime      , 70, 58, 20,  0,   0      　  Slime      ,  70,  58,  20,   0,   0
+* Skeleton   , 30, 40, 50, 55,   0     　   Skeleton   , 100,  98,  70,  55,   0
+* Mage       ,  0,  0, 25, 40,   0   →     Mage       ,   0,   0,  95,  95,   0
+* Mimic      ,  0,  2,  5,  5,   0       　 Mimic      ,   0, 100, 100, 100,   0
+* BlackKnight,  0,  0,  0,  0, 100        　BlackKnight,   0,   0,   0,   0, 100
+*
+*/
+
 void MapManager::load_enemy_possibility_table(const std::string& difficulty)
 {
-	std::ifstream file{ "Assets/MapData/enemy_possibility_table.csv" };
-	if (!file) throw std::runtime_error("CSVファイルがオープンできませんでした");
+	//元の確率表を読み込み
+	CsvReader table{ "Assets/MapData/enemy_possibility_table.csv" };
 
-	std::string line;
-	int possibility_accumulation = 0;  //確率の累積値
-	while (std::getline(file, line)) { // 改行区切りで１行分読み込み
-		std::stringstream ss{ line };  // １行分データをstringstreamに格納
-		std::string value;             // 各セルのデータ
-
-		//ペアを作成
-		std::pair<std::string, int> possibility;
-		std::getline(ss, value, ',');
-		possibility.first = value;
-		std::getline(ss, value, ',');
-		possibility_accumulation += std::stoi(value);
-		possibility.second = possibility_accumulation;
-		//ペアを確率テーブルに追加
+	//全敵種族を変換後確率表に登録
+	for (int row = 0; row < NumEnemySpecies; ++row) {
+		std::pair<std::string, std::vector<int>> possibility;
+		//種族名を取得
+		possibility.first = table.get(row, 0);
 		enemy_possibility_table_.emplace_back(possibility);
 	}
-	if (possibility_accumulation != 100) throw std::runtime_error("確率の合計が100％になりません。元データの数値を確認してください");
+
+	for (int depth = 1; depth < MaxDepth; ++depth) {
+		//各エリア深さごとに累積確率を算出
+		calc_possibility_per_depth(depth, table);
+	}
 }
 
 const std::string MapManager::pick_enemy(int depth)
 {
+	//スタート地点ならNone
+	if (depth == 0) return "None";
+
 	float rand_num = MyRandom::Range(0.0f, 100.0f);
-	std::string enemy_name;
-	for (size_t i = 0; i < enemy_possibility_table_.size(); ++i) {
-		if (rand_num <= enemy_possibility_table_[i].second) {
-			enemy_name = enemy_possibility_table_[i].first;
+	std::string enemy_name = "None"; //スタート地点を表すNone
+	//ある深さでの敵出現率とランダム値を順に比較
+	for (size_t e_i = 0; e_i < enemy_possibility_table_.size(); ++e_i) {
+		if (rand_num <= enemy_possibility_table_[e_i].second[depth - 1]) { //depth: 1〜Maxdepth-1 → 0〜Maxdepth - 2
+			//出現する敵名を返す
+			enemy_name = enemy_possibility_table_[e_i].first;
 			break;
 		}
 	}
@@ -190,4 +202,23 @@ void MapManager::link_nodes()
 		current_row++;
 	}
 
+}
+
+void MapManager::calc_possibility_per_depth(int depth, const CsvReader& table)
+{
+	//累積確率
+	int possibility_accumulation = 0;
+	for (int row = 0; row < NumEnemySpecies; ++row) {
+		//ある敵の出現確率
+		int possibility = table.geti(row, depth);
+		//確率0のばあい0を入れる
+		if (possibility == 0) {
+			enemy_possibility_table_[row].second.emplace_back(0);
+			continue;
+		}
+		//確率を累積
+		possibility_accumulation += possibility;
+		enemy_possibility_table_[row].second.emplace_back(possibility_accumulation);
+	}
+	assert(possibility_accumulation == 100 && "確率の合計が100％になりません。元データの数値を確認してください");
 }

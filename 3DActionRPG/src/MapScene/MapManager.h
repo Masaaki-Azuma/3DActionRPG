@@ -9,6 +9,7 @@
 #include "Util/Vector3.h"
 
 class AreaNode;
+class CsvReader;
 
 class MapManager : public Singleton<MapManager>
 {
@@ -46,6 +47,8 @@ private:
 	void generate_nodes();
 	//ノードを連結
 	void link_nodes();
+	//エリア深さごとの累積確率を算出
+	void calc_possibility_per_depth(int depth, const CsvReader& table);
 
 private:
 	//エリアノードのスマートポインタ
@@ -64,7 +67,8 @@ private:
 	//全ノード配列
 	NodeList node_list_;  //[ノードの深さ][ノードの上からの順番]で表されるノードリスト
 
-	std::vector<std::pair<std::string, int>> enemy_possibility_table_;
+	//std::vector<std::pair<std::string, int>> enemy_possibility_table_;
+	std::vector<std::pair<std::string, std::vector<int>>> enemy_possibility_table_;
 	bool is_picked_{ false };
 
 private:
