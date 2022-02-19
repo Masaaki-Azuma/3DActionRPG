@@ -18,7 +18,10 @@ AreaNode::AreaNode(const Vector3& position, const std::string& enemy):
 
 void AreaNode::draw()
 {
-	DxLib::DrawRotaGraphF(position_.x, position_.y, 1.0f, 0.0f, Image::texture_handle(enemy_image_table[enemy_]), true);
+	//エリア円表示
+	Image::draw_rota_graph(Texture_mapArea, position_.x, position_.y);
+	//敵が存在するときはモンスター表示
+	if(enemy_image_table.count(enemy_) != 0) Image::draw_rota_graph(enemy_image_table[enemy_], position_.x, position_.y);
 }
 
 AreaNode::NextNodeList& AreaNode::next()

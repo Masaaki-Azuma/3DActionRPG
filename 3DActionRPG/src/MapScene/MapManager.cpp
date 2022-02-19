@@ -1,13 +1,16 @@
 #include "MapManager.h"
+
 #include <fstream>
 #include <sstream>
+#include <cassert>
+#include <DxLib.h>
+
 #include "AreaNode.h"
 #include "Util/MyRandom.h"
-#include "AssetsManager/Image.h"
 #include "Util/Input.h"
 #include "Util/CsvReader.h"
+#include "AssetsManager/Image.h"
 
-#include <cassert>
 
 const int MaxDepth{ 6 };                              //マップ上のノードの列数
 const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅
@@ -26,6 +29,9 @@ void MapManager::update(float delta_time)
 
 void MapManager::draw()
 {
+	//背景描画
+	Image::draw_graph(Texture_background_oldmap);
+
 	//浅いノードから上から順に描画
 	for (auto& depth : node_list_) {
 		for (auto& node : depth) {
