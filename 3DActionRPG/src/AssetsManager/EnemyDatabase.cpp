@@ -7,7 +7,7 @@ enum //csvデータの各列の内容
     ColName = 0,
     ColHp,
     ColAttack,
-    ColMaxStunCount,
+    ColMaxFlinchCount,
     ColDropGem,
 };
 void EnemyDatabase::load(const std::string& file_name)
@@ -22,7 +22,7 @@ const EnemyDatabase::EnemyParameter EnemyDatabase::get_parameter(const std::stri
         if (parameters_.get(r, ColName) == enemy_name) {
             param.hp = parameters_.geti(r, ColHp);
             param.attack = parameters_.geti(r, ColAttack);
-            param.max_stun_count = parameters_.geti(r, ColMaxStunCount);
+            param.max_flinch_count = parameters_.geti(r, ColMaxFlinchCount);
             param.drop_gem = parameters_.geti(r, ColDropGem);
             break;
         }

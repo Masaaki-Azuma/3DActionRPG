@@ -19,23 +19,22 @@ enum //モーション
 	Motion_WalkForward = 12,
 };
 
-const float DetectionRadius{ 400.0f }; //プレイヤーを検知する範囲半径
-const float AttackRadius{ 50.0f };
-const float MoveSpeed{ 200.0f };
+static const float DetectionRadius{ 400.0f }; //プレイヤーを検知する範囲半径
+static const float AttackRadius{ 50.0f };
+static const float MoveSpeed{ 200.0f };
 
 Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation)
 {
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
-	mesh_ = SkinningMesh{ Mesh::slime_handle, 30.0f };
 	world_ = world;
 	name_ = "Slime";
 	tag_ = "EnemyTag";
 	position_ = position;
 	rotation_ = rotation;
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
+	mesh_ = SkinningMesh{ Mesh::slime_handle, 30.0f };
 	motion_ = Motion_Idle;
-	//TODO:データベースから取得するようにせよ
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化

@@ -7,6 +7,7 @@
 #include "Actor/Camera.h"
 #include "Actor/Player.h"
 #include "Actor/Slime.h"
+#include "Actor/Skeleton.h"
 #include "Actor/Mimic.h"
 #include "Actor/BlackKnight.h"
 
@@ -126,6 +127,9 @@ void BattleScene::spawn_enemy(const std::string& enemy)
 		world_.add_actor(new Slime{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 		world_.add_actor(new Slime{ &world_,  Vector3{ 500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 		world_.add_actor(new Mimic{ &world_,  Vector3{ -500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+	}
+	else if (enemy == "Skeleton") {
+		world_.add_actor(new Skeleton{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 	}
 	else if (enemy == "Mimic") {
 		world_.add_actor(new Mimic{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
