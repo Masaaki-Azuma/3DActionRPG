@@ -15,6 +15,7 @@ void Mesh::load()
 {
 	MV1InitModel();
 	test_handle = load_a_mesh("Assets/Mesh/Player/Swordman.mv1");
+	//test_handle = load_a_mesh("Assets/Mesh/Player/Swordman_sword.mv1");
 	slime_handle = load_a_mesh("Assets/Mesh/Slime/Slime.mv1");
 	mimic_handle = load_a_mesh("Assets/Mesh/Mimic/Mimic.mv1");
 	black_knight_handle = load_a_mesh("Assets/Mesh/BlackKnight/BlackKnight.mv1");

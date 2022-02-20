@@ -9,13 +9,14 @@ int Image::texture_couter{ 0 };
 void Image::load(const std::string& scene)
 {
   
-    load_texture("Assets/Image/icon_slime.png", Texture_icon_slime, scene, { "MapScene" });
-    load_texture("Assets/Image/icon_skeleton.png", Texture_icon_skeleton, scene, { "MapScene" });
-    load_texture("Assets/Image/icon_mage.png", Texture_icon_mage, scene, { "MapScene" });
-    load_texture("Assets/Image/icon_mimic.png", Texture_icon_mimic, scene, { "MapScene" });
-    load_texture("Assets/Image/icon_blackKnight.png", Texture_icon_blackKnight, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_slime_128x128.png", Texture_icon_slime, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_skeleton_128x128.png", Texture_icon_skeleton, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_mage_128x128.png", Texture_icon_mage, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_mimic_128x128.png", Texture_icon_mimic, scene, { "MapScene" });
+    load_texture("Assets/Image/icon_blackKnight_128x128.png", Texture_icon_blackKnight, scene, { "MapScene" });
 
-    load_texture("Assets/Image/background_oldmap01.png", Texture_background_oldmap, scene, { "TitleScene", "MapScene" });
+    load_texture("Assets/Image/mapArea.png", Texture_mapArea, scene, { "MapScene" });
+    load_texture("Assets/Image/background_oldmap01_pale.png", Texture_background_oldmap, scene, { "TitleScene", "MapScene" });
 }
 
 void Image::clear(const std::string& scene)
