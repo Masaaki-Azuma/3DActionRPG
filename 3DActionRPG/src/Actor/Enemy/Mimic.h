@@ -1,7 +1,7 @@
 #ifndef MIMIC_H_
 #define MIMIC_H_
 
-#include "Actor/Enemy.h"
+#include "Enemy.h"
 class Mimic :
     public Enemy
 {

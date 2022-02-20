@@ -4,7 +4,7 @@
 #include "Util/Input.h"
 #include "AssetsManager/Mesh.h"
 #include "BattleScene/IWorld.h"
-#include "AttackCollider.h"
+#include "Actor/AttackCollider.h"
 
 Enemy::Enemy()
 {

@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Actor\Skeleton.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Skeleton.cpp" />
     <ClCompile Include="src\ParameterScene\ParameterScene.cpp" />
     <ClCompile Include="src\BattleResultScene\BattleResultScene.cpp" />
-    <ClCompile Include="src\Actor\BlackKnight.cpp" />
-    <ClCompile Include="src\Actor\Mimic.cpp" />
+    <ClCompile Include="src\Actor\Enemy\BlackKnight.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Mimic.cpp" />
     <ClCompile Include="src\GameResultScene\GameResultScene.cpp" />
     <ClCompile Include="src\MapScene\MapScene.cpp" />
     <ClCompile Include="src\BattleScene\BattleScene.cpp" />
@@ -40,7 +40,7 @@
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\Util\CsvReader.cpp" />
     <ClCompile Include="src\Util\DxConverter.cpp" />
-    <ClCompile Include="src\Actor\Enemy.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Enemy.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Util\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -49,7 +49,7 @@
     <ClCompile Include="src\Actor\Player.cpp" />
     <ClCompile Include="src\AssetsManager\PlayerDatabase.cpp" />
     <ClCompile Include="src\Actor\SkinningMesh.cpp" />
-    <ClCompile Include="src\Actor\Slime.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Slime.cpp" />
     <ClCompile Include="src\Actor\Sphere.cpp" />
     <ClCompile Include="src\Stopwatch.cpp" />
     <ClCompile Include="src\Util\MyMath.cpp" />
@@ -59,11 +59,11 @@
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Actor\Skeleton.h" />
+    <ClInclude Include="src\Actor\Enemy\Skeleton.h" />
     <ClInclude Include="src\ParameterScene\ParameterScene.h" />
     <ClInclude Include="src\BattleResultScene\BattleResultScene.h" />
-    <ClInclude Include="src\Actor\BlackKnight.h" />
-    <ClInclude Include="src\Actor\Mimic.h" />
+    <ClInclude Include="src\Actor\Enemy\BlackKnight.h" />
+    <ClInclude Include="src\Actor\Enemy\Mimic.h" />
     <ClInclude Include="src\GameResultScene\GameResultScene.h" />
     <ClInclude Include="src\MapScene\MapScene.h" />
     <ClInclude Include="src\BattleScene\BattleScene.h" />
@@ -82,7 +82,7 @@
     <ClInclude Include="src\SceneNull.h" />
     <ClInclude Include="src\Util\CsvReader.h" />
     <ClInclude Include="src\Util\DxConverter.h" />
-    <ClInclude Include="src\Actor\Enemy.h" />
+    <ClInclude Include="src\Actor\Enemy\Enemy.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Util\Input.h" />
     <ClInclude Include="src\BattleScene\IWorld.h" />
@@ -93,7 +93,7 @@
     <ClInclude Include="src\Screen.h" />
     <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\Actor\SkinningMesh.h" />
-    <ClInclude Include="src\Actor\Slime.h" />
+    <ClInclude Include="src\Actor\Enemy\Slime.h" />
     <ClInclude Include="src\Actor\Sphere.h" />
     <ClInclude Include="src\Stopwatch.h" />
     <ClInclude Include="src\Util\MyMath.h" />

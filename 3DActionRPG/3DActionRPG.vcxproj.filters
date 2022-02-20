@@ -7,7 +7,7 @@
     <ClCompile Include="src\Actor\AttackCollider.cpp" />
     <ClCompile Include="src\Actor\Camera.cpp" />
     <ClCompile Include="src\Util\DxConverter.cpp" />
-    <ClCompile Include="src\Actor\Enemy.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Enemy.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Util\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -15,7 +15,7 @@
     <ClCompile Include="src\AssetsManager\Mesh.cpp" />
     <ClCompile Include="src\Actor\Player.cpp" />
     <ClCompile Include="src\Actor\SkinningMesh.cpp" />
-    <ClCompile Include="src\Actor\Slime.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Slime.cpp" />
     <ClCompile Include="src\Actor\Sphere.cpp" />
     <ClCompile Include="src\Stopwatch.cpp" />
     <ClCompile Include="src\Util\Vector3.cpp" />
@@ -34,11 +34,11 @@
     <ClCompile Include="src\MapScene\MapScene.cpp" />
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
     <ClCompile Include="src\GameResultScene\GameResultScene.cpp" />
-    <ClCompile Include="src\Actor\Mimic.cpp" />
-    <ClCompile Include="src\Actor\BlackKnight.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Mimic.cpp" />
+    <ClCompile Include="src\Actor\Enemy\BlackKnight.cpp" />
     <ClCompile Include="src\BattleResultScene\BattleResultScene.cpp" />
     <ClCompile Include="src\ParameterScene\ParameterScene.cpp" />
-    <ClCompile Include="src\Actor\Skeleton.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -47,7 +47,7 @@
     <ClInclude Include="src\Actor\AttackCollider.h" />
     <ClInclude Include="src\Actor\Camera.h" />
     <ClInclude Include="src\Util\DxConverter.h" />
-    <ClInclude Include="src\Actor\Enemy.h" />
+    <ClInclude Include="src\Actor\Enemy\Enemy.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Util\Input.h" />
     <ClInclude Include="src\BattleScene\IWorld.h" />
@@ -56,7 +56,7 @@
     <ClInclude Include="src\Actor\Player.h" />
     <ClInclude Include="src\Screen.h" />
     <ClInclude Include="src\Actor\SkinningMesh.h" />
-    <ClInclude Include="src\Actor\Slime.h" />
+    <ClInclude Include="src\Actor\Enemy\Slime.h" />
     <ClInclude Include="src\Actor\Sphere.h" />
     <ClInclude Include="src\Stopwatch.h" />
     <ClInclude Include="src\Util\Vector3.h" />
@@ -78,10 +78,10 @@
     <ClInclude Include="src\MapScene\MapScene.h" />
     <ClInclude Include="src\TitleScene\TitleScene.h" />
     <ClInclude Include="src\GameResultScene\GameResultScene.h" />
-    <ClInclude Include="src\Actor\Mimic.h" />
-    <ClInclude Include="src\Actor\BlackKnight.h" />
+    <ClInclude Include="src\Actor\Enemy\Mimic.h" />
+    <ClInclude Include="src\Actor\Enemy\BlackKnight.h" />
     <ClInclude Include="src\BattleResultScene\BattleResultScene.h" />
     <ClInclude Include="src\ParameterScene\ParameterScene.h" />
-    <ClInclude Include="src\Actor\Skeleton.h" />
+    <ClInclude Include="src\Actor\Enemy\Skeleton.h" />
   </ItemGroup>
 </Project>

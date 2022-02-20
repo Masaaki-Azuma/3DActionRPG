@@ -6,10 +6,10 @@
 
 #include "Actor/Camera.h"
 #include "Actor/Player.h"
-#include "Actor/Slime.h"
-#include "Actor/Skeleton.h"
-#include "Actor/Mimic.h"
-#include "Actor/BlackKnight.h"
+#include "Actor/Enemy/Slime.h"
+#include "Actor/Enemy/Skeleton.h"
+#include "Actor/Enemy/Mimic.h"
+#include "Actor/Enemy/BlackKnight.h"
 
 
 void BattleScene::start(void* data)

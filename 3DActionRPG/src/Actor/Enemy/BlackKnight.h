@@ -1,7 +1,7 @@
 #ifndef BLACK_KNIGHT_H_
 #define BLACK_KNIGHT_H_
 
-#include "Actor/Enemy.h"
+#include "Enemy.h"
 
 class BlackKnight :
     public Enemy

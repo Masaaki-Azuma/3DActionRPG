@@ -1,8 +1,8 @@
 #ifndef ENEMY_H_
 #define ENEMY_H_
 
-#include "Actor.h"
-#include "SkinningMesh.h"
+#include "Actor/Actor.h"
+#include "Actor/SkinningMesh.h"
 #include "AssetsManager/EnemyDatabase.h"
 
 class Enemy : public Actor
