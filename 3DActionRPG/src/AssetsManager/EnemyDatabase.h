@@ -17,7 +17,7 @@ public:
 	{
 		int hp{ -1 };             //体力
 		int attack{ -1 };         //攻撃力
-		int max_stun_count{ -1 }; //被弾時に連続で硬直する最大回数
+		int max_flinch_count{ -1 }; //被弾時に連続で硬直する最大回数
 		int drop_gem{ -1 };       //討伐時落とすジェム
 	};
 public:

@@ -21,7 +21,8 @@ public:
 		static const unsigned int Move   = 0;
 		static const unsigned int Attack = 1;
 		static const unsigned int Damage = 2;
-		static const unsigned int Dead    = 3;
+		static const unsigned int Dead   = 3;
+		static const unsigned int DeriveTop = 4;
 	};
 public:
 	Enemy();

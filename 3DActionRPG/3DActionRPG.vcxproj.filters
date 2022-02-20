@@ -38,6 +38,7 @@
     <ClCompile Include="src\Actor\BlackKnight.cpp" />
     <ClCompile Include="src\BattleResultScene\BattleResultScene.cpp" />
     <ClCompile Include="src\ParameterScene\ParameterScene.cpp" />
+    <ClCompile Include="src\Actor\Skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -81,5 +82,6 @@
     <ClInclude Include="src\Actor\BlackKnight.h" />
     <ClInclude Include="src\BattleResultScene\BattleResultScene.h" />
     <ClInclude Include="src\ParameterScene\ParameterScene.h" />
+    <ClInclude Include="src\Actor\Skeleton.h" />
   </ItemGroup>
 </Project>
