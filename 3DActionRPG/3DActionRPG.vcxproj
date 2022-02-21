@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AssetsManager\Font.cpp" />
     <ClCompile Include="src\Actor\Enemy\Skeleton.cpp" />
     <ClCompile Include="src\ParameterScene\ParameterScene.cpp" />
     <ClCompile Include="src\BattleResultScene\BattleResultScene.cpp" />
@@ -59,6 +60,7 @@
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AssetsManager\Font.h" />
     <ClInclude Include="src\Actor\Enemy\Skeleton.h" />
     <ClInclude Include="src\ParameterScene\ParameterScene.h" />
     <ClInclude Include="src\BattleResultScene\BattleResultScene.h" />

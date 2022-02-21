@@ -4,6 +4,7 @@
 
 #include "Util/MyRandom.h"
 #include "Util/Input.h"
+#include "AssetsManager/Font.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "TitleScene/TitleScene.h"
@@ -25,7 +26,9 @@ Game::‾Game()
 }
 
 void Game::Init() 
-{	Input::init();
+{
+	Font::load();
+	Input::init();
 	MyRandom::Init();
 	//セーブデータをロード
 	PlayerDatabase& p_DB = PlayerDatabase::GetInstance();
@@ -62,4 +65,5 @@ void Game::End()
 	scene_manager_.end();
 	//データをセーブ
 	PlayerDatabase::GetInstance().save_master_data();
+	Font::clear();
 }
