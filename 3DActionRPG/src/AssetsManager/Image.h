@@ -25,8 +25,6 @@ enum
 class Image
 {
 public:
-	Image() = default;
-	‾Image() = default;
 	static void load(const std::string& scene = "");
 	static void clear(const std::string& scene = "");
 	//dxlib由来のテクスチャハンドルを取得する
@@ -46,6 +44,10 @@ private:
 public:
 	static std::vector<int> texture_id_list;
 	static int texture_couter;
+
+private:
+	Image() = default;
+	‾Image() = default;
 };
 #endif//!IMAGE_H_
 
