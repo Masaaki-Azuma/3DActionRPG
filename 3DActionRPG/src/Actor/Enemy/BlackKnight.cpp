@@ -30,6 +30,7 @@ const float AttackRadius{ 350.0f };  //プレイヤーを攻撃する範囲半�
 const float EscapeRadius{ 200.0f };
 const float MoveSpeed{ 200.0f };
 
+//TODO:コンボガードを入れれば、ゲームバランスがちょうどよくなりそう
 BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& rotation)
 {
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
