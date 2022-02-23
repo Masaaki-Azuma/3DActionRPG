@@ -47,7 +47,6 @@ Player::Player(IWorld* world):
 	tag_ = "PlayerTag";
 	position_ = Vector3{ 0.0f, 0.0f, 0.0f };
 	collider_ = Sphere{ CollisionRadius, CollisionOffset };
-	//TODO:PlayerDatabaseからパラメーターを受け取れるよう変更せよ
 	parameter_ = p_db_.get_current_parameter();
 
 	//メッシュ姿勢初期化

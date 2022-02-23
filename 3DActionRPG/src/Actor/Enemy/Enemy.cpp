@@ -18,6 +18,9 @@ Enemy::‾Enemy()
 
 void Enemy::update(float delta_time)
 {
+	//
+	motion_interruption = false;
+
 	//現在の状態を更新
 	update_state(delta_time);
 	//壁との押し出し処理
@@ -50,6 +53,12 @@ void Enemy::change_state(unsigned int state, unsigned int motion, bool loop, boo
 	motion_loop_ = loop;
 	motion_interruption = is_interruptive;
 	state_timer_ = 0.0f;
+}
+
+void Enemy::change_motion(unsigned int motion, bool loop)
+{
+	motion_ = motion;
+	motion_loop_ = loop;
 }
 
 void Enemy::generate_attack(const Sphere& collider, const std::string& name, float lifespan, float delay)
