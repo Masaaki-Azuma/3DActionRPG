@@ -15,8 +15,10 @@ private:
 public:
 	static int test_handle;
 	static int stage_handle;
+	static int ground_handle;
 	static int slime_handle;
 	static int skeleton_handle;
+	static int mage_handle;
 	static int black_knight_handle;
 	static int mimic_handle;
 	static int skybox;

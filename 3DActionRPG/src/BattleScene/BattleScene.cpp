@@ -8,6 +8,7 @@
 #include "Actor/Player.h"
 #include "Actor/Enemy/Slime.h"
 #include "Actor/Enemy/Skeleton.h"
+#include "Actor/Enemy/Mage.h"
 #include "Actor/Enemy/Mimic.h"
 #include "Actor/Enemy/BlackKnight.h"
 
@@ -18,6 +19,11 @@ void BattleScene::start(void* data)
 
 	Image::load("BattleScene");
 	Mesh::load();
+
+	//ForDebug:フォグ
+	SetFogEnable(TRUE);
+	SetFogColor(137, 189, 222);
+	SetFogStartEnd(100.0f, 4000.0f);
 
 	//ステージコライダーの衝突情報を取得できるよう準備
 	DxLib::MV1SetupCollInfo(Mesh::stage_handle, -1, 8, 8, 8);
@@ -71,11 +77,12 @@ void BattleScene::draw() const
 	DxLib::SetUseLighting(TRUE);
 
 	//ステージの描画
+	DxLib::MV1DrawModel(Mesh::ground_handle);
 	DxLib::MV1DrawModel(Mesh::stage_handle);
+
 	//!ForDebug
 
 	world_.draw();
-
 
 	//ライトの設定
 	//DxLib::SetLightPosition(VECTOR{ 0, 500, 0 });
@@ -130,6 +137,9 @@ void BattleScene::spawn_enemy(const std::string& enemy)
 	}
 	else if (enemy == "Skeleton") {
 		world_.add_actor(new Skeleton{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+	}
+	else if (enemy == "Mage") {
+		world_.add_actor(new Mage{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 	}
 	else if (enemy == "Mimic") {
 		world_.add_actor(new Mimic{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
