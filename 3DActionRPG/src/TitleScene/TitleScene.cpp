@@ -43,7 +43,7 @@ void TitleScene::draw() const
     Image::draw_graph(Texture_textGameStart, 1350, 700);
     Image::draw_graph(Texture_textParameter, 1350, 700 + MenuInterval);
     //カーソル描画
-    Image::draw_rota_graph(Texture_cursor, 1250.0f, 730.0f + MenuInterval * select_index_);;
+    Image::draw_rota_graph(Texture_cursor, 1300.0f, 730.0f + MenuInterval * select_index_);;
 }
 
 bool TitleScene::is_end() const
