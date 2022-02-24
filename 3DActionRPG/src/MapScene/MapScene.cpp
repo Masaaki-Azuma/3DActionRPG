@@ -16,36 +16,29 @@ MapScene::MapScene():
 void MapScene::start(void* data)
 {
     Image::load("MapScene");
-
     is_end_ = false;
-    Image::load();
-    MyRandom::Init();
-
     //バトルシーンから帰ってきたときの更新処理
     map_.make_node_old();
-
-    //ForDebug:
 }
 
 void MapScene::update(float delta_time)
 {
-
+    //最後のエリアから戻ってきたときはシーン終了
     if (map_.is_final_area()) {
         is_end_ = true;
     }
+    //マップの更新
     map_.update(delta_time);
+    //エリアを選択したらシーン終了
     if (map_.is_picked()) {
         is_end_ = true;
     }
-
-    //ForDebug:エリアを動かずにシーン遷移チート
-    //restart_area();
 }
 
 void MapScene::draw() const
 {
+    //マップ描画
     map_.draw();
-
     //HPバー描画
     hp_gauge_.draw_gui(p_DB_.get_master_parameter().hp, p_DB_.get_current_parameter().hp);
 }

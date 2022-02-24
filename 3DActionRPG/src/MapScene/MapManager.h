@@ -2,10 +2,12 @@
 #define MAP_MANAGER_H_
 
 #include "Singleton.h"
+
 #include <string>
 #include <vector>
 #include <memory>   //shared_ptr
 #include <utility>  //pair
+
 #include "Util/Vector3.h"
 
 class AreaNode;
@@ -47,8 +49,14 @@ private:
 	void generate_nodes();
 	//ノードを連結
 	void link_nodes();
+	//スタートエリアを設定
+	void set_start_node();
 	//エリア深さごとの累積確率を算出
 	void calc_possibility_per_depth(int depth, const CsvReader& table);
+	//全エリアを描画
+	void draw_areas();
+	//選択箇所をカーソルで示す
+	void draw_cursor();
 
 private:
 	//エリアノードのスマートポインタ
@@ -58,18 +66,18 @@ private:
 	//全ノード
 	using NodeList = std::vector<NodesInADepth>;
 
-
-	int change_area_index_{ -1 };
 	//選択ノード
 	PtrNode current_area_node_{ nullptr };
 	//前回選択ノード
 	PtrNode prev_area_node_{ nullptr };
 	//全ノード配列
 	NodeList node_list_;  //[ノードの深さ][ノードの上からの順番]で表されるノードリスト
-
-	//std::vector<std::pair<std::string, int>> enemy_possibility_table_;
-	std::vector<std::pair<std::string, std::vector<int>>> enemy_possibility_table_;
+	//敵と各深さのエリアでの出現率表
+	std::vector<std::pair<std::string, std::vector<int>>> enemy_possibility_table_; //<"敵の名前", "ある敵の出現率配列">
 	bool is_picked_{ false };
+
+	//選択中のエリア番号
+	int area_index_;
 
 private:
 	MapManager() = default;

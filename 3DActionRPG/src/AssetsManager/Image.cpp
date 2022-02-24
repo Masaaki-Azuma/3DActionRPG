@@ -12,7 +12,7 @@ void Image::load(const std::string& scene)
     load_texture("Assets/Image/text_gameStart.png", Texture_textGameStart, scene, { "TitleScene" });
     load_texture("Assets/Image/text_parameter.png", Texture_textParameter, scene, { "TitleScene" });
     load_texture("Assets/Image/background_oldmap01_pale.png", Texture_background_oldmap, scene, { "TitleScene", "MapScene" });
-    load_texture("Assets/Image/cursor.png", Texture_cursor, scene, { "TitleScene", "ParameterScene" });
+    load_texture("Assets/Image/cursor.png", Texture_cursor, scene, { "TitleScene", "ParameterScene", "MapScene" });
   
     load_texture("Assets/Image/icon_slime_128x128.png", Texture_icon_slime, scene, { "MapScene" });
     load_texture("Assets/Image/icon_skeleton_128x128.png", Texture_icon_skeleton, scene, { "MapScene" });
