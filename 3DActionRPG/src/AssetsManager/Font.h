@@ -9,7 +9,7 @@ public:
 
 public:
 	static int japanese_font;
-	static int english_font;
+	static int english_font_35;
 
 private:
 	Font() = default;
