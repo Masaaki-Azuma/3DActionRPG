@@ -27,16 +27,16 @@ void BattleScene::start(void* data)
 	Image::load("BattleScene");
 	Mesh::load();
 
-	//ForDebug:フォグ
-	SetFogEnable(TRUE);
-	SetFogColor(137, 189, 222);
-	SetFogStartEnd(100.0f, 4000.0f);
+
+	
 
 	//ステージコライダーの衝突情報を取得できるよう準備
 	DxLib::MV1SetupCollInfo(Mesh::stage_handle, -1, 8, 8, 8);
 	//DxLib::SetGlobalAmbientLight(DxLib::GetColorF(0.0f, 0.0f, 0.0f, 1.0f));
 	//DxLib::ChangeLightTypePoint(VGet(0.0f, 300.0f, 0.0f), 2000.0f, 0.0f, 0.0006f, 0.0f);
 	DxLib::SetCameraNearFar(200.0f, 50000.0f);
+
+	//アクター追加
 	world_.add_actor(new Player{ &world_ });
 	world_.add_camera(new Camera{ &world_ });
 
@@ -81,7 +81,13 @@ void BattleScene::draw() const
 	//スカイボックスの描画
 	DxLib::SetUseLighting(FALSE);
 	DxLib::MV1DrawModel(Mesh::skybox);
-	DxLib::SetUseLighting(TRUE);
+	//DxLib::SetUseLighting(TRUE);
+
+	
+	//ForDebug:フォグ
+	/*SetFogEnable(TRUE);
+	SetFogColor(137, 189, 222);
+	SetFogStartEnd(100.0f, 4000.0f);*/
 
 	//ステージの描画
 	DxLib::MV1DrawModel(Mesh::ground_handle);

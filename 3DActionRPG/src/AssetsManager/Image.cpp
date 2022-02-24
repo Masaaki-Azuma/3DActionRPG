@@ -17,8 +17,19 @@ void Image::load(const std::string& scene)
 
     load_texture("Assets/Image/mapArea.png", Texture_mapArea, scene, { "MapScene" });
     load_texture("Assets/Image/background_oldmap01_pale.png", Texture_background_oldmap, scene, { "TitleScene", "MapScene" });
-    load_texture("Assets/Image/gauge_frame.png", Texture_GaugeFrame, scene, { "MapScene", "BattleScene" });
-    load_texture("Assets/Image/gauge_green.png", Texture_GaugeBarGreen, scene, { "MapScene", "BattleScene" });
+    load_texture("Assets/Image/gauge_frame.png", Texture_GaugeFrame, scene, { "ParameterScene", "MapScene", "BattleScene" });
+    load_texture("Assets/Image/gauge_green.png", Texture_GaugeBarGreen, scene, { "ParameterScene", "MapScene", "BattleScene" });
+    load_texture("Assets/Image/gauge_red.png", Texture_GaugeBarRed, scene, { "ParameterScene", "MapScene", "BattleScene" });
+    load_texture("Assets/Image/button_parameterCheck.png", Texture_buttonParameterCheck, scene, { "ParameterScene" });
+    load_texture("Assets/Image/button_parameterEnhance.png", Texture_buttonParameterEnhance, scene, { "ParameterScene" });
+    load_texture("Assets/Image/background_parameter.png", Texture_background_parameter, scene, { "ParameterScene" });
+    load_texture("Assets/Image/cursor.png", Texture_cursor, scene, { "TitleScene", "ParameterScene" });
+    load_texture("Assets/Image/button_enhance.png", Texture_buttonEnhance, scene, { "ParameterScene" });
+    load_texture("Assets/Image/up_arrow.png", Texture_upArrow, scene, { "ParameterScene" });
+    load_texture("Assets/Image/down_arrow.png", Texture_downArrow, scene, { "ParameterScene" });
+    load_texture("Assets/Image/right_arrow.png", Texture_rightArrow, scene, { "ParameterScene" });
+    load_texture("Assets/Image/gem.png", Texture_gem, scene, { "ParameterScene", "BattleResultScene", "GameResultScene" });
+
 }
 
 void Image::clear(const std::string& scene)
@@ -28,11 +39,6 @@ void Image::clear(const std::string& scene)
         DxLib::DeleteGraph(handle);
         handle = -1;
     }
-
-    /*
-    clear_a_texture(Texture_icon_slime);
-    clear_a_texture(Texture_icon_mimic);
-    clear_a_texture(Texture_icon_blackKnight);*/
 }
 
 const int Image::texture_handle(int texture_id)

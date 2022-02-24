@@ -18,6 +18,15 @@ enum
 	Texture_GaugeFrame,
 	Texture_GaugeBarGreen,
 	Texture_GaugeBarRed,
+	Texture_buttonParameterCheck,
+	Texture_buttonParameterEnhance,
+	Texture_background_parameter,
+	Texture_cursor,
+	Texture_buttonEnhance,
+	Texture_gem,
+	Texture_upArrow,
+	Texture_downArrow,
+	Texture_rightArrow,
 };
 
 /*
