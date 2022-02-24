@@ -8,43 +8,42 @@
 #include "AssetsManager/PlayerDatabase.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "MapScene/MapManager.h"
+#include "Screen.h"
 
 
-enum
+enum //メニューの選択状態
 {
-    GameStart = 0,
+    GameStart,
     Parameter,
 };
-const int NumSelect{ 2 }; //選択肢の数
+
+static const int NumSelect{ 2 };      //選択肢の数
+static const int MenuInterval{ 150 }; //選択肢の高さ間隔
 
 void TitleScene::start(void* data)
 {
     Image::load("TitleScene");
     is_end_ = false;
     select_index_ = 0;
-
 }
 
 void TitleScene::update(float delta_time)
 {
+    //メニュー選択
     select_menu();
-
-    //ForDebug:シーンを抜け出す仮動作
-    if (Input::get_button_down(PAD_INPUT_1))
-    {
-        is_end_ = true;
-    }
 }
 
 void TitleScene::draw() const
 {
+    //背景描画
     Image::draw_graph(Texture_background_oldmap);
-    int white = GetColor(255, 255, 255);
-    DxLib::DrawString(0, 0, "タイトルシーン", white);
-    DxLib::DrawString(20, 40, "ゲームスタート", white);
-    DxLib::DrawString(20, 60, "パラメータ", white);
-
-    DxLib::DrawString(0, 40 + 20 * select_index_, "●", white);
+    //タイトル描画
+    Image::draw_rota_graph(Texture_titleLogo, Screen::Width / 2, 380);
+    //メニュー描画
+    Image::draw_graph(Texture_textGameStart, 1350, 700);
+    Image::draw_graph(Texture_textParameter, 1350, 700 + MenuInterval);
+    //カーソル描画
+    Image::draw_rota_graph(Texture_cursor, 1250.0f, 730.0f + MenuInterval * select_index_);;
 }
 
 bool TitleScene::is_end() const
@@ -68,23 +67,21 @@ void TitleScene::end()
     if (next() == "MapScene") {
         //マップデータを作成
         MapManager::GetInstance().generate();
-        //パラメータをロード
+        //プレイヤーの初期パラメータをセット
         PlayerDatabase::GetInstance().set_initial_parameter();
-        EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");
-    }
-    else if (next() == "ParameterScene") {
-        /*マスターデータを読める状態にしておく*/
     }
     Image::clear();
 }
 
 void* TitleScene::data()
 {
+    //何も送らない
     return nullptr;
 }
 
 void TitleScene::select_menu()
 {
+    //決定キーで選択肢を決定
     if (Input::get_button_down(PAD_INPUT_1)) {
         is_end_ = true;
     }

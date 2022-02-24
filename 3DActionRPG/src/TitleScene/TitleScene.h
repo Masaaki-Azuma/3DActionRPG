@@ -15,6 +15,7 @@ public:
     virtual void end() override;
     virtual void* data() override;
 private:
+    //メニュー選択
     void select_menu();
 
 private:

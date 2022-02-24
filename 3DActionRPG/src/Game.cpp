@@ -7,6 +7,7 @@
 #include "AssetsManager/Font.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/PlayerDatabase.h"
+#include "AssetsManager/EnemyDatabase.h"
 #include "TitleScene/TitleScene.h"
 #include "BattleScene/BattleScene.h"
 #include "MapScene/MapScene.h"
@@ -34,6 +35,8 @@ void Game::Init()
 	PlayerDatabase& p_DB = PlayerDatabase::GetInstance();
 	p_DB.set_dst_file("Assets/Parameters/player_parameter.csv");
 	p_DB.load_master_data();
+	//敵のパラメーターをロード
+	EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");
 
 	scene_manager_.add("TitleScene", new TitleScene{});
 	scene_manager_.add("BattleScene", new BattleScene{});

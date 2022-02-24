@@ -27,6 +27,9 @@ enum
 	Texture_upArrow,
 	Texture_downArrow,
 	Texture_rightArrow,
+	Texture_titleLogo,
+	Texture_textGameStart,
+	Texture_textParameter,
 };
 
 /*
