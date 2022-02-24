@@ -4,10 +4,15 @@
 #include "IScene.h"
 #include "World.h"
 #include "BattleResultScene/BattleResultScene.h"
+#include "Actor/BarGauge.h"
+
+class PlayerDatabase;
 
 class BattleScene :
     public IScene
 {
+public:
+    BattleScene();
     virtual void start(void* data = nullptr) override;
     virtual void update(float delta_time) override;
     virtual void draw() const override;
@@ -24,12 +29,17 @@ private:
 private:
     //ワールドクラス
     World world_;
+    //HPゲージ
+    BarGauge hp_gauge_;
+
     //シーン終了フラグ
     bool is_end_{ false };
     //バトルリザルトシーン
     BattleResultScene result_scene_;
     //リザルト
     BattleResultScene::BattleResultData result_;
+    //プレイヤーデータ参照
+    PlayerDatabase& p_DB_;
 };
 #endif//!BATTLE_SCENE_H
 

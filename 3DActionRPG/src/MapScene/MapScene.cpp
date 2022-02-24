@@ -7,7 +7,9 @@
 #include "MapManager.h"
 
 MapScene::MapScene():
-    map_{MapManager::GetInstance()}
+    map_{MapManager::GetInstance()},
+    p_DB_{PlayerDatabase::GetInstance()},
+    hp_gauge_{Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40}
 {
 }
 
@@ -44,6 +46,8 @@ void MapScene::draw() const
 {
     map_.draw();
 
+    //HPバー描画
+    hp_gauge_.draw_gui(p_DB_.get_master_parameter().hp, p_DB_.get_current_parameter().hp);
 }
 
 bool MapScene::is_end() const

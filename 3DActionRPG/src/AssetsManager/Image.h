@@ -15,6 +15,9 @@ enum
 	Texture_icon_blackKnight,
 	Texture_background_oldmap,
 	Texture_mapArea,
+	Texture_GaugeFrame,
+	Texture_GaugeBarGreen,
+	Texture_GaugeBarRed,
 };
 
 /*

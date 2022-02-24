@@ -3,6 +3,7 @@
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Mesh.h"
 #include "Util/Input.h"
+#include "AssetsManager/PlayerDatabase.h"
 
 #include "Actor/Camera.h"
 #include "Actor/Player.h"
@@ -12,6 +13,12 @@
 #include "Actor/Enemy/Mimic.h"
 #include "Actor/Enemy/BlackKnight.h"
 
+
+BattleScene::BattleScene():
+	p_DB_{PlayerDatabase::GetInstance()},
+	hp_gauge_{ Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40 }
+{
+}
 
 void BattleScene::start(void* data)
 {
@@ -83,6 +90,8 @@ void BattleScene::draw() const
 	//!ForDebug
 
 	world_.draw();
+
+	hp_gauge_.draw_gui(p_DB_.get_master_parameter().hp, p_DB_.get_current_parameter().hp);
 
 	//ライトの設定
 	//DxLib::SetLightPosition(VECTOR{ 0, 500, 0 });

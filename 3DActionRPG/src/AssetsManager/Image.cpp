@@ -17,6 +17,8 @@ void Image::load(const std::string& scene)
 
     load_texture("Assets/Image/mapArea.png", Texture_mapArea, scene, { "MapScene" });
     load_texture("Assets/Image/background_oldmap01_pale.png", Texture_background_oldmap, scene, { "TitleScene", "MapScene" });
+    load_texture("Assets/Image/gauge_frame.png", Texture_GaugeFrame, scene, { "MapScene", "BattleScene" });
+    load_texture("Assets/Image/gauge_green.png", Texture_GaugeBarGreen, scene, { "MapScene", "BattleScene" });
 }
 
 void Image::clear(const std::string& scene)

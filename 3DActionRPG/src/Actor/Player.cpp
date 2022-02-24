@@ -329,5 +329,6 @@ void Player::combo_attack(unsigned motion, float lifespan, float delay)
 void Player::take_damage(int damage)
 {
 	parameter_.hp -= damage;
+	p_db_.set_hp(parameter_.hp);
 }
 
