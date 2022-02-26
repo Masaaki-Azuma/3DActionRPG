@@ -108,8 +108,7 @@ void MapManager::pick_area()
 		if (prev_area_node_->next().empty()) return;
 		//選択エリアを現在地に更新
 		current_area_node_ = prev_area_node_->next().at(area_index_);
-		//選択状態を初期化
-		area_index_ = 0;
+		//選択済みに
 		is_picked_ = true;
 	}
 	//上下ボタンでエリアを選択
@@ -136,6 +135,7 @@ void MapManager::make_node_old()
 {
 	prev_area_node_ = current_area_node_;
 	is_picked_ = false;
+	area_index_ = 0;
 }
 
 std::string& MapManager::selected_enemy()
