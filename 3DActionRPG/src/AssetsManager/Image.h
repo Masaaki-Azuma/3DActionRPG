@@ -30,6 +30,7 @@ enum
 	Texture_titleLogo,
 	Texture_textGameStart,
 	Texture_textParameter,
+	Texture_board_battleResult,
 };
 
 /*

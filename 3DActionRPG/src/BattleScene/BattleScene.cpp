@@ -81,7 +81,7 @@ void BattleScene::draw() const
 	//スカイボックスの描画
 	DxLib::SetUseLighting(FALSE);
 	DxLib::MV1DrawModel(Mesh::skybox);
-	//DxLib::SetUseLighting(TRUE);
+	DxLib::SetUseLighting(TRUE);
 
 	
 	//ForDebug:フォグ
