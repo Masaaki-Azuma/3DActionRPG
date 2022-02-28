@@ -246,6 +246,7 @@ void MapManager::draw_areas()
 void MapManager::draw_cursor()
 {
 	//選択箇所をアイコンで示す
+	if (prev_area_node_->next().empty()) return; //ゴールなら描画の必要なし
 	Vector3 pos_next_area = prev_area_node_->next().at(area_index_)->position();
 	Image::draw_rota_graph(Texture_cursor, pos_next_area.x, pos_next_area.y - 60.0f, 0.6f);
 }
