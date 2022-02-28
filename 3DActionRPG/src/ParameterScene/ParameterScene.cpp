@@ -191,7 +191,7 @@ void ParameterScene::draw_menu() const
     else if (selected_menu_index == Menu_EnhanceParameter || menu_state == State::EnhanceParamter) message = "ジェムを使ってパラメーターを強化します";
     //文字列を改行
     std::string restructed_message = restruct_string(message);
-    DxLib::DrawStringToHandle(210, 550, restructed_message.c_str(), brown, Font::japanese_font_35);
+    DxLib::DrawStringToHandle(190, 550, restructed_message.c_str(), brown, Font::japanese_font_35);
 }
 
 void ParameterScene::draw_detail_parameter() const

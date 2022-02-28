@@ -46,7 +46,8 @@ void Game::Init()
 
 
 	//scene_manager_.change("TitleScene");
-	scene_manager_.change("GameResultScene");
+	//scene_manager_.change("GameResultScene");
+	scene_manager_.change("ParameterScene");
 	//scene_manager_.change("BattleScene");
 	//scene_manager_.change("MapScene");
 }
