@@ -4,7 +4,7 @@
 
 static const unsigned int white{ DxLib::GetColor(255,255,255) };
 
-int Font::japanese_font{ -1 };
+int Font::japanese_font_35{ -1 };
 int Font::japanese_font_50{ -1 };
 int Font::english_font_35{ -1 };
 
@@ -12,7 +12,7 @@ int Font::english_font_35{ -1 };
 void Font::load()
 {
 	//全フォントデータを取得
-	japanese_font = DxLib::CreateFontToHandle("HGS創英ﾌﾟﾚｾﾞﾝｽEB", 30, -1, DX_FONTTYPE_ANTIALIASING);
+	japanese_font_35 = DxLib::CreateFontToHandle("HGS創英ﾌﾟﾚｾﾞﾝｽEB", 35, -1, DX_FONTTYPE_ANTIALIASING);
 	japanese_font_50 = DxLib::CreateFontToHandle("HGS創英ﾌﾟﾚｾﾞﾝｽEB", 50, -1, DX_FONTTYPE_ANTIALIASING);
 	english_font_35 = DxLib::CreateFontToHandle("UD デジタル 教科書体 NK-B", 35, -1, DX_FONTTYPE_ANTIALIASING);
 	//english_font = DxLib::CreateFontToHandle("Arial Bold", 30, -1, DX_FONTTYPE_ANTIALIASING);

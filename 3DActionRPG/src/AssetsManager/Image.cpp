@@ -11,29 +11,33 @@ void Image::load(const std::string& scene)
     load_texture("Assets/Image/title_logo.png", Texture_titleLogo, scene, { "TitleScene" });
     load_texture("Assets/Image/text_gameStart.png", Texture_textGameStart, scene, { "TitleScene" });
     load_texture("Assets/Image/text_parameter.png", Texture_textParameter, scene, { "TitleScene" });
-    load_texture("Assets/Image/background_oldmap01_pale.png", Texture_background_oldmap, scene, { "TitleScene", "MapScene" });
+    load_texture("Assets/Image/background_oldmap01_pale.png", Texture_background_oldmap, scene, { "TitleScene", "MapScene", "GameResultScene" });
     load_texture("Assets/Image/cursor.png", Texture_cursor, scene, { "TitleScene", "ParameterScene", "MapScene" });
   
+    load_texture("Assets/Image/board_battleResult.png", Texture_board_battleResult, scene, { "BattleResultScene" });
+    load_texture("Assets/Image/board_gameResult.png", Texture_board_gameResult, scene, { "GameResultScene" });
+
     load_texture("Assets/Image/icon_slime_128x128.png", Texture_icon_slime, scene, { "MapScene", "BattleResultScene" });
     load_texture("Assets/Image/icon_skeleton_128x128.png", Texture_icon_skeleton, scene, { "MapScene", "BattleResultScene" });
     load_texture("Assets/Image/icon_mage_128x128.png", Texture_icon_mage, scene, { "MapScene", "BattleResultScene" });
     load_texture("Assets/Image/icon_mimic_128x128.png", Texture_icon_mimic, scene, { "MapScene", "BattleResultScene" });
     load_texture("Assets/Image/icon_blackKnight_128x128.png", Texture_icon_blackKnight, scene, { "MapScene", "BattleResultScene" });
+
     load_texture("Assets/Image/mapArea.png", Texture_mapArea, scene, { "MapScene" });
 
     load_texture("Assets/Image/gauge_frame.png", Texture_GaugeFrame, scene, { "ParameterScene", "MapScene", "BattleScene" });
     load_texture("Assets/Image/gauge_green.png", Texture_GaugeBarGreen, scene, { "ParameterScene", "MapScene", "BattleScene" });
     load_texture("Assets/Image/gauge_red.png", Texture_GaugeBarRed, scene, { "ParameterScene", "MapScene", "BattleScene" });
+
+    load_texture("Assets/Image/background_parameter.png", Texture_background_parameter, scene, { "ParameterScene" });
     load_texture("Assets/Image/button_parameterCheck.png", Texture_buttonParameterCheck, scene, { "ParameterScene" });
     load_texture("Assets/Image/button_parameterEnhance.png", Texture_buttonParameterEnhance, scene, { "ParameterScene" });
-    load_texture("Assets/Image/background_parameter.png", Texture_background_parameter, scene, { "ParameterScene" });
     load_texture("Assets/Image/button_enhance.png", Texture_buttonEnhance, scene, { "ParameterScene" });
     load_texture("Assets/Image/up_arrow.png", Texture_upArrow, scene, { "ParameterScene" });
     load_texture("Assets/Image/down_arrow.png", Texture_downArrow, scene, { "ParameterScene" });
-    load_texture("Assets/Image/right_arrow.png", Texture_rightArrow, scene, { "ParameterScene", "BattleResultScene" });
+    load_texture("Assets/Image/right_arrow.png", Texture_rightArrow, scene, { "ParameterScene", "BattleResultScene", "GameResultScene" });
     load_texture("Assets/Image/gem.png", Texture_gem, scene, { "ParameterScene", "BattleResultScene", "GameResultScene" });
 
-    load_texture("Assets/Image/board_battlerResult.png", Texture_board_battleResult, scene, { "BattleResultScene" });
 }
 
 void Image::clear(const std::string& scene)

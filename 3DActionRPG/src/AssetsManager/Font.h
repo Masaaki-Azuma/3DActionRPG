@@ -16,7 +16,7 @@ public:
 	static void draw_centered(float top, const std::string& text, int color = NULL, unsigned int handle = NULL);
 
 public:
-	static int japanese_font;
+	static int japanese_font_35;
 	static int japanese_font_50;
 	static int english_font_35;
 

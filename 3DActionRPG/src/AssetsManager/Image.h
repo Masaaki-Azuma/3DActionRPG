@@ -31,6 +31,7 @@ enum
 	Texture_textGameStart,
 	Texture_textParameter,
 	Texture_board_battleResult,
+	Texture_board_gameResult,
 };
 
 /*

@@ -57,9 +57,9 @@ public:
 
 private:
 	//1プレイ中の残りライフ等パラメーターを保持する
-	Parameter current_parameter_{ -1, -1, -1 };
+	Parameter current_parameter_{ 0, 0, 0 };
 	//セーブデータに残るパラメーターを保持する
-	Parameter master_parameter_{ -1, -1, -1 };
+	Parameter master_parameter_{ 0, 0, 0 };
 	//データ元ファイル
 	std::string master_file_name_{ "" };
 

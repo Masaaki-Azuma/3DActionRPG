@@ -35,17 +35,6 @@ void BattleResultScene::start(void* data)
     is_end_ = false;
     //データを本来の型へキャストして取得
     result_ = *(static_cast<BattleResultData*>(data));
-
-    ////個々の種族から得られたジェム数を算出
-    //for (auto& p : result_.basterd_list) {
-    //    //ある種族から得られたジェム数
-    //    int gem_per_species = calc_gem(p.first, p.second);
-    //    //種族ごとにジェム数を保持
-    //    gem_list_[p.first] = gem_per_species;
-    //    //総ジェム数に追加
-    //    total_gem_ += gem_per_species;
-    //}
-
 }
 
 void BattleResultScene::update(float delta_time)
