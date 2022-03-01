@@ -4,7 +4,8 @@
 
 #include "Util/CsvReader.h"
 
-
+const int PlayerDatabase::LimitHP{ 10000 };
+const int PlayerDatabase::LimitAttack{ 5000 };
 
 void PlayerDatabase::set_dst_file(const std::string& file_name)
 {
@@ -74,6 +75,16 @@ const PlayerDatabase::Parameter& PlayerDatabase::get_current_parameter()
 const PlayerDatabase::Parameter& PlayerDatabase::get_master_parameter()
 {
 	return master_parameter_;
+}
+
+int PlayerDatabase::limit_hp() const
+{
+	return LimitHP;
+}
+
+int PlayerDatabase::limit_attack() const
+{
+	return LimitAttack;
 }
 
 void PlayerDatabase::add_possessed_jem(int rise_gem)

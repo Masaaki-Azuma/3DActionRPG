@@ -79,6 +79,11 @@ void Image::draw_rota_graph(unsigned int texture_id, float x, float y, float ex_
     DxLib::DrawRotaGraphF(x, y, ex_rate, rota_angle, Image::texture_handle(texture_id), is_trans);
 }
 
+void Image::draw_rect_graph(unsigned int texture_id, float x, float y, int srcX, int srcY, int width, int height, bool is_trans)
+{
+    DxLib::DrawRectGraphF(x, y, srcX, srcY, width, height, Image::texture_handle(texture_id), is_trans);
+}
+
 int Image::load_texture(const char* file_name, const std::string& scene, std::vector<std::string> use_sceces)
 {
     int handle = DxLib::LoadGraph(file_name);

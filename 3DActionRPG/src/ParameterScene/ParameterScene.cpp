@@ -37,7 +37,6 @@ const int RequiredGemList[NumEnhanceableParameter]{ 100, 500 };
 //パラメータ上昇値
 const int RiseValue[NumEnhanceableParameter]{ 100, 20 };
 
-
 void ParameterScene::start(void* data)
 {
     Image::load("ParameterScene");
@@ -46,8 +45,13 @@ void ParameterScene::start(void* data)
     selected_menu_index = 0;
     menu_state = State::SelectMenu;
 
-    hp_gauge_ = BarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 1240, 180, 540, 40 };
-    attack_gauge_ = BarGauge{ Texture_GaugeFrame, Texture_GaugeBarRed, 1240, 180 + EnhanceButtonInverval, 540, 40 };
+    //ForDebug:伸縮ゲージへ差し替え
+    hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 1240, 180, 540, 40 };
+    hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
+    hp_gauge_.set_edge_width(10);
+    attack_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarRed, 1240, 180 + EnhanceButtonInverval, 540, 40 };
+    attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
+    attack_gauge_.set_edge_width(10);
 }
 
 void ParameterScene::update(float delta_time)
@@ -159,6 +163,7 @@ void ParameterScene::try_enhance_hp()
     if (possesed_gem >= required_gem) {
         p_DB_.use_gem(required_gem);
         p_DB_.enhance_hp(RiseValue[ColHp]);
+        hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
     }
     else {
         /*足りないことを通知*/
@@ -172,6 +177,7 @@ void ParameterScene::try_enhance_attack()
     if (possesed_gem >= required_gem) {
         p_DB_.use_gem(required_gem);
         p_DB_.enhance_attack(RiseValue[ColAttack]);
+        attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
     }
     else {
         /*足りないことを通知*/
@@ -199,11 +205,11 @@ void ParameterScene::draw_detail_parameter() const
     static const int black = GetColor(0, 0, 0);
     //hpゲージ描画
     DxLib::DrawFormatStringToHandle(1280, 130, black, Font::japanese_font_35, "体力：%d", p_DB_.get_master_parameter().hp);
-    hp_gauge_.draw_gui(p_DB_.get_master_parameter().hp, p_DB_.get_master_parameter().hp);
+    hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_master_parameter().hp));
 
     //攻撃力ゲージ描画
     DxLib::DrawFormatStringToHandle(1280, 130 + EnhanceButtonInverval, black, Font::japanese_font_35, "攻撃力：%d", p_DB_.get_master_parameter().attack);
-    attack_gauge_.draw_gui(p_DB_.get_master_parameter().attack, p_DB_.get_master_parameter().attack);
+    attack_gauge_.draw_gui(static_cast<float>(p_DB_.get_master_parameter().attack));
 
     //所持ジェム描画
     DxLib::DrawFormatStringToHandle(800, 920, black, Font::japanese_font_35, "所持ジェム：　　　　　　　×%d", p_DB_.get_master_parameter().total_gem);

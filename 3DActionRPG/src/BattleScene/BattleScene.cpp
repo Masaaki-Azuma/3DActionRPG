@@ -15,8 +15,7 @@
 
 
 BattleScene::BattleScene():
-	p_DB_{PlayerDatabase::GetInstance()},
-	hp_gauge_{ Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40 }
+	p_DB_{PlayerDatabase::GetInstance()}
 {
 }
 
@@ -35,6 +34,11 @@ void BattleScene::start(void* data)
 	//DxLib::SetGlobalAmbientLight(DxLib::GetColorF(0.0f, 0.0f, 0.0f, 1.0f));
 	//DxLib::ChangeLightTypePoint(VGet(0.0f, 300.0f, 0.0f), 2000.0f, 0.0f, 0.0006f, 0.0f);
 	DxLib::SetCameraNearFar(200.0f, 50000.0f);
+
+	//HPゲージ
+	hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40 };
+	hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
+	hp_gauge_.set_edge_width(10);
 
 	//アクター追加
 	world_.add_actor(new Player{ &world_ });
@@ -97,7 +101,7 @@ void BattleScene::draw() const
 
 	world_.draw();
 
-	hp_gauge_.draw_gui(p_DB_.get_master_parameter().hp, p_DB_.get_current_parameter().hp);
+	hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
 
 	//ライトの設定
 	//DxLib::SetLightPosition(VECTOR{ 0, 500, 0 });

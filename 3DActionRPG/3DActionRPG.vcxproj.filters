@@ -42,6 +42,7 @@
     <ClCompile Include="src\AssetsManager\Font.cpp" />
     <ClCompile Include="src\Actor\Enemy\Mage.cpp" />
     <ClCompile Include="src\Actor\BarGauge.cpp" />
+    <ClCompile Include="src\Actor\ExtendableBarGauge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -89,5 +90,6 @@
     <ClInclude Include="src\AssetsManager\Font.h" />
     <ClInclude Include="src\Actor\Enemy\Mage.h" />
     <ClInclude Include="src\Actor\BarGauge.h" />
+    <ClInclude Include="src\Actor\ExtendableBarGauge.h" />
   </ItemGroup>
 </Project>

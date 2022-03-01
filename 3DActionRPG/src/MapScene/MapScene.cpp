@@ -17,6 +17,12 @@ void MapScene::start(void* data)
 {
     Image::load("MapScene");
     is_end_ = false;
+
+    //HPゲージ
+    hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40 };
+    hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
+    hp_gauge_.set_edge_width(10);
+
     //バトルシーンから帰ってきたときの更新処理
     map_.make_node_old();
 }
@@ -40,7 +46,7 @@ void MapScene::draw() const
     //マップ描画
     map_.draw();
     //HPバー描画
-    hp_gauge_.draw_gui(p_DB_.get_master_parameter().hp, p_DB_.get_current_parameter().hp);
+    hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
 }
 
 bool MapScene::is_end() const

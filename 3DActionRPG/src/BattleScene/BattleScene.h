@@ -4,7 +4,7 @@
 #include "IScene.h"
 #include "World.h"
 #include "BattleResultScene/BattleResultScene.h"
-#include "Actor/BarGauge.h"
+#include "Actor/ExtendableBarGauge.h"
 
 class PlayerDatabase;
 
@@ -30,7 +30,7 @@ private:
     //ワールドクラス
     World world_;
     //HPゲージ
-    BarGauge hp_gauge_;
+    ExtendableBarGauge hp_gauge_;
 
     //シーン終了フラグ
     bool is_end_{ false };

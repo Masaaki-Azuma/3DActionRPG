@@ -46,6 +46,9 @@ public:
 	const Parameter& get_current_parameter();
 	//セーブデータのパラメータ取得
 	const Parameter& get_master_parameter();
+	//
+	int limit_hp() const;
+	int limit_attack() const;
 
 	//ジェム増加をセーブ
 	void add_possessed_jem(int rise_gem);
@@ -54,6 +57,9 @@ public:
 	//攻撃力を増加させセーブ
 	void enhance_attack(int rize_attack);
 
+public:
+	static const int LimitHP;
+	static const int LimitAttack;
 
 private:
 	//1プレイ中の残りライフ等パラメーターを保持する

@@ -3,7 +3,7 @@
 
 #include "IScene.h"
 #include "AssetsManager/PlayerDatabase.h"
-#include "Actor/BarGauge.h"
+#include "Actor/ExtendableBarGauge.h"
 
 class ParameterScene :
     public IScene
@@ -48,8 +48,8 @@ private:
     int selected_parameter_index{ 0 };
     int selected_menu_index{ 0 };
     State menu_state{ State::SelectMenu };
-    BarGauge hp_gauge_;
-    BarGauge attack_gauge_;
+    ExtendableBarGauge hp_gauge_;
+    ExtendableBarGauge attack_gauge_;
 
     PlayerDatabase& p_DB_{ PlayerDatabase::GetInstance() };
 
