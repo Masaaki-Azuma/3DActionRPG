@@ -10,7 +10,6 @@
 #include "MapScene/MapManager.h"
 #include "Screen.h"
 
-
 enum //メニューの選択状態
 {
     GameStart,
@@ -25,6 +24,7 @@ void TitleScene::start(void* data)
     Image::load("TitleScene");
     is_end_ = false;
     select_index_ = 0;
+
 }
 
 void TitleScene::update(float delta_time)
@@ -43,7 +43,7 @@ void TitleScene::draw() const
     Image::draw_graph(Texture_textGameStart, 1350, 700);
     Image::draw_graph(Texture_textParameter, 1350, 700 + MenuInterval);
     //カーソル描画
-    Image::draw_rota_graph(Texture_cursor, 1300.0f, 730.0f + MenuInterval * select_index_);;
+    Image::draw_rota_graph(Texture_cursor, 1300.0f, 730.0f + MenuInterval * select_index_);
 }
 
 bool TitleScene::is_end() const

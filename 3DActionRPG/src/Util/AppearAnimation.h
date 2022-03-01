@@ -3,7 +3,6 @@
 
 //シルエット状態から徐々に上から公開するアニメーションクラス
 
-class Vector3;
 class Vector2;
 
 class AppearAnimation

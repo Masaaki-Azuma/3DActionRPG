@@ -5,7 +5,9 @@
 
 #include <string>
 
+#include "Util/SlideInAnimation.h"
 #include "Actor/ExtendableBarGauge.h"
+
 
 class MapManager;
 class PlayerDatabase;
@@ -29,9 +31,12 @@ private:
 
 private:
     bool is_end_;
-    MapManager& map_;
     ExtendableBarGauge hp_gauge_;
+    SlideInAnimation encount_text_;
+
+    MapManager& map_;
     PlayerDatabase& p_DB_;
+    
 };
 #endif//!MAP_SCENE_H_
 

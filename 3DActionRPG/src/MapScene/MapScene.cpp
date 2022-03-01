@@ -35,11 +35,21 @@ void MapScene::update(float delta_time)
     if (map_.is_final_area()) {
         is_end_ = true;
     }
+
     //マップの更新
     map_.update(delta_time);
-    //エリアを選択したらシーン終了
-    if (map_.is_picked()) {
+    //遭遇テキスト更新
+    encount_text_.update(delta_time);
+
+    //エリアを選択したらエリア公開
+    if (map_.is_picked() && encount_text_.is_wait()) {
+        encount_text_ = SlideInAnimation{ Texture_GaugeBarGreen, 100, 100, 10.0f, 300.0f };
+        encount_text_.start();
+    }
+    //演出終了後、決定キーで進む
+    if (Input::get_button_down(PAD_INPUT_1) && encount_text_.is_end()) {
         is_end_ = true;
+        return;
     }
 }
 
@@ -49,6 +59,8 @@ void MapScene::draw() const
     map_.draw();
     //HPバー描画
     hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
+    //遭遇モンスター名表示
+    encount_text_.draw();
 }
 
 bool MapScene::is_end() const
