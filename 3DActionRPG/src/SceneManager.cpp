@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 
+#include <cassert>
+
 #include "SceneNull.h"
 
 static SceneNull scene_null; //シーンマネージャーの処理の単純化にのみ必要
@@ -57,6 +59,7 @@ void SceneManager::add(const std::string& name, IScene* scene)
 
 void SceneManager::change(const std::string& name)
 {
+	assert(scenes_.count(name) != 0 && "無効なシーン名が渡されました");
 	//前シーンから引き継ぐデータを取得
 	void* data = current_scene_->data();
 	//現在のシーンを終了

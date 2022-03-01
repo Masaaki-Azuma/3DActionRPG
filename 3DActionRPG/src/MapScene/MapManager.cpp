@@ -11,16 +11,13 @@
 #include "Util/CsvReader.h"
 #include "AssetsManager/Image.h"
 
-
-const int MaxDepth{ 6 };                              //マップ上のノードの列数
-const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅
-const float AreaVerticalInterval{ 200.0f };           //エリア間の高さ
-const Vector3 StartPosition{ 200.0f, 600.0f };          //スタートノードの位置
-const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
-const int NumEnemySpecies{ 5 }; //敵の種類数
-
-//ForDebug:関数staticを一時的にグローバルに
-static int area_index = 0;
+static const int MaxDepth{ 6 };                              //マップ上のノードの列数
+static const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
+static const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅
+static const float AreaVerticalInterval{ 200.0f };           //エリア間の高さ
+static const Vector3 StartPosition{ 200.0f, 600.0f };        //スタートノードの位置
+static const int RoadOffset{ 50 };                    //エリア間の道描画用のオフセット
+static const int NumEnemySpecies{ 5 };                       //敵の種類数
 
 void MapManager::update(float delta_time)
 {
@@ -31,22 +28,11 @@ void MapManager::draw()
 {
 	//背景描画
 	Image::draw_graph(Texture_background_oldmap);
-
-	//浅いノードから上から順に描画
-	for (auto& depth : node_list_) {
-		for (auto& node : depth) {
-			node->draw();
-			//ForDebug:ノードの繋がりの確認
-			Vector3 pos = node->position();
-			AreaNode::NextNodeList list = node->next();
-			for (auto& np : list) {
-				DxLib::DrawLineAA(pos.x, pos.y, np->position().x, np->position().y, GetColor(0, 255, 0));
-			}
-		}
-	}
+	//全エリアを描画
+	draw_areas();
+	//カーソルを描画
+	draw_cursor();
 	//ForDebug:選択エリアを単純描画
-	DxLib::DrawFormatString(0, 0, GetColor(255, 255, 255), "current_selected_index: %d", area_index);
-	DxLib::DrawCircleAA(current_area_node_->position().x, current_area_node_->position().y, 20, 8, GetColor(0, 255, 0));
 	DxLib::DrawCircleAA(prev_area_node_->position().x, prev_area_node_->position().y, 20, 8, GetColor(255, 0, 0));
 }
 
@@ -57,10 +43,8 @@ void MapManager::generate()
 	generate_nodes();
 	//生成したノードをつなげる
 	link_nodes();
-
-	//ForDebug:最初のノードを現在地に設定
-	current_area_node_ = node_list_[0][0];
-	prev_area_node_ = current_area_node_;
+	//スタート地点を現在地に設定
+	set_start_node();
 }
 
 void MapManager::clear()
@@ -102,7 +86,7 @@ const std::string MapManager::pick_enemy(int depth)
 {
 	//スタート地点ならNone
 	if (depth == 0) return "None";
-
+	//敵生成用のランダム値を100％基準で生成
 	float rand_num = MyRandom::Range(0.0f, 100.0f);
 	std::string enemy_name = "None"; //スタート地点を表すNone
 	//ある深さでの敵出現率とランダム値を順に比較
@@ -118,20 +102,21 @@ const std::string MapManager::pick_enemy(int depth)
 
 void MapManager::pick_area()
 {
-	//static int area_index{ 0 };
 	const int num_next_node = prev_area_node_->next().size();
+	//決定ボタンでエリアを決定
 	if (Input::get_button_down(PAD_INPUT_1)) {
 		if (prev_area_node_->next().empty()) return;
-		current_area_node_ = prev_area_node_->next().at(area_index);
-		area_index = 0;
+		//選択エリアを現在地に更新
+		current_area_node_ = prev_area_node_->next().at(area_index_);
+		//選択済みに
 		is_picked_ = true;
 	}
-
+	//上下ボタンでエリアを選択
 	if (Input::get_button_down(PAD_INPUT_UP)) {
-		area_index = (area_index + num_next_node - 1) % num_next_node;
+		area_index_ = (area_index_ + num_next_node - 1) % num_next_node;
 	}
 	if (Input::get_button_down(PAD_INPUT_DOWN)) {
-		area_index = (area_index + 1) % num_next_node;
+		area_index_ = (area_index_ + 1) % num_next_node;
 	}
 }
 
@@ -142,6 +127,7 @@ bool MapManager::is_picked()
 
 bool MapManager::is_final_area()
 {
+	//次のエリアリストが空なら最終エリアと判断
 	return prev_area_node_->next().empty();
 }
 
@@ -149,10 +135,12 @@ void MapManager::make_node_old()
 {
 	prev_area_node_ = current_area_node_;
 	is_picked_ = false;
+	area_index_ = 0;
 }
 
 std::string& MapManager::selected_enemy()
 {
+	//現在エリアにいる敵の名前を取得
 	return current_area_node_->enemy();
 }
 
@@ -210,6 +198,13 @@ void MapManager::link_nodes()
 
 }
 
+void MapManager::set_start_node()
+{
+	//最初のノードを現在地に設定
+	current_area_node_ = node_list_[0][0];
+	prev_area_node_ = current_area_node_;
+}
+
 void MapManager::calc_possibility_per_depth(int depth, const CsvReader& table)
 {
 	//累積確率
@@ -227,4 +222,31 @@ void MapManager::calc_possibility_per_depth(int depth, const CsvReader& table)
 		enemy_possibility_table_[row].second.emplace_back(possibility_accumulation);
 	}
 	assert(possibility_accumulation == 100 && "確率の合計が100％になりません。元データの数値を確認してください");
+}
+
+void MapManager::draw_areas()
+{
+	//浅いエリアから上から順に描画
+	for (auto& depth : node_list_) {
+		for (auto& node : depth) {
+			Vector3 pos = node->position();
+			//次のエリアリスト
+			AreaNode::NextNodeList list = node->next();
+			//エリアをつなぐ道の描画
+			for (auto& np : list) {
+				static const int road_color = DxLib::GetColor(79, 58, 29);
+				DxLib::DrawLineAA(pos.x, pos.y + RoadOffset, np->position().x, np->position().y + RoadOffset, road_color, 8);
+			}
+			//エリア本体を描画
+			node->draw();
+		}
+	}
+}
+
+void MapManager::draw_cursor()
+{
+	//選択箇所をアイコンで示す
+	if (prev_area_node_->next().empty()) return; //ゴールなら描画の必要なし
+	Vector3 pos_next_area = prev_area_node_->next().at(area_index_)->position();
+	Image::draw_rota_graph(Texture_cursor, pos_next_area.x, pos_next_area.y - 60.0f, 0.6f);
 }

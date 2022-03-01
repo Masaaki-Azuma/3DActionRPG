@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Actor\ExtendableBarGauge.cpp" />
+    <ClCompile Include="src\Actor\BarGauge.cpp" />
     <ClCompile Include="src\AssetsManager\Font.cpp" />
     <ClCompile Include="src\Actor\Enemy\Mage.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -66,6 +68,8 @@
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Actor\ExtendableBarGauge.h" />
+    <ClInclude Include="src\Actor\BarGauge.h" />
     <ClInclude Include="src\AssetsManager\Font.h" />
     <ClInclude Include="src\Actor\Enemy\Mage.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

@@ -3,6 +3,7 @@
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Mesh.h"
 #include "Util/Input.h"
+#include "AssetsManager/PlayerDatabase.h"
 
 #include "Actor/Camera.h"
 #include "Actor/Player.h"
@@ -13,6 +14,11 @@
 #include "Actor/Enemy/BlackKnight.h"
 
 
+BattleScene::BattleScene():
+	p_DB_{PlayerDatabase::GetInstance()}
+{
+}
+
 void BattleScene::start(void* data)
 {
     is_end_ = false;
@@ -20,16 +26,21 @@ void BattleScene::start(void* data)
 	Image::load("BattleScene");
 	Mesh::load();
 
-	//ForDebug:フォグ
-	SetFogEnable(TRUE);
-	SetFogColor(137, 189, 222);
-	SetFogStartEnd(100.0f, 4000.0f);
+
+	
 
 	//ステージコライダーの衝突情報を取得できるよう準備
 	DxLib::MV1SetupCollInfo(Mesh::stage_handle, -1, 8, 8, 8);
 	//DxLib::SetGlobalAmbientLight(DxLib::GetColorF(0.0f, 0.0f, 0.0f, 1.0f));
 	//DxLib::ChangeLightTypePoint(VGet(0.0f, 300.0f, 0.0f), 2000.0f, 0.0f, 0.0006f, 0.0f);
 	DxLib::SetCameraNearFar(200.0f, 50000.0f);
+
+	//HPゲージ
+	hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray};
+	hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
+	hp_gauge_.set_edge_width(10);
+
+	//アクター追加
 	world_.add_actor(new Player{ &world_ });
 	world_.add_camera(new Camera{ &world_ });
 
@@ -76,6 +87,12 @@ void BattleScene::draw() const
 	DxLib::MV1DrawModel(Mesh::skybox);
 	DxLib::SetUseLighting(TRUE);
 
+	
+	//ForDebug:フォグ
+	/*SetFogEnable(TRUE);
+	SetFogColor(137, 189, 222);
+	SetFogStartEnd(100.0f, 4000.0f);*/
+
 	//ステージの描画
 	DxLib::MV1DrawModel(Mesh::ground_handle);
 	DxLib::MV1DrawModel(Mesh::stage_handle);
@@ -83,6 +100,8 @@ void BattleScene::draw() const
 	//!ForDebug
 
 	world_.draw();
+
+	hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
 
 	//ライトの設定
 	//DxLib::SetLightPosition(VECTOR{ 0, 500, 0 });

@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Font.h"
 #include "Util/Input.h"
 
 //HACK:PlayerDatabaseのenumとまとめられないか？
@@ -20,9 +21,14 @@ enum //選択可能な項目内容
 };
 
 //選択可能なメニュー項目数
-const int NumMenu{ 2 };
+static const int NumMenu{ 2 };
 //強化可能なパラメータの数
-const int NumEnhanceableParameter{ 2 };
+static const int NumEnhanceableParameter{ 2 };
+//メニュー項目高間隔
+static const int MenuInterval{ 160 };
+//強化ボタン高さ間隔
+static const int EnhanceButtonInverval{ 400 };
+
 
 /*以下PlayerDatabaseのenumに対応*/
 
@@ -31,14 +37,24 @@ const int RequiredGemList[NumEnhanceableParameter]{ 100, 500 };
 //パラメータ上昇値
 const int RiseValue[NumEnhanceableParameter]{ 100, 20 };
 
-
 void ParameterScene::start(void* data)
 {
-    Image::load("Parameter");
+    Image::load("ParameterScene");
     is_end_ = false;
     selected_parameter_index = 0;
     selected_menu_index = 0;
     menu_state = State::SelectMenu;
+
+    //ForDebug:伸縮ゲージへ差し替え
+    hp_gauge_ = ExtendableBarGauge{ 1240, 180, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray };
+
+    //hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 1240, 180, 540, 40 };
+    hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
+    hp_gauge_.set_edge_width(10);
+    //attack_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarRed, 1240, 180 + EnhanceButtonInverval, 540, 40 };
+    attack_gauge_ = ExtendableBarGauge{ 1240, 180 + EnhanceButtonInverval, 540, 40, Texture_GaugeFrame, Texture_GaugeBarRed, Texture_GaugeBarGray};
+    attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
+    attack_gauge_.set_edge_width(10);
 }
 
 void ParameterScene::update(float delta_time)
@@ -49,42 +65,16 @@ void ParameterScene::update(float delta_time)
     case State::CheckParameter:  check_parameter();           break;
     case State::EnhanceParamter: select_enhanced_parameter(); break;
     }
-
 }
 
 void ParameterScene::draw() const
 {
-    int white = GetColor(255, 255, 255);
-    //ForDebug:シーン名仮表示
-    DxLib::DrawString(0, 0, "パラメーターシーン", GetColor(255, 255, 255));
-
-    //ForDebug:選択状態仮表示
-    std::string state_text;
-    switch (menu_state) {
-    case State::SelectMenu:      state_text = "メニュー選択状態";     break;
-    case State::CheckParameter:  state_text = "パラメーター確認状態"; break;
-    case State::EnhanceParamter: state_text = "パラメーター強化状態"; break;
-    }
-    DxLib::DrawString(0, 20, state_text.c_str(), GetColor(255, 255, 255));
-
-    //ForDebug:メニュー選択肢仮表示
-    if (menu_state == State::SelectMenu) {
-        DxLib::DrawString(20, 60, "パラメーター確認", white);
-        DxLib::DrawString(20, 80, "パラメーター強化", white);
-        DxLib::DrawString(0, 60 + 20 * (selected_menu_index), "●", white);
-
-
-    }
-    //ForDebug:増加ボタン仮表示
-    if (menu_state == State::EnhanceParamter) {
-        DxLib::DrawString(200, 20, "hp増加", white);
-        DxLib::DrawString(200, 40, "attack増加", white);
-        DxLib::DrawString(180, 20 + 20 * (selected_parameter_index), "●", white);
-
-        DxLib::DrawFormatString(200, 100, white, "hp: %d, attack: %d, gem: %d", p_DB_.get_master_parameter().hp, p_DB_.get_master_parameter().attack, p_DB_.get_master_parameter().total_gem);
-    }
-   
-
+    //背景描画
+    Image::draw_graph(Texture_background_parameter);
+    //画面左のメニュー
+    draw_menu();
+    //画面右の詳細
+    draw_detail_parameter();
 }
 
 bool ParameterScene::is_end() const
@@ -175,7 +165,8 @@ void ParameterScene::try_enhance_hp()
     int required_gem = RequiredGemList[ColHp];
     if (possesed_gem >= required_gem) {
         p_DB_.use_gem(required_gem);
-        p_DB_.enhance_hp(100);
+        p_DB_.enhance_hp(RiseValue[ColHp]);
+        hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
     }
     else {
         /*足りないことを通知*/
@@ -188,9 +179,86 @@ void ParameterScene::try_enhance_attack()
     int required_gem = RequiredGemList[ColAttack];
     if (possesed_gem >= required_gem) {
         p_DB_.use_gem(required_gem);
-        p_DB_.enhance_hp(20);
+        p_DB_.enhance_attack(RiseValue[ColAttack]);
+        attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
     }
     else {
         /*足りないことを通知*/
     }
+}
+
+void ParameterScene::draw_menu() const
+{
+    static const int brown = GetColor(26, 10, 4);
+    //メニュー項目描画
+    Image::draw_graph(Texture_buttonParameterCheck, 190, 130);
+    Image::draw_graph(Texture_buttonParameterEnhance, 190, 130 + MenuInterval);
+
+    //項目概要
+    std::string message;
+    if (selected_menu_index == Menu_CheckParameter || menu_state == State::CheckParameter)  message = "現在のパラメーターを確認します";
+    else if (selected_menu_index == Menu_EnhanceParameter || menu_state == State::EnhanceParamter) message = "ジェムを使ってパラメーターを強化します";
+    //文字列を改行
+    std::string restructed_message = restruct_string(message);
+    DxLib::DrawStringToHandle(190, 550, restructed_message.c_str(), brown, Font::japanese_font_35);
+}
+
+void ParameterScene::draw_detail_parameter() const
+{
+    static const int black = GetColor(0, 0, 0);
+    //hpゲージ描画
+    DxLib::DrawFormatStringToHandle(1280, 130, black, Font::japanese_font_35, "体力：%d", p_DB_.get_master_parameter().hp);
+    hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_master_parameter().hp));
+
+    //攻撃力ゲージ描画
+    DxLib::DrawFormatStringToHandle(1280, 130 + EnhanceButtonInverval, black, Font::japanese_font_35, "攻撃力：%d", p_DB_.get_master_parameter().attack);
+    attack_gauge_.draw_gui(static_cast<float>(p_DB_.get_master_parameter().attack));
+
+    //所持ジェム描画
+    DxLib::DrawFormatStringToHandle(800, 920, black, Font::japanese_font_35, "所持ジェム：　　　　　　　×%d", p_DB_.get_master_parameter().total_gem);
+    Image::draw_graph(Texture_gem, 1100, 910);
+
+    //パラメーター強化に関する表示
+    if (selected_menu_index == Menu_EnhanceParameter || menu_state == State::EnhanceParamter) {
+        //HPパラメータ昇降値
+        Image::draw_graph(Texture_buttonEnhance, 850, 280);
+        Image::draw_rota_graph(Texture_gem, 1200, 320);
+        DxLib::DrawFormatStringToHandle(1230, 305, black, Font::japanese_font_35, "×%d", RequiredGemList[ColHp]);
+        Image::draw_rota_graph(Texture_downArrow, 1370, 320);
+        Image::draw_rota_graph(Texture_rightArrow, 1480, 320);
+        DxLib::DrawFormatStringToHandle(1560, 305, black, Font::japanese_font_35, "HP %d", RiseValue[ColHp]);
+        Image::draw_rota_graph(Texture_upArrow, 1730, 320);
+
+        //ATKパラメータ昇降値
+        Image::draw_graph(Texture_buttonEnhance, 850, 280 + EnhanceButtonInverval);
+        Image::draw_rota_graph(Texture_gem, 1200, 320 + EnhanceButtonInverval);
+        DxLib::DrawFormatStringToHandle(1230, 305 + EnhanceButtonInverval, black, Font::japanese_font_35, "×%d", RequiredGemList[ColAttack]);
+        Image::draw_rota_graph(Texture_downArrow, 1370, 320 + EnhanceButtonInverval);
+        Image::draw_rota_graph(Texture_rightArrow, 1480, 320 + EnhanceButtonInverval);
+        DxLib::DrawFormatStringToHandle(1560, 305 + EnhanceButtonInverval, black, Font::japanese_font_35, "ATK %d", RiseValue[ColAttack]);
+        Image::draw_rota_graph(Texture_upArrow, 1730, 320 + EnhanceButtonInverval);
+    }
+
+    //選択状態に応じた位置にメニューカーソル描画
+    switch (menu_state) {
+    case State::SelectMenu:      Image::draw_rota_graph(Texture_cursor, 125.0f, 175.0f + MenuInterval * selected_menu_index);               break;
+    case State::EnhanceParamter: Image::draw_rota_graph(Texture_cursor, 790.0f, 320.0f + EnhanceButtonInverval * selected_parameter_index); break;
+    }
+}
+
+std::string ParameterScene::restruct_string(const std::string& str) const
+{
+    //改行後の文字列
+    std::string restructed_message;
+    int count = 0;
+    const int max_char = 18;
+    for (auto c : str) {
+        restructed_message.push_back(c);
+        count++;
+        if (count >= max_char) {
+            restructed_message.push_back('¥n');
+            count = 0;
+        }
+    }
+    return restructed_message;
 }

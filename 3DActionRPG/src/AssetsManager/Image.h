@@ -15,6 +15,24 @@ enum
 	Texture_icon_blackKnight,
 	Texture_background_oldmap,
 	Texture_mapArea,
+	Texture_GaugeFrame,
+	Texture_GaugeBarGreen,
+	Texture_GaugeBarRed,
+	Texture_GaugeBarGray,
+	Texture_buttonParameterCheck,
+	Texture_buttonParameterEnhance,
+	Texture_background_parameter,
+	Texture_cursor,
+	Texture_buttonEnhance,
+	Texture_gem,
+	Texture_upArrow,
+	Texture_downArrow,
+	Texture_rightArrow,
+	Texture_titleLogo,
+	Texture_textGameStart,
+	Texture_textParameter,
+	Texture_board_battleResult,
+	Texture_board_gameResult,
 };
 
 /*
@@ -33,6 +51,9 @@ public:
 	static void draw_graph(unsigned int texture_id, float left = 0.0f, float top = 0.0f, bool is_trans = true);
 	//位置、スケール、回転角度を指定して画像描画
 	static void draw_rota_graph(unsigned int texture_id, float x = 0.0f, float y = 0.0f, float ex_rate = 1.0f, float rota_angle = 0.0f, bool is_trans = true);
+	//画像の一部を描画
+	static void draw_rect_graph(unsigned int texture_id, float x, float y, int srcX, int srcY, int width, int height, bool is_trans = true);
+
 private:
 	static int load_texture(const char* file_name, const std::string& scene = "", std::vector<std::string> use_sceces = { "" });
 	//テクスチャを読み込んでIDと紐づける

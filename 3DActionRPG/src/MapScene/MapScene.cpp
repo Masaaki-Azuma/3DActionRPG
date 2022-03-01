@@ -7,43 +7,48 @@
 #include "MapManager.h"
 
 MapScene::MapScene():
-    map_{MapManager::GetInstance()}
+    map_{MapManager::GetInstance()},
+    p_DB_{PlayerDatabase::GetInstance()},
+    hp_gauge_{Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40}
 {
 }
 
 void MapScene::start(void* data)
 {
     Image::load("MapScene");
-
     is_end_ = false;
-    Image::load();
-    MyRandom::Init();
+
+    //HPゲージ
+    hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40 , Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray };
+
+    //hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40 };
+    hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
+    hp_gauge_.set_edge_width(10);
 
     //バトルシーンから帰ってきたときの更新処理
     map_.make_node_old();
-
-    //ForDebug:
 }
 
 void MapScene::update(float delta_time)
 {
-
+    //最後のエリアから戻ってきたときはシーン終了
     if (map_.is_final_area()) {
         is_end_ = true;
     }
+    //マップの更新
     map_.update(delta_time);
+    //エリアを選択したらシーン終了
     if (map_.is_picked()) {
         is_end_ = true;
     }
-
-    //ForDebug:エリアを動かずにシーン遷移チート
-    //restart_area();
 }
 
 void MapScene::draw() const
 {
+    //マップ描画
     map_.draw();
-
+    //HPバー描画
+    hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
 }
 
 bool MapScene::is_end() const

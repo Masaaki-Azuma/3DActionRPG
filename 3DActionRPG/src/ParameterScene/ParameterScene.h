@@ -3,6 +3,7 @@
 
 #include "IScene.h"
 #include "AssetsManager/PlayerDatabase.h"
+#include "Actor/ExtendableBarGauge.h"
 
 class ParameterScene :
     public IScene
@@ -31,15 +32,25 @@ private:
     void select_menu();
     //強化するパラメーターを選択
     void select_enhanced_parameter();
-
+    //体力の強化を試みる
     void try_enhance_hp();
+    //攻撃力のの強化を試みる
     void try_enhance_attack();
+    //画面左のメニューを描画
+    void draw_menu() const;
+    //画面右の詳細を描画
+    void draw_detail_parameter()const;
+    //文章を改行する
+    std::string restruct_string(const std::string& str) const;
 
 private:
     bool is_end_{ false };
     int selected_parameter_index{ 0 };
-    State menu_state{ State::SelectMenu };
     int selected_menu_index{ 0 };
+    State menu_state{ State::SelectMenu };
+    ExtendableBarGauge hp_gauge_;
+    ExtendableBarGauge attack_gauge_;
+
     PlayerDatabase& p_DB_{ PlayerDatabase::GetInstance() };
 
 };
