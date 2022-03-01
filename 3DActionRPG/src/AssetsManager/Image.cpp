@@ -19,9 +19,15 @@ void Image::load(const std::string& scene)
 
     load_texture("Assets/Image/icon_slime_128x128.png", Texture_icon_slime, scene, { "MapScene", "BattleResultScene" });
     load_texture("Assets/Image/icon_skeleton_128x128.png", Texture_icon_skeleton, scene, { "MapScene", "BattleResultScene" });
-    load_texture("Assets/Image/icon_mage_128x128.png", Texture_icon_mage, scene, { "MapScene", "BattleResultScene" });
+    //load_texture("Assets/Image/icon_mage_128x128.png", Texture_icon_mage, scene, { "MapScene", "BattleResultScene" });
     load_texture("Assets/Image/icon_mimic_128x128.png", Texture_icon_mimic, scene, { "MapScene", "BattleResultScene" });
     load_texture("Assets/Image/icon_blackKnight_128x128.png", Texture_icon_blackKnight, scene, { "MapScene", "BattleResultScene" });
+
+    load_texture("Assets/Image/silhouette_slime_128x128.png", Texture_silhouette_slime, scene, { "MapScene" });
+    load_texture("Assets/Image/silhouette_skeleton_128x128.png", Texture_silhouette_skeleton, scene, { "MapScene" });
+    //load_texture("Assets/Image/silhouette_mage_128x128.png", Texture_silhouette_mage, scene, { "MapScene" });
+    load_texture("Assets/Image/silhouette_mimic_128x128.png", Texture_silhouette_mimic, scene, { "MapScene" });
+    load_texture("Assets/Image/silhouette_blackKnight_128x128.png", Texture_silhouette_blackKnight, scene, { "MapScene" });
 
     load_texture("Assets/Image/mapArea.png", Texture_mapArea, scene, { "MapScene" });
 

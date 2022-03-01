@@ -47,6 +47,7 @@
     <ClCompile Include="src\AssetsManager\Image.cpp" />
     <ClCompile Include="src\MapScene\MapManager.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\Util\AppearAnimation.cpp" />
     <ClCompile Include="src\Util\CsvReader.cpp" />
     <ClCompile Include="src\Util\DxConverter.cpp" />
     <ClCompile Include="src\Actor\Enemy\Enemy.cpp" />
@@ -63,6 +64,7 @@
     <ClCompile Include="src\Stopwatch.cpp" />
     <ClCompile Include="src\Util\MyMath.cpp" />
     <ClCompile Include="src\Util\MyRandom.cpp" />
+    <ClCompile Include="src\Util\Vector2.cpp" />
     <ClCompile Include="src\Util\Vector3.cpp" />
     <ClCompile Include="src\BattleScene\World.cpp" />
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
@@ -98,6 +100,7 @@
     <ClInclude Include="src\MapScene\MapManager.h" />
     <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\SceneNull.h" />
+    <ClInclude Include="src\Util\AppearAnimation.h" />
     <ClInclude Include="src\Util\CsvReader.h" />
     <ClInclude Include="src\Util\DxConverter.h" />
     <ClInclude Include="src\Actor\Enemy\Enemy.h" />
@@ -116,6 +119,7 @@
     <ClInclude Include="src\Stopwatch.h" />
     <ClInclude Include="src\Util\MyMath.h" />
     <ClInclude Include="src\Util\MyRandom.h" />
+    <ClInclude Include="src\Util\Vector2.h" />
     <ClInclude Include="src\Util\Vector3.h" />
     <ClInclude Include="src\BattleScene\World.h" />
     <ClInclude Include="src\TitleScene\TitleScene.h" />

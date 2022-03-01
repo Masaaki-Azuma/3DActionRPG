@@ -16,11 +16,12 @@ static const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとの�
 static const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅
 static const float AreaVerticalInterval{ 200.0f };           //エリア間の高さ
 static const Vector3 StartPosition{ 200.0f, 600.0f };        //スタートノードの位置
-static const int RoadOffset{ 50 };                    //エリア間の道描画用のオフセット
+static const int RoadOffset{ 50 };                           //エリア間の道描画用のオフセット
 static const int NumEnemySpecies{ 5 };                       //敵の種類数
 
 void MapManager::update(float delta_time)
 {
+	update_areas(delta_time);
 	pick_area();
 }
 
@@ -108,6 +109,8 @@ void MapManager::pick_area()
 		if (prev_area_node_->next().empty()) return;
 		//選択エリアを現在地に更新
 		current_area_node_ = prev_area_node_->next().at(area_index_);
+		//シルエットを公開
+		current_area_node_->appear();
 		//選択済みに
 		is_picked_ = true;
 	}
@@ -122,7 +125,7 @@ void MapManager::pick_area()
 
 bool MapManager::is_picked()
 {
-	return is_picked_;
+	return is_picked_ && current_area_node_->is_appeared();
 }
 
 bool MapManager::is_final_area()
@@ -131,9 +134,12 @@ bool MapManager::is_final_area()
 	return prev_area_node_->next().empty();
 }
 
-void MapManager::make_node_old()
+//マップシーンに入った時の処理
+void MapManager::enter_map()
 {
+	//エリア選択履歴を更新
 	prev_area_node_ = current_area_node_;
+	//選択状態を初期化
 	is_picked_ = false;
 	area_index_ = 0;
 }
@@ -142,6 +148,17 @@ std::string& MapManager::selected_enemy()
 {
 	//現在エリアにいる敵の名前を取得
 	return current_area_node_->enemy();
+}
+
+void MapManager::update_areas(float delta_time)
+{
+	//浅いエリアから上から順に描画
+	for (auto& depth : node_list_) {
+		for (auto& node : depth) {
+			//エリア本体を描画
+			node->update(delta_time);
+		}
+	}
 }
 
 void MapManager::generate_nodes()
