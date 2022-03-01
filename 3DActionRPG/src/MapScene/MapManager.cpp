@@ -10,6 +10,8 @@
 #include "Util/Input.h"
 #include "Util/CsvReader.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Font.h"
+
 
 static const int MaxDepth{ 6 };                              //マップ上のノードの列数
 static const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
@@ -21,8 +23,18 @@ static const int NumEnemySpecies{ 5 };                       //敵の種類数
 
 void MapManager::update(float delta_time)
 {
+	//エリア更新
 	update_areas(delta_time);
-	pick_area();
+	//エリア選択
+	if (!is_picked()) pick_area();
+	//遭遇テキスト更新
+	encount_text_.update(delta_time);
+	//エリア公開後敵名表示
+	if (is_appeared() && encount_text_.is_wait()) {
+		encount_text_ = SlideInAnimation{ "VS スライム", Font::japanese_font_120, 120, DxLib::GetColor(207, 205, 175), 15.0f, 300.0f };
+		encount_text_.start();
+	}
+	
 }
 
 void MapManager::draw()
@@ -35,6 +47,8 @@ void MapManager::draw()
 	draw_cursor();
 	//ForDebug:選択エリアを単純描画
 	DxLib::DrawCircleAA(prev_area_node_->position().x, prev_area_node_->position().y, 20, 8, GetColor(255, 0, 0));
+	//遭遇モンスター名表示
+	encount_text_.draw();
 }
 
 
@@ -125,13 +139,23 @@ void MapManager::pick_area()
 
 bool MapManager::is_picked()
 {
-	return is_picked_ && current_area_node_->is_appeared();
+	return is_picked_;
+}
+
+bool MapManager::is_appeared() const
+{
+	return current_area_node_->is_appeared();
 }
 
 bool MapManager::is_final_area()
 {
 	//次のエリアリストが空なら最終エリアと判断
 	return prev_area_node_->next().empty();
+}
+
+bool MapManager::is_end()
+{
+	return is_picked() && is_appeared() && encount_text_.is_end();
 }
 
 //マップシーンに入った時の処理

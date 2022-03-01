@@ -75,6 +75,8 @@ void ParameterScene::draw() const
     draw_menu();
     //画面右の詳細
     draw_detail_parameter();
+
+    
 }
 
 bool ParameterScene::is_end() const

@@ -9,6 +9,7 @@
 #include <utility>  //pair
 
 #include "Util/Vector3.h"
+#include "Util/SlideInAnimation.h"
 
 class AreaNode;
 class CsvReader;
@@ -35,8 +36,12 @@ public:
 	void pick_area();
 	//選択エリアが決定されたか？
 	bool is_picked();
+	//エリアが公開されたか？
+	bool is_appeared() const;
 	//最終エリアをクリア後か？
 	bool is_final_area();
+	//演出終了したか？
+	bool is_end();
 
 	//HACK:これはバトルシーンから戻ってきたときに呼び出される関数であるので、適切な名前に変更せよ
 	//前回選択したエリアを過去のエリアへ変更
@@ -77,6 +82,9 @@ private:
 	//敵と各深さのエリアでの出現率表
 	std::vector<std::pair<std::string, std::vector<int>>> enemy_possibility_table_; //<"敵の名前", "ある敵の出現率配列">
 	bool is_picked_{ false };
+
+	SlideInAnimation encount_text_;
+
 
 	//選択中のエリア番号
 	int area_index_;
