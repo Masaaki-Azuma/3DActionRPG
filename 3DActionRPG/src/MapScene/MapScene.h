@@ -5,7 +5,6 @@
 
 #include <string>
 
-#include "Actor/BarGauge.h"
 #include "Actor/ExtendableBarGauge.h"
 
 class MapManager;
@@ -31,7 +30,6 @@ private:
 private:
     bool is_end_;
     MapManager& map_;
-    //BarGauge hp_gauge_;
     ExtendableBarGauge hp_gauge_;
     PlayerDatabase& p_DB_;
 };

@@ -18,6 +18,7 @@ enum
 	Texture_GaugeFrame,
 	Texture_GaugeBarGreen,
 	Texture_GaugeBarRed,
+	Texture_GaugeBarGray,
 	Texture_buttonParameterCheck,
 	Texture_buttonParameterEnhance,
 	Texture_background_parameter,

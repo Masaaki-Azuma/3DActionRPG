@@ -28,6 +28,7 @@ void Image::load(const std::string& scene)
     load_texture("Assets/Image/gauge_frame.png", Texture_GaugeFrame, scene, { "ParameterScene", "MapScene", "BattleScene" });
     load_texture("Assets/Image/gauge_green.png", Texture_GaugeBarGreen, scene, { "ParameterScene", "MapScene", "BattleScene" });
     load_texture("Assets/Image/gauge_red.png", Texture_GaugeBarRed, scene, { "ParameterScene", "MapScene", "BattleScene" });
+    load_texture("Assets/Image/gauge_gray.png", Texture_GaugeBarGray, scene, { "ParameterScene", "MapScene", "BattleScene" });
 
     load_texture("Assets/Image/background_parameter.png", Texture_background_parameter, scene, { "ParameterScene" });
     load_texture("Assets/Image/button_parameterCheck.png", Texture_buttonParameterCheck, scene, { "ParameterScene" });

@@ -19,7 +19,9 @@ void MapScene::start(void* data)
     is_end_ = false;
 
     //HPゲージ
-    hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40 };
+    hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40 , Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray };
+
+    //hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40 };
     hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
     hp_gauge_.set_edge_width(10);
 
