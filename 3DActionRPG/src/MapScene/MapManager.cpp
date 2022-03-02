@@ -8,13 +8,14 @@
 
 
 #include "AreaNode.h"
+#include "NullNode.h"
 #include "Util/MyRandom.h"
 #include "Util/Input.h"
 #include "Util/CsvReader.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Font.h"
 
-
+static std::shared_ptr<NullNode> null_node{ std::make_shared<NullNode>()};
 static const int MaxDepth{ 6 };                              //マップ上のノードの列数
 static const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
 static const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅
@@ -165,6 +166,8 @@ void MapManager::enter_map()
 {
 	//エリア選択履歴を更新
 	prev_area_node_ = current_area_node_;
+	//選択ノードを空に
+	current_area_node_ = null_node;
 	//選択状態を初期化
 	is_picked_ = false;
 	area_index_ = 0;

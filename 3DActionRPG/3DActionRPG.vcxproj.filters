@@ -97,5 +97,6 @@
     <ClInclude Include="src\Util\AppearAnimation.h" />
     <ClInclude Include="src\Util\Vector2.h" />
     <ClInclude Include="src\Util\SlideInAnimation.h" />
+    <ClInclude Include="src\MapScene\NullNode.h" />
   </ItemGroup>
 </Project>
