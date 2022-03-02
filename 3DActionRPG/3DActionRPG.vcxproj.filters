@@ -43,6 +43,9 @@
     <ClCompile Include="src\Actor\Enemy\Mage.cpp" />
     <ClCompile Include="src\Actor\BarGauge.cpp" />
     <ClCompile Include="src\Actor\ExtendableBarGauge.cpp" />
+    <ClCompile Include="src\Util\AppearAnimation.cpp" />
+    <ClCompile Include="src\Util\Vector2.cpp" />
+    <ClCompile Include="src\Util\SlideInAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -91,5 +94,9 @@
     <ClInclude Include="src\Actor\Enemy\Mage.h" />
     <ClInclude Include="src\Actor\BarGauge.h" />
     <ClInclude Include="src\Actor\ExtendableBarGauge.h" />
+    <ClInclude Include="src\Util\AppearAnimation.h" />
+    <ClInclude Include="src\Util\Vector2.h" />
+    <ClInclude Include="src\Util\SlideInAnimation.h" />
+    <ClInclude Include="src\MapScene\NullNode.h" />
   </ItemGroup>
 </Project>

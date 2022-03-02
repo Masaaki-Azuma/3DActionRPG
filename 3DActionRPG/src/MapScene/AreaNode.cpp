@@ -1,27 +1,44 @@
 #include "AreaNode.h"
+
 #include <unordered_map>
 #include <DxLib.h>
-#include "AssetsManager/Image.h"
 
-std::unordered_map<std::string, int> enemy_image_table{
-	{"Slime", Texture_icon_slime},
-	{"Skeleton", Texture_icon_skeleton},
-	{"Mage", Texture_icon_mage},
-	{"Mimic", Texture_icon_mimic},
-	{"BlackKnight", Texture_icon_blackKnight},
-};
+#include "AssetsManager/Image.h"
+#include "AssetsManager/EnemyDatabase.h"
+#include "Util/Vector2.h"
 
 AreaNode::AreaNode(const Vector3& position, const std::string& enemy):
 	position_{ position },
-	enemy_{ enemy }{
+	enemy_{ enemy },
+	e_DB_{EnemyDatabase::GetInstance()}
+{
+	//アニメーションを設定
+	icon_anim_ = AppearAnimation{ Vector2{position.x, position.y}, e_DB_.enemy_icon_table(enemy), e_DB_.enemy_silhouette_table(enemy), Vector2{128, 128}, 2.0f };
 }
 
-void AreaNode::draw()
+void AreaNode::update(float delta_time)
+{
+	icon_anim_.update(delta_time);
+}
+
+void AreaNode::draw() const
 {
 	//エリア円表示
 	Image::draw_rota_graph(Texture_mapArea, position_.x, position_.y);
 	//敵が存在するときはモンスター表示
-	if(enemy_image_table.count(enemy_) != 0) Image::draw_rota_graph(enemy_image_table[enemy_], position_.x, position_.y);
+	if (e_DB_.enemy_icon_table(enemy_) != -1) {
+		icon_anim_.draw();
+	}
+}
+
+void AreaNode::appear()
+{
+	icon_anim_.appear();
+}
+
+bool AreaNode::is_appeared() const
+{
+	return icon_anim_.is_end();
 }
 
 AreaNode::NextNodeList& AreaNode::next()

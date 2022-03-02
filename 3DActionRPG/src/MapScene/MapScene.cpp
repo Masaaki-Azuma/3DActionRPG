@@ -1,6 +1,5 @@
 #include "MapScene.h"
 
-#include "Util/MyRandom.h"
 #include "Util/Input.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/PlayerDatabase.h"
@@ -20,13 +19,12 @@ void MapScene::start(void* data)
 
     //HPゲージ
     hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40 , Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray };
-
-    //hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 150, 100, 540, 40 };
     hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
     hp_gauge_.set_edge_width(10);
 
     //バトルシーンから帰ってきたときの更新処理
-    map_.make_node_old();
+    map_.enter_map();
+
 }
 
 void MapScene::update(float delta_time)
@@ -35,11 +33,14 @@ void MapScene::update(float delta_time)
     if (map_.is_final_area()) {
         is_end_ = true;
     }
+
     //マップの更新
     map_.update(delta_time);
-    //エリアを選択したらシーン終了
-    if (map_.is_picked()) {
+    
+    //演出終了後、決定キーで進む
+    if (Input::get_button_down(PAD_INPUT_1) && map_.is_end()) {
         is_end_ = true;
+        return;
     }
 }
 
@@ -73,9 +74,3 @@ void* MapScene::data()
     return &map_.selected_enemy();
 }
 
-void MapScene::restart_area()
-{
-    if (Input::get_button(PAD_INPUT_4)) { //A
-        is_end_ = true;
-    }
-}

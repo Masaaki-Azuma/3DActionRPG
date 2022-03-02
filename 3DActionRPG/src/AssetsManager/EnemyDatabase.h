@@ -26,6 +26,8 @@ public:
 	int get_hp(const std::string& enemy) const;
 	int get_attack(const std::string& enemy) const;
 	int get_drop_gem(const std::string& enemy) const;
+	int enemy_icon_table(const std::string& enemy) const;
+	int enemy_silhouette_table(const std::string& enemy) const;
 
 private:
 	//std::unordered_map<std::string, EnemyParameter> parameters_;

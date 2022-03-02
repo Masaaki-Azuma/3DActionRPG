@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+#include "AssetsManager/Image.h"
+
 enum //csvデータの各列の内容
 {
     ColName = 0,
@@ -10,6 +12,25 @@ enum //csvデータの各列の内容
     ColMaxFlinchCount,
     ColDropGem,
 };
+
+//HACK:この二つ統合できない？
+const std::unordered_map<std::string, int> EnemyIconTable{
+    {"Slime", Texture_icon_slime},
+    {"Skeleton", Texture_icon_skeleton},
+    {"Mage", Texture_icon_mage},
+    {"Mimic", Texture_icon_mimic},
+    {"BlackKnight", Texture_icon_blackKnight},
+};
+
+const std::unordered_map<std::string, int> EnemySilhouetteTable{
+
+    {"Slime", Texture_silhouette_slime},
+    {"Skeleton", Texture_silhouette_skeleton},
+    {"Mage", Texture_silhouette_mage},
+    {"Mimic", Texture_silhouette_mimic},
+    {"BlackKnight", Texture_silhouette_blackKnight},
+};
+
 void EnemyDatabase::load(const std::string& file_name)
 {
     parameters_.load(file_name);
@@ -64,6 +85,22 @@ int EnemyDatabase::get_drop_gem(const std::string& enemy) const
 
     assert(!"敵の名前が不正です");
     return -1;
+}
+
+//存在しなければ-1
+int EnemyDatabase::enemy_icon_table(const std::string& enemy) const
+{
+    if (EnemyIconTable.count(enemy) == 0) return -1;
+
+    return EnemyIconTable.at(enemy);
+}
+
+//存在しなければ-1
+int EnemyDatabase::enemy_silhouette_table(const std::string& enemy) const
+{
+    if (EnemySilhouetteTable.count(enemy) == 0) return -1;
+
+    return EnemySilhouetteTable.at(enemy);
 }
 
 

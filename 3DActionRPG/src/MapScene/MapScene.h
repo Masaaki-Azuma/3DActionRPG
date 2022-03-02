@@ -7,6 +7,7 @@
 
 #include "Actor/ExtendableBarGauge.h"
 
+
 class MapManager;
 class PlayerDatabase;
 
@@ -23,15 +24,13 @@ public:
     virtual std::string next() const override;
     virtual void end() override;
     virtual void* data() override;
-private:
-    //ForDebug:
-    void restart_area();
 
 private:
     bool is_end_;
-    MapManager& map_;
     ExtendableBarGauge hp_gauge_;
+    MapManager& map_;
     PlayerDatabase& p_DB_;
+    
 };
 #endif//!MAP_SCENE_H_
 

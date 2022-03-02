@@ -3,25 +3,41 @@
 #include <fstream>
 #include <sstream>
 #include <cassert>
+#include <unordered_map>
 #include <DxLib.h>
 
+
 #include "AreaNode.h"
+#include "NullNode.h"
 #include "Util/MyRandom.h"
 #include "Util/Input.h"
 #include "Util/CsvReader.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Font.h"
 
+static std::shared_ptr<NullNode> null_node{ std::make_shared<NullNode>()}; //Nullノード
 static const int MaxDepth{ 6 };                              //マップ上のノードの列数
 static const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
 static const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅
 static const float AreaVerticalInterval{ 200.0f };           //エリア間の高さ
 static const Vector3 StartPosition{ 200.0f, 600.0f };        //スタートノードの位置
-static const int RoadOffset{ 50 };                    //エリア間の道描画用のオフセット
+static const int RoadOffset{ 50 };                           //エリア間の道描画用のオフセット
 static const int NumEnemySpecies{ 5 };                       //敵の種類数
 
 void MapManager::update(float delta_time)
 {
-	pick_area();
+	//エリア更新
+	update_areas(delta_time);
+	//エリア選択
+	if (!is_picked()) pick_area();
+	//遭遇テキスト更新
+	encount_text_.update(delta_time);
+	//エリア公開後敵名表示
+	if (is_appeared() && encount_text_.is_wait()) {
+		encount_text_ = SlideInAnimation{ "VS　" + current_area_node_->enemy(), Font::japanese_font_120, 120, DxLib::GetColor(207, 205, 175), 15.0f, 300.0f };
+		encount_text_.start();
+	}
+	
 }
 
 void MapManager::draw()
@@ -34,6 +50,8 @@ void MapManager::draw()
 	draw_cursor();
 	//ForDebug:選択エリアを単純描画
 	DxLib::DrawCircleAA(prev_area_node_->position().x, prev_area_node_->position().y, 20, 8, GetColor(255, 0, 0));
+	//遭遇モンスター名表示
+	encount_text_.draw();
 }
 
 
@@ -108,6 +126,8 @@ void MapManager::pick_area()
 		if (prev_area_node_->next().empty()) return;
 		//選択エリアを現在地に更新
 		current_area_node_ = prev_area_node_->next().at(area_index_);
+		//シルエットを公開
+		current_area_node_->appear();
 		//選択済みに
 		is_picked_ = true;
 	}
@@ -125,23 +145,51 @@ bool MapManager::is_picked()
 	return is_picked_;
 }
 
+bool MapManager::is_appeared() const
+{
+	return current_area_node_->is_appeared();
+}
+
 bool MapManager::is_final_area()
 {
 	//次のエリアリストが空なら最終エリアと判断
 	return prev_area_node_->next().empty();
 }
 
-void MapManager::make_node_old()
+bool MapManager::is_end()
 {
+	return is_picked() && is_appeared() && encount_text_.is_end();
+}
+
+//マップシーンに入った時の処理
+void MapManager::enter_map()
+{
+	//エリア選択履歴を更新
 	prev_area_node_ = current_area_node_;
+	//選択ノードを空に
+	current_area_node_ = null_node;
+	//選択状態を初期化
 	is_picked_ = false;
 	area_index_ = 0;
+	//遭遇テキストをリセット
+	encount_text_.reset();
 }
 
 std::string& MapManager::selected_enemy()
 {
 	//現在エリアにいる敵の名前を取得
 	return current_area_node_->enemy();
+}
+
+void MapManager::update_areas(float delta_time)
+{
+	//浅いエリアから上から順に描画
+	for (auto& depth : node_list_) {
+		for (auto& node : depth) {
+			//エリア本体を描画
+			node->update(delta_time);
+		}
+	}
 }
 
 void MapManager::generate_nodes()

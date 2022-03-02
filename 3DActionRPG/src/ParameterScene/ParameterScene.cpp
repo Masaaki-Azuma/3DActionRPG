@@ -31,7 +31,7 @@ static const int EnhanceButtonInverval{ 400 };
 
 
 /*以下PlayerDatabaseのenumに対応*/
-
+//TODO:PlayerDatabaseとプログラム的に統合せよ
 //必要ジェム数
 const int RequiredGemList[NumEnhanceableParameter]{ 100, 500 };
 //パラメータ上昇値
@@ -45,13 +45,11 @@ void ParameterScene::start(void* data)
     selected_menu_index = 0;
     menu_state = State::SelectMenu;
 
-    //ForDebug:伸縮ゲージへ差し替え
+    //体力ゲージ
     hp_gauge_ = ExtendableBarGauge{ 1240, 180, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray };
-
-    //hp_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarGreen, 1240, 180, 540, 40 };
     hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
     hp_gauge_.set_edge_width(10);
-    //attack_gauge_ = ExtendableBarGauge{ Texture_GaugeFrame, Texture_GaugeBarRed, 1240, 180 + EnhanceButtonInverval, 540, 40 };
+    //攻撃力ゲージ
     attack_gauge_ = ExtendableBarGauge{ 1240, 180 + EnhanceButtonInverval, 540, 40, Texture_GaugeFrame, Texture_GaugeBarRed, Texture_GaugeBarGray};
     attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
     attack_gauge_.set_edge_width(10);

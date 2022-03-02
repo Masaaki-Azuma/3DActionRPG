@@ -72,9 +72,6 @@ void Player::update(float delta_time)
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
 	mesh_.update(delta_time);
-
-	//ForDebug
-	//select_motion();
 }
 
 void Player::draw() const
