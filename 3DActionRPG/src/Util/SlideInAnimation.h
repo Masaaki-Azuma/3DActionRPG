@@ -13,6 +13,7 @@ public:
 	SlideInAnimation(int texture_id, const Vector2& image_size, float slide_speed, float target);
 	SlideInAnimation(const std::string& text, int font_handle, int font_size, unsigned int color, float slide_speed, float target);
 	void start();
+	void reset();
 	void update(float delta_time);
 	void draw() const;
 	bool is_wait() const;

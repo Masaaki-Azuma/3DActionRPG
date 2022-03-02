@@ -3,7 +3,9 @@
 #include <fstream>
 #include <sstream>
 #include <cassert>
+#include <unordered_map>
 #include <DxLib.h>
+
 
 #include "AreaNode.h"
 #include "Util/MyRandom.h"
@@ -31,7 +33,7 @@ void MapManager::update(float delta_time)
 	encount_text_.update(delta_time);
 	//エリア公開後敵名表示
 	if (is_appeared() && encount_text_.is_wait()) {
-		encount_text_ = SlideInAnimation{ "VS スライム", Font::japanese_font_120, 120, DxLib::GetColor(207, 205, 175), 15.0f, 300.0f };
+		encount_text_ = SlideInAnimation{ "VS　" + current_area_node_->enemy(), Font::japanese_font_120, 120, DxLib::GetColor(207, 205, 175), 15.0f, 300.0f };
 		encount_text_.start();
 	}
 	
@@ -166,6 +168,8 @@ void MapManager::enter_map()
 	//選択状態を初期化
 	is_picked_ = false;
 	area_index_ = 0;
+	//遭遇テキストをリセット
+	encount_text_.reset();
 }
 
 std::string& MapManager::selected_enemy()

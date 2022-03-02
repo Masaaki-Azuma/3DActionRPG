@@ -8,6 +8,8 @@
 #include "Util/Vector3.h"
 #include "Util/AppearAnimation.h"
 
+class EnemyDatabase;
+
 class AreaNode
 {
 public:
@@ -39,6 +41,8 @@ private:
 	std::string enemy_;               //配置される敵グループ名
 	int enemy_image_id_{ -1 };        //ノード上に表示するテクスチャID
 	AppearAnimation icon_anim_;
+
+	EnemyDatabase& e_DB_;
 };
 #endif//!AREA_NODE_H_
 

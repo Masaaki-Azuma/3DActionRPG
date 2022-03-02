@@ -32,6 +32,7 @@ SlideInAnimation::SlideInAnimation(int texture_id, int image_width, int image_he
     target_{target},
     position_{Screen::Width / 2, -image_height}
 {
+    reset();
 }
 
 SlideInAnimation::SlideInAnimation(int texture_id, const Vector2& image_size, float slide_speed, float target):
@@ -55,6 +56,12 @@ SlideInAnimation::SlideInAnimation(const std::string& text, int font_handle, int
 void SlideInAnimation::start()
 {
     state_ = Animating;
+}
+
+void SlideInAnimation::reset()
+{
+    state_ = Wait;
+    position_.y = static_cast<float>(-font_size_ * 2);
 }
 
 void SlideInAnimation::update(float delta_time)
