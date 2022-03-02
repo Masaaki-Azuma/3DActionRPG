@@ -15,7 +15,7 @@
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Font.h"
 
-static std::shared_ptr<NullNode> null_node{ std::make_shared<NullNode>()};
+static std::shared_ptr<NullNode> null_node{ std::make_shared<NullNode>()}; //Nullノード
 static const int MaxDepth{ 6 };                              //マップ上のノードの列数
 static const int NodeNumList[MaxDepth]{ 1, 3, 4, 3, 2, 1 };  //深さごとのノード数
 static const float AreaHorizontalInterval{ 300.0f };         //エリア間の幅

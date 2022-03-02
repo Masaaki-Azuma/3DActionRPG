@@ -12,17 +12,6 @@
 #include "AssetsManager/Font.h"
 #include "Screen.h"
 
-//TODO:EnemyDatabaseを使って統合せよ
-static std::unordered_map<std::string, unsigned int> icon_dictionary =
-{
-    {"Slime", Texture_icon_slime},
-    {"Skeleton", Texture_icon_skeleton},
-    {"Mage", Texture_icon_mage},
-    {"Mimic", Texture_icon_mimic},
-    {"BlackKnight", Texture_icon_blackKnight}
-};
-
-
 BattleResultScene::BattleResultScene():
     e_DB_{EnemyDatabase::GetInstance()}
 {
@@ -123,7 +112,7 @@ int BattleResultScene::calc_total_gem() const
 void BattleResultScene::draw_line_result(float height, int text_color, const std::string& e_name, int e_basterd) const
 {
     // 敵のアイコン
-    Image::draw_graph(icon_dictionary[e_name], 800.0f, height - 50);
+    Image::draw_graph(e_DB_.enemy_icon_table(e_name), 800.0f, height - 50);
     //敵討伐数
     Font::draw(920, height, "×" + std::to_string(e_basterd), text_color, Font::japanese_font_50);
     //右矢印

@@ -17,10 +17,8 @@ void GameResultScene::start(void* data)
 
 void GameResultScene::update(float delta_time)
 {
-   
-
     //ForDebug:シーンを抜け出す仮動作
-    if (Input::get_button_down(PAD_INPUT_1))     {
+    if (Input::get_button_down(PAD_INPUT_1)) {
         is_end_ = true;
     }
 }

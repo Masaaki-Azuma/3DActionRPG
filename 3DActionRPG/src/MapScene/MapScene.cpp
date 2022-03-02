@@ -74,9 +74,3 @@ void* MapScene::data()
     return &map_.selected_enemy();
 }
 
-void MapScene::restart_area()
-{
-    if (Input::get_button(PAD_INPUT_4)) { //A
-        is_end_ = true;
-    }
-}
