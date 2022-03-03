@@ -26,8 +26,9 @@ void BattleScene::start(void* data)
 	Image::load("BattleScene");
 	Mesh::load();
 
-
+	DxLib::VECTOR dir = DxLib::GetLightDirection();
 	
+	int light_handle = DxLib::CreateDirLightHandle(DxLib::VECTOR{ -1, -1, -1 });
 
 	//ステージコライダーの衝突情報を取得できるよう準備
 	DxLib::MV1SetupCollInfo(Mesh::stage_handle, -1, 8, 8, 8);
