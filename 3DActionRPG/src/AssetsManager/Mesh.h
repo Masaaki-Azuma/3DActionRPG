@@ -15,6 +15,7 @@ private:
 public:
 	static int test_handle;
 	static int stage_handle;
+	static int ground_objects_handle;
 	static int ground_handle;
 	static int slime_handle;
 	static int skeleton_handle;

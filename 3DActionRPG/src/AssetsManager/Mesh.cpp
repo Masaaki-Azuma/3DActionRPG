@@ -11,6 +11,7 @@ int Mesh::mage_handle{ -1 };
 int Mesh::mimic_handle{ -1 };
 int Mesh::black_knight_handle{ -1 };
 int Mesh::stage_handle{ -1 };
+int Mesh::ground_objects_handle{ -1 };
 int Mesh::ground_handle{ -1 };
 int Mesh::skybox{ -1 };
 
@@ -26,6 +27,7 @@ void Mesh::load()
 	black_knight_handle = load_a_mesh("Assets/Mesh/BlackKnight/BlackKnight.mv1");
 
 	stage_handle = load_a_mesh("Assets/Mesh/Stage/stage_collider.mv1");
+	ground_objects_handle = load_a_mesh("Assets/Mesh/Stage/StaticObject/ground_objects.mv1");
 	ground_handle = load_a_mesh("Assets/Mesh/Stage/stage_ground.mv1");
 	skybox = load_a_mesh("Assets/Mesh/Stage/skybox.mv1");
 }
@@ -39,6 +41,7 @@ void Mesh::clear()
 	clear_a_mesh(mimic_handle);
 	clear_a_mesh(black_knight_handle);
 	clear_a_mesh(ground_handle);
+	clear_a_mesh(ground_objects_handle);
 	clear_a_mesh(stage_handle);
 	clear_a_mesh(skybox);
 }

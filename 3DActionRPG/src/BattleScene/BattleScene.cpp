@@ -95,7 +95,7 @@ void BattleScene::draw() const
 
 	//ステージの描画
 	DxLib::MV1DrawModel(Mesh::ground_handle);
-	//DxLib::MV1DrawModel(Mesh::stage_handle);
+	DxLib::MV1DrawModel(Mesh::ground_objects_handle);
 
 	//!ForDebug
 
