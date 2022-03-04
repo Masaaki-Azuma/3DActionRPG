@@ -15,7 +15,6 @@
 #include "ParameterScene/ParameterScene.h"
 
 
-
 Game::Game()
 {
 
@@ -53,9 +52,10 @@ void Game::Init()
 }
 
 void Game::Update() 
-{	Input::update();
-	//TODO::経過時間を計測するよう変更
-	float delta_time = 0.016667f;
+{
+	Input::update();
+    //60fps固定
+	static const float delta_time = 1 / 60.0f;
 	scene_manager_.update(delta_time);
 
 }

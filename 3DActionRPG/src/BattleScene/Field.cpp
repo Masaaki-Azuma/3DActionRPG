@@ -14,14 +14,6 @@ void Field::init(int mesh_handle, int collider_handle, int skybox_handle)
 	mesh_handle_ = mesh_handle;
 	collider_handle_ = collider_handle;
 	skybox_handle_ = skybox_handle;
-
-	//ForDebug:フォグ要る？
-	//フォグの有効化
-	/*DxLib::SetFogEnable(TRUE);
-	DxLib::SetFogColor(137, 189, 222);
-	DxLib::SetFogColor(255, 255, 255);
-	DxLib::SetFogStartEnd(100.0f, 8000.0f);*/
-
 }
 
 void Field::draw() const
@@ -37,10 +29,6 @@ void Field::draw() const
 
 void Field::clear()
 {
-	//ForDebug
-	//フォグの無効化
-	/*DxLib::SetFogEnable(FALSE);*/
-
 	//ステージの衝突情報の破棄
 	DxLib::MV1TerminateCollInfo(mesh_handle_);
 	//ハンドルをリセット

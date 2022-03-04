@@ -7,6 +7,7 @@
 #include "Field.h"
 #include "BattleResultScene/BattleResultScene.h"
 #include "Actor/ExtendableBarGauge.h"
+#include "Actor/Timer.h"
 
 class PlayerDatabase;
 
@@ -35,6 +36,8 @@ private:
     Light light_;
     //HPゲージ
     ExtendableBarGauge hp_gauge_;
+    //タイマー
+    Timer timer_;
 
     //シーン終了フラグ
     bool is_end_{ false };

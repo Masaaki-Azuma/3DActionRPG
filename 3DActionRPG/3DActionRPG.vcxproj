@@ -71,6 +71,7 @@
     <ClCompile Include="src\Util\Vector3.cpp" />
     <ClCompile Include="src\BattleScene\World.cpp" />
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="src\Actor\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BattleScene\Field.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="src\Util\Vector3.h" />
     <ClInclude Include="src\BattleScene\World.h" />
     <ClInclude Include="src\TitleScene\TitleScene.h" />
+    <ClInclude Include="src\Actor\Timer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -2,6 +2,7 @@
 
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Mesh.h"
+#include "AssetsManager/Font.h"
 #include "Util/Input.h"
 #include "AssetsManager/PlayerDatabase.h"
 
@@ -38,6 +39,10 @@ void BattleScene::start(void* data)
 	hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
 	hp_gauge_.set_edge_width(10);
 
+	//タイマー
+	timer_.set_color(DxLib::GetColor(200, 200, 200));
+	timer_.set_font(Font::japanese_font_60_edge);
+	timer_.reset();
 
 	world_.add_actor(new Player{ &world_ });
 	world_.add_field(new Field{Mesh::ground_handle, Mesh::stage_collider_handle, Mesh::skybox_handle });
@@ -63,6 +68,9 @@ void BattleScene::update(float delta_time)
 	/*バトルシーン*/
 	world_.update(delta_time);
 
+	//タイマー更新
+	timer_.update(delta_time);
+
 	//戦闘が終了したらリザルトシーンへ
 	if (is_settled()) {
 		//バトルシーンは実質終了
@@ -85,6 +93,8 @@ void BattleScene::draw() const
 	world_.draw();
 	//HPゲージ描画
 	hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
+	//タイマー描画
+	timer_.draw();
 
 	//バトル終了状態ではバトルリザルトシーンを描画
 	if(is_end_)result_scene_.draw();

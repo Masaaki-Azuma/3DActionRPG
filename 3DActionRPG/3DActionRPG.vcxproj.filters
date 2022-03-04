@@ -48,6 +48,7 @@
     <ClCompile Include="src\Util\SlideInAnimation.cpp" />
     <ClCompile Include="src\BattleScene\Light.cpp" />
     <ClCompile Include="src\BattleScene\Field.cpp" />
+    <ClCompile Include="src\Actor\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -102,5 +103,6 @@
     <ClInclude Include="src\MapScene\NullNode.h" />
     <ClInclude Include="src\BattleScene\Light.h" />
     <ClInclude Include="src\BattleScene\Field.h" />
+    <ClInclude Include="src\Actor\Timer.h" />
   </ItemGroup>
 </Project>
