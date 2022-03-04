@@ -10,6 +10,7 @@
 
 class EnemyDatabase;
 
+//毎バトル後に呼ばれるシーン
 class BattleResultScene :
     public IScene
 {
@@ -18,7 +19,7 @@ public:
     {
         std::string battle_result;
         std::unordered_map<std::string, int> basterd_list;
-        float time;
+        float time{ 0.0f };
     };
 public:
     BattleResultScene();
@@ -30,10 +31,18 @@ public:
     virtual void end() override;
     virtual void* data() override;
 private:
+    //ジェム計算関数
     int calc_enemy_gem(const std::string& enemy, int num_basterd) const;
     int calc_bonus_gem() const;
     int calc_total_gem() const;
+    //描画関数
+    void draw_BG() const;
+    void draw_items() const;
+    void draw_monster_result() const;
     void draw_line_result(float height, int text_color, const std::string& e_name, int e_basterd) const;
+    void draw_time_bonus() const;
+    void draw_total_result() const;
+    //背景スクロール中か？
     bool is_scrolling() const;
 
 private:
