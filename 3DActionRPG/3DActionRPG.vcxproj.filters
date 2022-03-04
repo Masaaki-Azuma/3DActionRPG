@@ -46,6 +46,8 @@
     <ClCompile Include="src\Util\AppearAnimation.cpp" />
     <ClCompile Include="src\Util\Vector2.cpp" />
     <ClCompile Include="src\Util\SlideInAnimation.cpp" />
+    <ClCompile Include="src\BattleScene\Light.cpp" />
+    <ClCompile Include="src\BattleScene\Field.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -98,5 +100,7 @@
     <ClInclude Include="src\Util\Vector2.h" />
     <ClInclude Include="src\Util\SlideInAnimation.h" />
     <ClInclude Include="src\MapScene\NullNode.h" />
+    <ClInclude Include="src\BattleScene\Light.h" />
+    <ClInclude Include="src\BattleScene\Field.h" />
   </ItemGroup>
 </Project>

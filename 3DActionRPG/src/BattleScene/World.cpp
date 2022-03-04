@@ -1,5 +1,5 @@
 #include "World.h"
-//#include "Field.h"
+#include "Field.h"
 #include "Actor/Actor.h"
 
 // デストラクタ
@@ -35,7 +35,7 @@ void World::draw() const
     // ライトの描画
     //light_->draw();
     // フィールドの描画
-    //field_->draw();
+    field_->draw();
     // アクターの描画
     actors_.draw();
     // 半透明アクターの描画
@@ -56,8 +56,8 @@ void World::clear()
     delete light_;
     light_ = nullptr;
     // フィールドを消去
-    //delete field_;
-    //field_ = nullptr;
+    delete field_;
+    field_ = nullptr;
     //敵討伐数リスト
     basterd_list_.clear();
 }
@@ -77,11 +77,11 @@ void World::add_light(Actor* light)
 }
 
 //// フィールドの追加
-//void World::add_field(Field* field)
-//{
-//    delete field_;	// 現在のフィールドを削除
-//    field_ = field;
-//}
+void World::add_field(Field* field)
+{
+    delete field_;	// 現在のフィールドを削除
+    field_ = field;
+}
 
 std::unordered_map<std::string, int>& World::basterd_list()
 {
@@ -145,6 +145,11 @@ void World::add_basterd(const std::string& enemy_name)
     else                                      basterd_list_[enemy_name]++;
 }
 
+void World::collide_field(const Sphere& sphere, Vector3& position)
+{
+    field_->collide_sphere(sphere, position);
+}
+
 // カメラの取得
 Actor* World::camera()
 {
@@ -157,7 +162,7 @@ Actor* World::light()
     return light_;
 }
 
-//// フィールドの取得
+// フィールドの取得
 //Field* World::field()
 //{
 //    return field_;

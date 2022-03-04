@@ -6,6 +6,8 @@
 
 #include <unordered_map>
 
+class Field;
+
 // ワールドクラス
 class World : public IWorld
 {
@@ -25,7 +27,7 @@ public:
     // ライトの追加
     void add_light(Actor* light);
     // フィールドの追加
-    //void add_field(Field* field);
+    void add_field(Field* field);
     //敵討伐数を取得
     std::unordered_map<std::string, int>& basterd_list();
     bool is_battle_win() const;
@@ -46,14 +48,15 @@ public:
     virtual void send_message(const std::string& message, void* param = nullptr) override;
     //討伐数の加算
     virtual void add_basterd(const std::string& enemy_name) override;
-
+    //フィールドとの押し出し判定
+    virtual void collide_field(const Sphere& sphere, Vector3& position) override;
 
     // カメラの取得
     virtual Actor* camera() override;
     // ライトの取得
     virtual Actor* light() override;
     // フィールドの取得
-    virtual Field* field() override { return nullptr; }
+    //virtual Field* field() override;
 
     // コピー禁止
     World(const World& other) = delete;
@@ -67,7 +70,7 @@ private:
     // カメラ
     Actor* camera_{ nullptr };
     // フィールド
-    //Field* field_{ nullptr };
+    Field* field_{ nullptr };
     //討伐敵リスト
     std::unordered_map<std::string, int> basterd_list_;
 
