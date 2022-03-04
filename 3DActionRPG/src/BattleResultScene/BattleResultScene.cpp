@@ -12,6 +12,12 @@
 #include "AssetsManager/Font.h"
 #include "Screen.h"
 
+const std::vector<std::pair<int, int>> time_bonus_gem_list{
+    {30, 300},
+    {60, 200},
+    {90, 100}
+};
+
 BattleResultScene::BattleResultScene():
     e_DB_{EnemyDatabase::GetInstance()}
 {
@@ -24,6 +30,10 @@ void BattleResultScene::start(void* data)
     is_end_ = false;
     //データを本来の型へキャストして取得
     result_ = *(static_cast<BattleResultData*>(data));
+
+    timer_.reset(result_.time);
+    timer_.set_color(DxLib::GetColor(0, 0, 0));
+    timer_.set_font(Font::japanese_font_50);
 }
 
 void BattleResultScene::update(float delta_time)
@@ -40,14 +50,18 @@ void BattleResultScene::draw() const
     //背景
     Image::draw_rota_graph(Texture_board_battleResult, Screen::Width / 2, Screen::Height / 2);
 
+    //戦果の左端
+    static const int result_left{ 770 };
     //戦果の先頭行高さ
     static const int result_height_base{ 250 };
     //戦果の行間隔
     static const int result_height_interval{ 150 };
     //項目
-    Font::draw_right_aligned(770, result_height_base, "戦果：", text_color, Font::japanese_font_50);
-    Font::draw_right_aligned(770, 650, "タイムボーナス：", text_color, Font::japanese_font_50);
-    Font::draw_right_aligned(770, 840, "合計：", text_color, Font::japanese_font_50);
+    Font::draw_right_aligned(result_left, result_height_base, "戦果：", text_color, Font::japanese_font_50);
+    static const int bonus_height = result_height_base + result_height_interval * 3;
+    Font::draw_right_aligned(result_left, bonus_height, "タイムボーナス：", text_color, Font::japanese_font_50);
+    static const int total_height = result_height_base + result_height_interval * 4;
+    Font::draw_right_aligned(result_left, total_height, "合計：", text_color, Font::japanese_font_50);
 
     //戦果をモンスターごとに表示
     int species_counter = 0;
@@ -60,9 +74,20 @@ void BattleResultScene::draw() const
         species_counter++;
     }
 
+    //経過時間
+    static const Vector3 timer_pos{ 850, bonus_height };
+    timer_.draw(timer_pos);
+    //右矢印
+    Image::draw_graph(Texture_rightArrow, 1130, bonus_height);
+    //ジェム画像
+    Image::draw_graph(Texture_gem, 1260, bonus_height);
+    //ジェム数
+    int gem = calc_bonus_gem();
+    Font::draw(1350, bonus_height, "×" + std::to_string(gem), text_color, Font::japanese_font_50);
+
     //合計ジェム表示
-    Image::draw_graph(Texture_gem, 1260, 840);
-    Font::draw(1350, 840, "×" + std::to_string(calc_total_gem()), text_color, Font::japanese_font_50);
+    Image::draw_graph(Texture_gem, 1260, total_height);
+    Font::draw(1350, total_height, "×" + std::to_string(calc_total_gem()), text_color, Font::japanese_font_50);
 }
 
 bool BattleResultScene::is_end() const
@@ -91,7 +116,7 @@ void* BattleResultScene::data()
     return nullptr;
 }
 
-int BattleResultScene::calc_gem(const std::string& enemy, int num_basterd) const
+int BattleResultScene::calc_enemy_gem(const std::string& enemy, int num_basterd) const
 {
     //ある種族の敵一体当たりのドロップジェム数
     int gem_per_enemy = EnemyDatabase::GetInstance().get_drop_gem(enemy);
@@ -100,12 +125,25 @@ int BattleResultScene::calc_gem(const std::string& enemy, int num_basterd) const
     return gem_per_species;
 }
 
+int BattleResultScene::calc_bonus_gem() const
+{
+    int bonus_gem = 0;
+    for (auto p : time_bonus_gem_list) {
+        if (timer_.get_sec() <= p.first) {
+            bonus_gem = p.second;
+            break;
+        }
+    }
+    return bonus_gem;
+}
+
 int BattleResultScene::calc_total_gem() const
 {
     int total_gem = 0;
     for (auto p : result_.basterd_list) {
-        total_gem += calc_gem(p.first, p.second);
+        total_gem += calc_enemy_gem(p.first, p.second);
     }
+    total_gem += calc_bonus_gem();
     return total_gem;
 }
 
@@ -120,6 +158,6 @@ void BattleResultScene::draw_line_result(float height, int text_color, const std
     //ジェム画像
     Image::draw_graph(Texture_gem, 1260, height);
     //ジェム数
-    int gem = calc_gem(e_name, e_basterd);
+    int gem = calc_enemy_gem(e_name, e_basterd);
     Font::draw(1350, height, "×" + std::to_string(gem), text_color, Font::japanese_font_50);
 }

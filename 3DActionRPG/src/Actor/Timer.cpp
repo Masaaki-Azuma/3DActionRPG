@@ -24,9 +24,9 @@ void Timer::set_font(int font_handle)
 	font_ = font_handle;
 }
 
-void Timer::reset()
+void Timer::reset(float time)
 {
-	timer_ = 0.0f;
+	timer_ = time;
 }
 
 void Timer::update(float delta_time)
@@ -34,17 +34,28 @@ void Timer::update(float delta_time)
 	timer_ += delta_time;
 }
 
-void Timer::draw() const
+void Timer::draw_center(const float height) const
 {
-	//分、秒計算
+	//タイマー描画
+	Font::draw_centered(height, timer_text(), color_, font_);
+}
+
+void Timer::draw(const Vector3& position) const
+{
+	//タイマー描画
+	Font::draw(position.x, position.y, timer_text(), color_, font_);
+}
+
+//"分:秒"形式の文字列を返す
+std::string Timer::timer_text() const
+{
 	int sec = static_cast<int>(std::fmod(timer_, 60));
 	int min = static_cast<int>(timer_ / 60);
 	//"分:秒"表示を生成
 	std::stringstream ss{};
 	ss << std::setw(2) << std::setfill('0') << min << ":" <<
 		std::setw(2) << std::setfill('0') << sec;
-	//タイマー描画
-	Font::draw_centered(20, ss.str(), color_, font_);
+	return ss.str();
 }
 
 float Timer::get_sec() const

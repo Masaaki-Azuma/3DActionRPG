@@ -78,13 +78,6 @@ void BattleScene::update(float delta_time)
 		result_scene_.start(data());
 		return;
 	}
-
-	//ForDebug:シーン遷移チート
-	if (Input::get_button(PAD_INPUT_4)) { //A
-		is_end_ = true;
-		result_scene_.start(data());
-		return;
-	}
 }
 
 void BattleScene::draw() const
@@ -94,7 +87,7 @@ void BattleScene::draw() const
 	//HPゲージ描画
 	hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
 	//タイマー描画
-	timer_.draw();
+	timer_.draw_center(20.0f);
 
 	//バトル終了状態ではバトルリザルトシーンを描画
 	if(is_end_)result_scene_.draw();
@@ -130,6 +123,7 @@ void* BattleScene::data()
 	else if (world_.is_battle_lose()) result_.battle_result = "Lose";
 	//敵ごとの討伐数を保持
 	result_.basterd_list = world_.basterd_list();
+	result_.time = timer_.get_sec();
     return &result_;
 }
 
@@ -143,7 +137,7 @@ void BattleScene::spawn_enemy(const std::string& enemy)
 	//HACK:せっかく敵の名前とそろえたので、もっと簡潔な記述にならないか？
 	if (enemy == "Slime") {
 		world_.add_actor(new Slime{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
-		world_.add_actor(new Slime{ &world_,  Vector3{ 500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+		world_.add_actor(new Skeleton{ &world_,  Vector3{ 500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 		world_.add_actor(new Mimic{ &world_,  Vector3{ -500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 	}
 	else if (enemy == "Skeleton") {

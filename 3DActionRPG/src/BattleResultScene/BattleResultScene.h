@@ -6,6 +6,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "Actor/Timer.h"
+
 class EnemyDatabase;
 
 class BattleResultScene :
@@ -16,6 +18,7 @@ public:
     {
         std::string battle_result;
         std::unordered_map<std::string, int> basterd_list;
+        float time;
     };
 public:
     BattleResultScene();
@@ -27,12 +30,15 @@ public:
     virtual void end() override;
     virtual void* data() override;
 private:
-    int calc_gem(const std::string& enemy, int num_basterd) const;
+    int calc_enemy_gem(const std::string& enemy, int num_basterd) const;
+    int calc_bonus_gem() const;
     int calc_total_gem() const;
     void draw_line_result(float height, int text_color, const std::string& e_name, int e_basterd) const;
 
 private:
     bool is_end_{ true };
+    //経過時間
+    Timer timer_;
     //バトル勝敗と敵ごとの討伐数データ
     BattleResultData result_;
     //敵データベース参照
