@@ -87,7 +87,7 @@ void BattleScene::draw() const
 	//HPゲージ描画
 	hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
 	//タイマー描画
-	timer_.draw_center(20.0f);
+	timer_.draw_center(40.0f);
 
 	//バトル終了状態ではバトルリザルトシーンを描画
 	if(is_end_)result_scene_.draw();
