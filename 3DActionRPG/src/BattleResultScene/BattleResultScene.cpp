@@ -95,7 +95,7 @@ void BattleResultScene::draw() const
     draw_total_result();
 
     //操作誘導表示
-    Font::draw_centered(950, "Bボタンで冒険を終える", text_color, Font::japanese_font_35);
+    Font::draw_centered(950, "Bボタンで戦闘を終える", text_color, Font::japanese_font_35);
 
 }
 
