@@ -3,6 +3,8 @@
 
 #include "IScene.h"
 #include "World.h"
+#include "Light.h"
+#include "Field.h"
 #include "BattleResultScene/BattleResultScene.h"
 #include "Actor/ExtendableBarGauge.h"
 
@@ -29,6 +31,8 @@ private:
 private:
     //ワールドクラス
     World world_;
+    //ライト
+    Light light_;
     //HPゲージ
     ExtendableBarGauge hp_gauge_;
 

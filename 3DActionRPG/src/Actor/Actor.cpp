@@ -1,8 +1,7 @@
 #include "Actor.h"
 
-#include "Util/DxConverter.h"
 #include "Util/Matrix4x4.h"
-#include "AssetsManager/Mesh.h"
+#include "BattleScene/IWorld.h"
 
 // 更新
 void Actor::update(float delta_time) {}
@@ -49,7 +48,6 @@ void Actor::die()
 bool Actor::is_collide(const Actor& other) const
 {
     return collider().is_collide(other.collider());
-    //return collider().intersects(other.collider());
 }
 
 // 死亡しているか？
@@ -101,22 +99,7 @@ Vector3 Actor::forward() const
 
 void Actor::react_wall()
 {
-    //ポリゴンヒット情報をリセット
-    delete_poly_hit_info();
-    //壁から押し戻し
-    poly_hit_info_ = DxLib::MV1CollCheck_Sphere(Mesh::stage_handle, -1, DxConverter::GetVECTOR(collider().center), collider().radius);
-    if (poly_hit_info_.HitNum >= 1) {
-        //当たっているポリゴンの数だけ繰り返す
-        for (int i = 0; i < poly_hit_info_.HitNum; ++i) {
-            //交点
-            Vector3 intersect = DxConverter::GetVector3(poly_hit_info_.Dim[i].HitPosition);
-            //ヒットポリゴンの法線
-            Vector3 normal = DxConverter::GetVector3(poly_hit_info_.Dim[i].Normal);
-            //押し戻し距離
-            float distance = collider().radius - (intersect - collider().center).Length();
-            position_ += normal * distance;
-        }
-    }
+    world_->collide_field(collider(), position_);
 }
 
 void Actor::delete_poly_hit_info()

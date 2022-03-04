@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BattleScene\Field.cpp" />
+    <ClCompile Include="src\BattleScene\Light.cpp" />
     <ClCompile Include="src\Util\SlideInAnimation.cpp" />
     <ClCompile Include="src\Actor\ExtendableBarGauge.cpp" />
     <ClCompile Include="src\Actor\BarGauge.cpp" />
@@ -71,6 +73,8 @@
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BattleScene\Field.h" />
+    <ClInclude Include="src\BattleScene\Light.h" />
     <ClInclude Include="src\MapScene\NullNode.h" />
     <ClInclude Include="src\Util\SlideInAnimation.h" />
     <ClInclude Include="src\Actor\ExtendableBarGauge.h" />

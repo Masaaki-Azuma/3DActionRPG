@@ -36,7 +36,7 @@ enum
 };
 
 Player::Player(IWorld* world):
-	mesh_{Mesh::test_handle, 30.0f},
+	mesh_{Mesh::player_handle, 30.0f},
 	state_{State::Move},
 	state_timer_{0.0f},
 	motion_{Motion_Idle},
@@ -78,21 +78,7 @@ void Player::draw() const
 {
 	//ForDebug
 	collider().draw();
-	std::string str;
-	if (poly_hit_info_.HitNum >= 1) {
-		str = "地形に当たっています";
-		//当たったポリゴンにアクセス
-		for (int i = 0; i < poly_hit_info_.HitNum; ++i) {
-			DxLib::DrawTriangle3D(
-				poly_hit_info_.Dim[i].Position[0],
-				poly_hit_info_.Dim[i].Position[1],
-				poly_hit_info_.Dim[i].Position[2],
-				DxLib::GetColor(255, 0, 255), TRUE);
-		}
-	}
-	else {
-		str = "地形に当たっていません";
-	}
+	
 	
 	
 	//メッシュを描画
