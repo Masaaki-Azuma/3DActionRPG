@@ -34,11 +34,18 @@ private:
     int calc_bonus_gem() const;
     int calc_total_gem() const;
     void draw_line_result(float height, int text_color, const std::string& e_name, int e_basterd) const;
+    bool is_scrolling() const;
 
 private:
     bool is_end_{ true };
+    //バトル所要時間
+    Timer result_time_;
     //経過時間
-    Timer timer_;
+    Timer scene_timer_;
+    //シーン背景の高さ
+    float BG_height_;
+
+
     //バトル勝敗と敵ごとの討伐数データ
     BattleResultData result_;
     //敵データベース参照

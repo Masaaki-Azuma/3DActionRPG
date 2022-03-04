@@ -17,8 +17,13 @@ public:
 	void draw(const Vector3& position) const;
 	std::string timer_text() const;
 	float get_sec() const;
+	//指定時間を超えた瞬間か？
+	bool has_excessed(float time) const;
+	//指定時間を経過しているか？
+	bool has_elapsed(float time) const;
 private:
 	float timer_;
+	float prev_timer_;
 	unsigned int color_;
 	int font_;
 };

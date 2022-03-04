@@ -9,6 +9,7 @@
 
 Timer::Timer():
 	timer_{0.0f},
+	prev_timer_{0.0f},
 	color_{DxLib::GetColor(255,255,255)},
 	font_{-1}
 {
@@ -27,10 +28,12 @@ void Timer::set_font(int font_handle)
 void Timer::reset(float time)
 {
 	timer_ = time;
+	prev_timer_ = time;
 }
 
 void Timer::update(float delta_time)
 {
+	prev_timer_ = timer_;
 	timer_ += delta_time;
 }
 
@@ -61,4 +64,14 @@ std::string Timer::timer_text() const
 float Timer::get_sec() const
 {
 	return timer_;
+}
+
+bool Timer::has_excessed(float time) const
+{
+	return timer_ >= time && prev_timer_ < time;
+}
+
+bool Timer::has_elapsed(float time) const
+{
+	return timer_ >= time;
 }
