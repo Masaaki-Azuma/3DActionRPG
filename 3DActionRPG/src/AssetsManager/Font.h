@@ -18,7 +18,8 @@ public:
 public:
 	static int japanese_font_35;
 	static int japanese_font_50;
-	static int japanese_font_120;
+	static int japanese_font_60_edge;
+	static int japanese_font_120_edge;
 	static int english_font_35;
 
 private:

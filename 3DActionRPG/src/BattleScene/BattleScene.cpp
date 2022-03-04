@@ -2,6 +2,7 @@
 
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Mesh.h"
+#include "AssetsManager/Font.h"
 #include "Util/Input.h"
 #include "AssetsManager/PlayerDatabase.h"
 
@@ -38,6 +39,10 @@ void BattleScene::start(void* data)
 	hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
 	hp_gauge_.set_edge_width(10);
 
+	//タイマー
+	timer_.set_color(DxLib::GetColor(200, 200, 200));
+	timer_.set_font(Font::japanese_font_60_edge);
+	timer_.reset();
 
 	world_.add_actor(new Player{ &world_ });
 	world_.add_field(new Field{Mesh::ground_handle, Mesh::stage_collider_handle, Mesh::skybox_handle });
@@ -63,16 +68,12 @@ void BattleScene::update(float delta_time)
 	/*バトルシーン*/
 	world_.update(delta_time);
 
+	//タイマー更新
+	timer_.update(delta_time);
+
 	//戦闘が終了したらリザルトシーンへ
 	if (is_settled()) {
 		//バトルシーンは実質終了
-		is_end_ = true;
-		result_scene_.start(data());
-		return;
-	}
-
-	//ForDebug:シーン遷移チート
-	if (Input::get_button(PAD_INPUT_4)) { //A
 		is_end_ = true;
 		result_scene_.start(data());
 		return;
@@ -85,6 +86,8 @@ void BattleScene::draw() const
 	world_.draw();
 	//HPゲージ描画
 	hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
+	//タイマー描画
+	timer_.draw_center(40.0f);
 
 	//バトル終了状態ではバトルリザルトシーンを描画
 	if(is_end_)result_scene_.draw();
@@ -120,6 +123,7 @@ void* BattleScene::data()
 	else if (world_.is_battle_lose()) result_.battle_result = "Lose";
 	//敵ごとの討伐数を保持
 	result_.basterd_list = world_.basterd_list();
+	result_.time = timer_.get_sec();
     return &result_;
 }
 
@@ -133,7 +137,7 @@ void BattleScene::spawn_enemy(const std::string& enemy)
 	//HACK:せっかく敵の名前とそろえたので、もっと簡潔な記述にならないか？
 	if (enemy == "Slime") {
 		world_.add_actor(new Slime{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
-		world_.add_actor(new Slime{ &world_,  Vector3{ 500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+		world_.add_actor(new Skeleton{ &world_,  Vector3{ 500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 		world_.add_actor(new Mimic{ &world_,  Vector3{ -500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 	}
 	else if (enemy == "Skeleton") {
