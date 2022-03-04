@@ -47,7 +47,7 @@ void GameResultScene::draw() const
     Image::draw_graph(Texture_gem, 1220, height_possessed_gem);
     Font::draw(1310, height_possessed_gem, "×" + std::to_string(new_possessed_gem), text_color, Font::japanese_font_50);
 
-    Font::draw_centered(900, "Aボタンで冒険を終える", text_color, Font::japanese_font_35);
+    Font::draw_centered(900, "Bボタンで冒険を終える", text_color, Font::japanese_font_35);
 }
 
 bool GameResultScene::is_end() const
