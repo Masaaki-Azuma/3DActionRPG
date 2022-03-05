@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "Util/Vector3.h"
-#include "Util/AppearAnimation.h"
+#include "Util/Animation/AppearAnimation.h"
 
 class EnemyDatabase;
 

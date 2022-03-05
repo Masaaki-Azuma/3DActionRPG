@@ -8,11 +8,14 @@
 //テクスチャID
 enum
 {
+	Texture_icon_player,
 	Texture_icon_slime,
 	Texture_icon_skeleton,
 	Texture_icon_mage,
 	Texture_icon_mimic,
 	Texture_icon_blackKnight,
+	Texture_icon_chest,
+	Texture_hpPortion,
 	Texture_silhouette_slime,
 	Texture_silhouette_skeleton,
 	Texture_silhouette_mage,

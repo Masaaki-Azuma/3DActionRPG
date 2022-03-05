@@ -44,7 +44,7 @@ void PlayerDatabase::set_initial_parameter()
 
 void PlayerDatabase::add_hp(int rise_value)
 {
-	current_parameter_.hp += rise_value;
+	current_parameter_.hp = (std::min)(current_parameter_.hp + rise_value, get_master_parameter().hp);
 }
 
 void PlayerDatabase::add_attack(int rise_value)

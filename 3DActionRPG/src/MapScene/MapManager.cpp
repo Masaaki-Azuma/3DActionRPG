@@ -14,6 +14,7 @@
 #include "Util/CsvReader.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Font.h"
+#include "AssetsManager/PlayerDatabase.h"
 
 static std::shared_ptr<NullNode> null_node{ std::make_shared<NullNode>()}; //Nullノード
 static const int MaxDepth{ 6 };                              //マップ上のノードの列数
@@ -34,6 +35,12 @@ void MapManager::update(float delta_time)
 	encount_text_.update(delta_time);
 	//エリア公開後敵名表示
 	if (is_appeared() && encount_text_.is_wait()) {
+		if (current_area_node_->enemy() == "Chest") {
+			get_portion();
+			enter_map();
+			return;
+		}
+
 		encount_text_ = SlideInAnimation{ "VS　" + current_area_node_->enemy(), Font::japanese_font_120_edge, 120, DxLib::GetColor(207, 205, 175), 15.0f, 300.0f };
 		encount_text_.start();
 	}
@@ -48,10 +55,13 @@ void MapManager::draw()
 	draw_areas();
 	//カーソルを描画
 	draw_cursor();
-	//ForDebug:選択エリアを単純描画
-	DxLib::DrawCircleAA(prev_area_node_->position().x, prev_area_node_->position().y, 20, 8, GetColor(255, 0, 0));
+	//現在位置描画
+	 draw_player();
 	//遭遇モンスター名表示
 	encount_text_.draw();
+	if (current_area_node_->enemy() != "Null") return;
+	//操作誘導テキストを描画
+	draw_instruction();
 }
 
 
@@ -87,7 +97,7 @@ void MapManager::load_enemy_possibility_table(const std::string& difficulty)
 	CsvReader table{ "Assets/MapData/enemy_possibility_table.csv" };
 
 	//全敵種族を変換後確率表に登録
-	for (int row = 0; row < NumEnemySpecies; ++row) {
+	for (int row = 0; row < table.rows(); ++row) {
 		std::pair<std::string, std::vector<int>> possibility;
 		//種族名を取得
 		possibility.first = table.get(row, 0);
@@ -257,7 +267,7 @@ void MapManager::calc_possibility_per_depth(int depth, const CsvReader& table)
 {
 	//累積確率
 	int possibility_accumulation = 0;
-	for (int row = 0; row < NumEnemySpecies; ++row) {
+	for (int row = 0; row < table.rows(); ++row) {
 		//ある敵の出現確率
 		int possibility = table.geti(row, depth);
 		//確率0のばあい0を入れる
@@ -291,10 +301,28 @@ void MapManager::draw_areas()
 	}
 }
 
+void MapManager::draw_player()
+{
+	Vector3 position = prev_area_node_->position();
+	Image::draw_rota_graph(Texture_icon_player, position.x, position.y);
+}
+
 void MapManager::draw_cursor()
 {
 	//選択箇所をアイコンで示す
 	if (prev_area_node_->next().empty()) return; //ゴールなら描画の必要なし
 	Vector3 pos_next_area = prev_area_node_->next().at(area_index_)->position();
 	Image::draw_rota_graph(Texture_cursor, pos_next_area.x, pos_next_area.y - 60.0f, 0.6f);
+}
+
+void MapManager::draw_instruction()
+{
+	Font::draw(1000, 100, "次に進むエリアを選んでください", DxLib::GetColor(0, 0, 0), Font::japanese_font_35);
+}
+
+void MapManager::get_portion()
+{
+	PlayerDatabase& p_DB = PlayerDatabase::GetInstance();
+	//回復
+	p_DB.add_hp(500);
 }

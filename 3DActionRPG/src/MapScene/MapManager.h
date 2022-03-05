@@ -9,10 +9,11 @@
 #include <utility>  //pair
 
 #include "Util/Vector3.h"
-#include "Util/SlideInAnimation.h"
+#include "Util/Animation/SlideInAnimation.h"
 
 class AreaNode;
 class CsvReader;
+class PlayerDatabase;
 
 class MapManager : public Singleton<MapManager>
 {
@@ -62,8 +63,14 @@ private:
 	void calc_possibility_per_depth(int depth, const CsvReader& table);
 	//全エリアを描画
 	void draw_areas();
+	//現在位置を描画
+	void draw_player();
 	//選択箇所をカーソルで示す
 	void draw_cursor();
+	//
+	void draw_instruction();
+	//アイテム取得処理
+	void get_portion();
 
 private:
 	//エリアノードのスマートポインタ
@@ -84,7 +91,6 @@ private:
 	bool is_picked_{ false };
 
 	SlideInAnimation encount_text_;
-
 
 	//選択中のエリア番号
 	int area_index_;

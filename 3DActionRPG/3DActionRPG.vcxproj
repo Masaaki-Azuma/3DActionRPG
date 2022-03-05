@@ -19,9 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Util\Animation\FadeInAnimation.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\BattleScene\Field.cpp" />
     <ClCompile Include="src\BattleScene\Light.cpp" />
-    <ClCompile Include="src\Util\SlideInAnimation.cpp" />
+    <ClCompile Include="src\Util\Animation\SlideInAnimation.cpp" />
     <ClCompile Include="src\Actor\ExtendableBarGauge.cpp" />
     <ClCompile Include="src\Actor\BarGauge.cpp" />
     <ClCompile Include="src\AssetsManager\Font.cpp" />
@@ -50,7 +56,7 @@
     <ClCompile Include="src\AssetsManager\Image.cpp" />
     <ClCompile Include="src\MapScene\MapManager.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
-    <ClCompile Include="src\Util\AppearAnimation.cpp" />
+    <ClCompile Include="src\Util\Animation\AppearAnimation.cpp" />
     <ClCompile Include="src\Util\CsvReader.cpp" />
     <ClCompile Include="src\Util\DxConverter.cpp" />
     <ClCompile Include="src\Actor\Enemy\Enemy.cpp" />
@@ -74,10 +80,16 @@
     <ClCompile Include="src\Actor\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Util\Animation\FadeInAnimation.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="src\BattleScene\Field.h" />
     <ClInclude Include="src\BattleScene\Light.h" />
     <ClInclude Include="src\MapScene\NullNode.h" />
-    <ClInclude Include="src\Util\SlideInAnimation.h" />
+    <ClInclude Include="src\Util\Animation\SlideInAnimation.h" />
     <ClInclude Include="src\Actor\ExtendableBarGauge.h" />
     <ClInclude Include="src\Actor\BarGauge.h" />
     <ClInclude Include="src\AssetsManager\Font.h" />
@@ -108,7 +120,7 @@
     <ClInclude Include="src\MapScene\MapManager.h" />
     <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\SceneNull.h" />
-    <ClInclude Include="src\Util\AppearAnimation.h" />
+    <ClInclude Include="src\Util\Animation\AppearAnimation.h" />
     <ClInclude Include="src\Util\CsvReader.h" />
     <ClInclude Include="src\Util\DxConverter.h" />
     <ClInclude Include="src\Actor\Enemy\Enemy.h" />
