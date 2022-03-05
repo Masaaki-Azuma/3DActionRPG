@@ -8,7 +8,7 @@ class NullNode :
 {
 public:
     NullNode():
-        AreaNode{ Vector3{0,0,0}, ""}
+        AreaNode{ Vector3{0,0,0}, "Null"}
     {
     }
     virtual void update(float delta_time) override{}

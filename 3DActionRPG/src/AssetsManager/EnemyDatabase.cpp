@@ -20,6 +20,7 @@ const std::unordered_map<std::string, int> EnemyIconTable{
     {"Mage", Texture_icon_mage},
     {"Mimic", Texture_icon_mimic},
     {"BlackKnight", Texture_icon_blackKnight},
+    {"Chest", Texture_icon_chest}
 };
 
 const std::unordered_map<std::string, int> EnemySilhouetteTable{
@@ -29,6 +30,7 @@ const std::unordered_map<std::string, int> EnemySilhouetteTable{
     {"Mage", Texture_silhouette_mage},
     {"Mimic", Texture_silhouette_mimic},
     {"BlackKnight", Texture_silhouette_blackKnight},
+    {"Chest", Texture_silhouette_mimic}
 };
 
 void EnemyDatabase::load(const std::string& file_name)

@@ -51,15 +51,17 @@ void BattleResultScene::start(void* data)
 void BattleResultScene::update(float delta_time)
 {
     static const float ScrollSpeed{ 10.0f };
+    //背景を下へスクロール
     BG_height_ = (std::min)(BG_height_ + ScrollSpeed, Screen::Height / 2.0f);
     if (is_scrolling()) return;
 
+    //シーン経過時間更新
     scene_timer_.update(delta_time);
-
-    //ForDebug:シーン遷移チート
-    if (Input::get_button(PAD_INPUT_4)) { //A
+    //全結果表示後Aボタンで終了
+    if (Input::get_button(PAD_INPUT_1) && scene_timer_.has_elapsed(TimeList.back())) { //A
         is_end_ = true;
     }
+
 }
 
 void BattleResultScene::draw() const

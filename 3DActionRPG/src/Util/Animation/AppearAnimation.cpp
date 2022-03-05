@@ -55,9 +55,12 @@ void AppearAnimation::update(float delta_time)
 void AppearAnimation::draw() const
 {
     //色画像
-    Image::draw_rota_graph(color_id_, x_, y_);
+    //Image::draw_rota_graph(color_id_, x_, y_);
+
+    DxLib::DrawRectRotaGraphF(x_, y_ - (height_ - appear_height_) / 2, 0, 0, width_, static_cast<int>(appear_height_), 1.0, 0.0, Image::texture_handle(color_id_), true);
+
     //シルエット画像
-    DxLib::DrawRectRotaGraphF(x_, y_ + appear_height_ / 2, 0, static_cast<int>(appear_height_), 128, static_cast<int>(128 - appear_height_), 1.0, 0.0, Image::texture_handle(shilhouette_id_), true);
+    DxLib::DrawRectRotaGraphF(x_, y_ + appear_height_ / 2, 0, static_cast<int>(appear_height_), width_, height_, 1.0, 0.0, Image::texture_handle(shilhouette_id_), true);
 }
 
 bool AppearAnimation::is_end() const
