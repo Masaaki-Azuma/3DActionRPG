@@ -37,6 +37,7 @@ BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& 
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
 	name_ = "BlackKnight";
+	move_speed_ = MoveSpeed;
 	collider_ = Sphere{ 200.0f, Vector3{0.0f, 20.0f, 0.0f} };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
@@ -85,7 +86,7 @@ void BlackKnight::update_state(float delta_time)
 void BlackKnight::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = world_->find_actor("Player");
+	Actor* player = find_player();
 	if (!player) {
 		change_state(State::Move, Motion_Idle);
 		return;
@@ -94,38 +95,22 @@ void BlackKnight::move(float delta_time)
 	unsigned int motion = Motion_Idle;
 	Vector3 velocity = Vector3::ZERO;
 
-	//プレイヤー方向
-	Vector3 direction = player->position() - position_;
-	direction.y = 0.0f;
 	//プレイヤーとの距離
-	float distance = direction.Length();
+	float distance = get_vec_to_player().Length();
 	
 	//距離により状態
 	if (distance <= EscapeRadius) {
-		//プレイヤーから離れる移動量
-		velocity = direction.Normalize() * -MoveSpeed;
-		//向きを求める
-		rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
-		//後ろ歩きモーションを設定
+		velocity = make_distance();
 		motion = Motion_WalkBackward;
-
 	}
 	else if (distance <= AttackRadius) {
-		//攻撃判定を取得
-		Vector3 pos_attack = position_ + forward() * 100.0f;
-		//generate_attack(Sphere{ 50.0f, pos_attack }, name_ + "Attack", 0.5f, 0.4f);
 		//攻撃状態に遷移
 		change_state(State::Attack, Motion_Attack02, false);
 		return;
 	}
 	else if (distance <= DetectionRadius) {  //移動状態
-		//プレイヤーに近づく移動量
-		velocity = direction.Normalize() * MoveSpeed;
-		//向きを求める
-		rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
-		//前歩きモーションを設定
+		velocity = make_approach();
 		motion = Motion_WalkForward;
-
 		//一定時間移動状態が続いたらタックル
 		if (state_timer_ >= 3.0f) {
 			change_state(StateBK::Tackle, Motion_Attack03, false);
@@ -136,55 +121,47 @@ void BlackKnight::move(float delta_time)
 	velocity_ = velocity;
 	position_ += velocity_ * delta_time;
 	change_motion(motion);
-	//change_state(State::Move, motion);
 }
 
 void BlackKnight::attack(float delta_time)
 {
-	if (state_timer_ >= 1.0f && !has_attacked) {
-		has_attacked = true;
+	if (can_generate_attack(1.0f)) {
 		Vector3 pos_attack = position_ + forward() * 300.0f;
 		generate_attack(Sphere{ 150.0f, pos_attack }, name_ + "Attack", 0.5f);
 
 	}
-	if (state_timer_ >= mesh_.anim_total_sec()) {
-		has_attacked = false;
+	if (is_motion_end()) {
 		change_state(State::Move, Motion_Idle);
 	}
 }
 
 void BlackKnight::slash(float delta_time)
 {
-	if (state_timer_ >= 0.6f && !has_attacked) {
-		has_attacked = true;
+	if (can_generate_attack(0.6f)) {
 		Vector3 pos_attack = position_ + forward() * 300.0f;
 		generate_attack(Sphere{ 150.0f, pos_attack }, name_ + "Attack", 0.2f);
 
 	}
-	if (state_timer_ >= mesh_.anim_total_sec()) {
-		has_attacked = false;
+	if (is_motion_end()) {
 		change_state(State::Move, Motion_Idle);
 	}
 }
 
 void BlackKnight::tackle(float delta_time)
 {
-	if (state_timer_ >= 0.6f && !has_attacked) {
-		has_attacked = true;
+	if (can_generate_attack(0.6f)) {
 		Vector3 pos_attack = position_ + forward() * 500.0f;
 		generate_attack(Sphere{ 250.0f, pos_attack }, name_ + "Attack", 0.3f);
 	}
 
-	if (state_timer_ >= mesh_.anim_total_sec()) {
-		has_attacked = false;
+	if (is_motion_end()) {
 		change_state(State::Move, Motion_Idle);
 	}
 }
 
 void BlackKnight::damage(float delta_time)
 {
-	
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		change_state(StateBK::Slash, Motion_Attack01, false);
 	}
 }

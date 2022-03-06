@@ -26,7 +26,5 @@ private:
 
     virtual void draw_debug() const override;
 
-private:
-    bool has_attacked{ false };
 };
 #endif//!BLACK_KNIGHT_H_

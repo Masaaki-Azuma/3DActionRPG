@@ -33,6 +33,7 @@ Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotati
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
 	name_ = "Skeleton";
+	move_speed_ = MoveSpeed;
 	collider_ = Sphere{ 60.0f, Vector3{0.0f, 50.0f, 0.0f} };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
@@ -89,58 +90,61 @@ void Skeleton::update_state(float delta_time)
 void Skeleton::move(float delta_time)
 {
 	//プレイヤーを検索し、存在しなかったら棒立ち状態
-	Actor* player = world_->find_actor("Player");
+	Actor* player = find_player();
 	if (!player) {
-		change_state(State::Move, Motion_Idle);
+		change_motion(Motion_Idle);
 		return;
 	}
 	//移動状態のモーション
 	unsigned int motion = Motion_Idle;
 	Vector3 velocity = Vector3::ZERO;
 
-	//プレイヤー方向
-	Vector3 direction = player->position() - position_;
-	direction.y = 0.0f;
 	//プレイヤーとの距離
-	float distance = direction.Length();
+	float distance = get_vec_to_player().Length();
 	//距離が一定以下だと状態遷移
 	if (distance <= AttackRadius) { //攻撃状態
-		//攻撃判定を生成して、攻撃状態へ遷移
-		generate_attack(Sphere{ 100.0f, position_ + forward() * 150.0f }, "SkeletonAttack", 0.3f, 0.2f);
 		change_state(State::Attack, Motion_Attack01, false);
 		return;
 	}
 	else if (distance <= DetectionRadius) {  //移動状態
-		velocity = direction.Normalize() * MoveSpeed;
-		//向いている方向から回転角度を求める
-		rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
+		velocity = make_approach();
 		//走りモーションを設定
 		motion = Motion_Run;
 	}
 
 	velocity_ = velocity;
 	position_ += velocity_ * delta_time;
-	change_state(State::Move, motion);
+	change_motion(motion);
 }
 
 void Skeleton::attack(float delta_time)
 {
+	switch (motion_) {
+	case Motion_Attack01:
+		if (can_generate_attack(0.2f)) {
+			//攻撃判定を生成
+			generate_attack(Sphere{ 100.0f, position_ + forward() * 150.0f }, "SkeletonAttack", 0.3f);
+		}
+		break;
+	case Motion_Attack02:
+		if (can_generate_attack(0.4f)) {
+			generate_attack(Sphere{ 100.0f, position_ + forward() * 180.0f }, "SkeletonAttack", 0.3f);
+		}
+		break;
+	}
+
 	//最大2コンボまで攻撃
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		switch (motion_) {
-		case Motion_Attack01:
-			generate_attack(Sphere{ 100.0f, position_ + forward() * 180.0f }, "SkeletonAttack", 0.3f, 0.4f);
-			change_state(State::Attack, Motion_Attack02);
-			break;
-		case Motion_Attack02:
-			change_state(StateSkeleton::Defense, Motion_Defense); break;
+		case Motion_Attack01: change_state(State::Attack, Motion_Attack02);         break;
+		case Motion_Attack02: change_state(StateSkeleton::Defense, Motion_Defense); break;
 		}
 	}
 }
 
 void Skeleton::damage(float delta_time)
 {
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		if(can_be_flinched()) change_state(State::Move, Motion_Idle);
 		else                  change_state(StateSkeleton::Defense, Motion_Defense);
 		//連続ひるみ回数をリセット

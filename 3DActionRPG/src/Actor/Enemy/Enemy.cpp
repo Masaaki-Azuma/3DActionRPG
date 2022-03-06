@@ -57,6 +57,7 @@ void Enemy::change_state(unsigned int state, unsigned int motion, bool loop, boo
 	motion_loop_ = loop;
 	motion_interruption = is_interruptive;
 	state_timer_ = 0.0f;
+	has_attacked_ = false;
 }
 
 void Enemy::change_motion(unsigned int motion, bool loop)
@@ -67,21 +68,63 @@ void Enemy::change_motion(unsigned int motion, bool loop)
 
 void Enemy::dead(float delta_time)
 {
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		//敵討伐数を加算
 		world_->add_basterd(name_);
 		die();
 	}
 }
 
+Actor* Enemy::find_player()
+{
+	return world_->find_actor("Player");
+}
+
+Vector3 Enemy::get_vec_to_player()
+{
+	Actor* player = find_player();
+	if (!player) return Vector3::ZERO;
+	Vector3 vec = player->position() - position();
+	vec.y = 0.0f;
+	return vec;
+}
+
+Vector3 Enemy::make_distance()
+{
+	Vector3 direction = get_vec_to_player();
+	Vector3 velocity = -direction.Normalize() * move_speed_;
+	rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
+	return velocity;
+}
+
+Vector3 Enemy::make_approach()
+{
+	Vector3 direction = get_vec_to_player();
+	Vector3 velocity = direction.Normalize() * move_speed_;
+	rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
+	return velocity;
+}
+
 void Enemy::generate_attack(const Sphere& collider, const std::string& name, float lifespan, float delay)
 {
 	world_->add_actor(new AttackCollider{ world_, collider, "EnemyAttackTag", name, "EnemyTag", lifespan, delay });
+	has_attacked_ = true;
 }
 
 void Enemy::take_damage(int damage)
 {
 	parameter_.hp -= damage;
+}
+
+bool Enemy::is_motion_end() const
+{
+	return state_timer_ >= mesh_.anim_total_sec();
+}
+
+bool Enemy::can_generate_attack(float time) const
+{
+	//モーション開始から指定時間が過ぎている && まだ攻撃判定を生成していない
+	return state_timer_ >= time && !has_attacked_;
 }
 
 void Enemy::select_motion()

@@ -180,6 +180,7 @@ void BattleResultScene::draw_items() const
 //敵討伐結果描画
 void BattleResultScene::draw_monster_result() const
 {
+    //TODO:一匹も倒さず敗北した場合0を表示
     //戦果をモンスターごとに表示
     int species_counter = 0;
     for (const auto p : result_.basterd_list) {

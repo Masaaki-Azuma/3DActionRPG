@@ -38,7 +38,7 @@ public:
     //アニメーションを変更
     void change_anim(int anim_index, bool loop = true, bool reset = false);
     //現在のアニメーションの総再生時間を取得
-    float anim_total_sec();
+    float anim_total_sec() const;
 
 
 private:
