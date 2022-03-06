@@ -25,7 +25,7 @@ public:
 		static const unsigned int DeriveTop = 4;
 	};
 public:
-	Enemy();
+	Enemy(IWorld* world, const Vector3& position, const Vector3& rotation);
 	virtual ‾Enemy();
 
 	virtual void update(float delta_time) override;

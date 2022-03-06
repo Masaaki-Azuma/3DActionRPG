@@ -31,21 +31,18 @@ const float EscapeRadius{ 200.0f };
 const float MoveSpeed{ 200.0f };
 
 //TODO:コンボガードを入れれば、ゲームバランスがちょうどよくなりそう
-BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& rotation)
+BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& rotation):
+	Enemy{ world, position, rotation }
 {
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
-	world_ = world;
 	name_ = "BlackKnight";
-	tag_ = "EnemyTag";
-	position_ = position;
-	rotation_ = rotation;
 	collider_ = Sphere{ 200.0f, Vector3{0.0f, 20.0f, 0.0f} };
-	mesh_ = SkinningMesh{ Mesh::black_knight_handle, 20.0f };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
+	mesh_ = SkinningMesh{ Mesh::black_knight_handle, 20.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);

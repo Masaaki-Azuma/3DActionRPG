@@ -27,20 +27,17 @@ const float EscapeRadius{ 150.0f };
 static const float AttackRadius{ 200.0f };     //プレイヤーを攻撃し始める範囲半径
 static const float MoveSpeed{ 200.0f };       //移動スピード
 
-Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation)
+Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation):
+	Enemy{world, position, rotation}
 {
-	world_ = world;
-	name_ = "Mimic";
-	tag_ = "EnemyTag";
-	position_ = position;
-	rotation_ = rotation;
 	collider_ = Sphere{ 100.0f, Vector3{0.0f, 100.0f, 0.0f} };
+	name_ = "Mimic";
 	state_ = StateMimic::Imitate;
-	mesh_ = SkinningMesh{ Mesh::mimic_handle, 20.0f };
 	motion_ = Motion_Imitate;
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
+	mesh_ = SkinningMesh{ Mesh::mimic_handle, 20.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);

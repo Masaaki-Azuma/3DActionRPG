@@ -27,21 +27,18 @@ static const float AttackRadius{ 200.0f };     //プレイヤーを攻撃し始�
 static const float MoveSpeed{ 380.0f };       //移動スピード
 
 //HACK:Enemy基底クラスにまとめられる処理はないか？
-Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotation)
+Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotation):
+	Enemy{ world, position, rotation }
 {
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
-	world_ = world;
 	name_ = "Skeleton";
-	tag_ = "EnemyTag";
-	position_ = position;
-	rotation_ = rotation;
 	collider_ = Sphere{ 60.0f, Vector3{0.0f, 50.0f, 0.0f} };
-	mesh_ = SkinningMesh{ Mesh::skeleton_handle, 30.0f };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
+	mesh_ = SkinningMesh{ Mesh::skeleton_handle, 30.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);

@@ -6,8 +6,12 @@
 #include "BattleScene/IWorld.h"
 #include "Actor/AttackCollider.h"
 
-Enemy::Enemy()
+Enemy::Enemy(IWorld* world, const Vector3& position, const Vector3& rotation)
 {
+	world_ = world;
+	tag_ = "EnemyTag";
+	position_ = position;
+	rotation_ = rotation;
 }
 
 Enemy::‾Enemy()
