@@ -21,14 +21,11 @@ private:
     void move(float delta_time);
     void attack(float delta_time);
     void damage(float delta_time);
-    void dead(float delta_time);
     void imitate(float delta_time);
     void long_attack(float delta_time);
     void surprise(float delta_time);
     //ForDebug:
     void draw_debug() const override;
-private:
-    bool has_attacked{ false };
 };
 #endif//!MIMIC_H_
 

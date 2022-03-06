@@ -23,21 +23,18 @@ static const float DetectionRadius{ 800.0f }; //プレイヤーを検知する�
 static const float EscapeRadius{ 200.0f };
 static const float MoveSpeed{ 200.0f };
 
-Mage::Mage(IWorld* world, const Vector3& position, const Vector3& rotation)
+Mage::Mage(IWorld* world, const Vector3& position, const Vector3& rotation):
+	Enemy{ world, position, rotation }
 {
 
-	world_ = world;
 	name_ = "Mage";
-	tag_ = "EnemyTag";
-	position_ = position;
-	rotation_ = rotation;
 	collider_ = Sphere{ 100.0f, Vector3{0.0f, 20.0f, 0.0f} };
-	mesh_ = SkinningMesh{ Mesh::mage_handle, 30.0f };
 	state_ = State::Move;
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
+	mesh_ = SkinningMesh{ Mesh::mage_handle, 30.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);

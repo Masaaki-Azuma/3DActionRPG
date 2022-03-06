@@ -27,20 +27,18 @@ const float EscapeRadius{ 150.0f };
 static const float AttackRadius{ 200.0f };     //プレイヤーを攻撃し始める範囲半径
 static const float MoveSpeed{ 200.0f };       //移動スピード
 
-Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation)
+Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation):
+	Enemy{world, position, rotation}
 {
-	world_ = world;
 	name_ = "Mimic";
-	tag_ = "EnemyTag";
-	position_ = position;
-	rotation_ = rotation;
+	move_speed_ = MoveSpeed;
 	collider_ = Sphere{ 100.0f, Vector3{0.0f, 100.0f, 0.0f} };
 	state_ = StateMimic::Imitate;
-	mesh_ = SkinningMesh{ Mesh::mimic_handle, 20.0f };
 	motion_ = Motion_Imitate;
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
+	mesh_ = SkinningMesh{ Mesh::mimic_handle, 20.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
@@ -64,6 +62,7 @@ void Mimic::react(Actor& other)
 		//ダメージ状態に
 		change_state(State::Damage, Motion_Damage, false, true);
 		mesh_.change_anim(motion_, motion_loop_, motion_interruption);
+
 	}
 }
 
@@ -86,47 +85,33 @@ void Mimic::update_state(float delta_time)
 void Mimic::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = world_->find_actor("Player");
+	Actor* player = find_player();
 	if (!player) {
 		change_motion(Motion_Idle01);
 		return;
 	}
 
+	//移動モーション
 	unsigned int motion = Motion_Idle01;
+	//移動量
 	Vector3 velocity = Vector3::ZERO;
-
-	//プレイヤー方向
-	Vector3 direction = player->position() - position();
-	direction.y = 0.0f;
 	//プレイヤーとの距離
-	float distance = direction.Length();
-
+	float distance = get_vec_to_player().Length();
 	//距離により状態
 	if (distance <= EscapeRadius) {
-		//プレイヤーから離れる移動量
-		velocity = direction.Normalize() * -MoveSpeed;
-		//向きを求める
-		rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
+		velocity = make_distance();
 		//後ろ歩きモーションを設定
 		motion = Motion_WalkBackward;
-
 	}
 	else if (distance <= AttackRadius) {
-		//攻撃判定を取得
-		Vector3 pos_attack = position_ + forward() * 100.0f;
-		//generate_attack(Sphere{ 50.0f, pos_attack }, name_ + "Attack", 0.5f, 0.4f);
 		//攻撃状態に遷移
 		change_state(State::Attack, Motion_Attack01, false);
 		return;
 	}
 	else if (distance <= DetectionRadius) {  //移動状態
-		//プレイヤーに近づく移動量
-		velocity = direction.Normalize() * MoveSpeed;
-		//向きを求める
-		rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
+		velocity = make_approach();
 		//前歩きモーションを設定
 		motion = Motion_WalkForward;
-
 		//一定時間移動状態が続いたら長射程攻撃
 		if (state_timer_ >= 5.0f) {
 			change_state(StateMimic::LongAttack, Motion_Attack02, false);
@@ -137,70 +122,54 @@ void Mimic::move(float delta_time)
 	velocity_ = velocity;
 	position_ += velocity_ * delta_time;
 	change_motion(motion);
-	//change_state(State::Move, motion);
 }
 
 void Mimic::attack(float delta_time)
 {
-	if (state_timer_ >= 0.4f && !has_attacked) {
-		has_attacked = true;
+	if (can_generate_attack(0.4f)) {
 		Vector3 pos_attack = position_ + forward() * 200.0f;
 		generate_attack(Sphere{ 100.0f, pos_attack }, name_ + "Attack", 0.5f);
-
 	}
-	if (state_timer_ >= mesh_.anim_total_sec()) {
-		has_attacked = false;
+	if (is_motion_end()) {
 		change_state(State::Move, Motion_Idle01);
 	}
 }
 
 void Mimic::damage(float delta_time)
 {
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		change_state(State::Attack, Motion_Attack01, false);
 	}
 }
 
-void Mimic::dead(float delta_time)
-{
-	if (state_timer_ >= mesh_.anim_total_sec()) {
-		//敵討伐数を加算
-		world_->add_basterd(name_);
-		die();
-	}
-}
 
 void Mimic::imitate(float delta_time)
 {
-	Actor* player = world_->find_actor("Player");
+	Actor* player = find_player();
 	if (!player) return;
-	//プレイヤー方向
-	Vector3 direction = player->position() - position();
-	direction.y = 0.0f;
+	
 	//プレイヤーとの距離
-	float distance = direction.Length();
+	float distance = get_vec_to_player().Length();
 	if (distance > ActiveRadius) return;
 	change_state(StateMimic::Surprise, Motion_Surprise, false);
 }
 
 void Mimic::long_attack(float delta_time)
 {
-	if (state_timer_ >= 0.4f && !has_attacked) {
-		has_attacked = true;
+	if (can_generate_attack(0.4f)) {
 		Vector3 pos_attack = position_ + forward() * 150.0f;
 		generate_attack(Sphere{ 150.0f, pos_attack }, name_ + "Attack", 0.3f);
 		pos_attack = position_ + forward() * 400.0f;
 		generate_attack(Sphere{ 150.0f, pos_attack }, name_ + "Attack", 0.3f);
 	}
-	if (state_timer_ >= mesh_.anim_total_sec()) {
-		has_attacked = false;
+	if (is_motion_end()) {
 		change_state(StateMimic::Move, Motion_Idle01);
 	}
 }
 
 void Mimic::surprise(float delta_time)
 {
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		change_state(StateMimic::Move, Motion_Idle01);
 	}
 }

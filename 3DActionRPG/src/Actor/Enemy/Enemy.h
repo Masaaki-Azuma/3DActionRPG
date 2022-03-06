@@ -25,7 +25,7 @@ public:
 		static const unsigned int DeriveTop = 4;
 	};
 public:
-	Enemy();
+	Enemy(IWorld* world, const Vector3& position, const Vector3& rotation);
 	virtual ‾Enemy();
 
 	virtual void update(float delta_time) override;
@@ -35,9 +35,26 @@ public:
 protected:
 	void change_state(unsigned int state, unsigned int motion, bool loop = true, bool reset = false);
 	void change_motion(unsigned int motion, bool loop = true);
-	virtual void update_state(float delta_time) = 0; 
+	virtual void update_state(float delta_time) = 0;
+	//状態関数
+	virtual void dead(float delta_time);
+
+	//プレイヤーを検索
+	Actor* find_player();
+	//プレイヤー方向のベクトルを取得
+	Vector3 get_vec_to_player();
+	//距離を取る
+	Vector3 make_distance();
+	//近づく
+	Vector3 make_approach();
+	//攻撃判定を生成
 	void generate_attack(const Sphere& collider, const std::string& name, float lifespan, float delay = 0.0f);
+	//ダメージを受ける
 	void take_damage(int damage);
+	//攻撃判定を生成できるタイミングか？
+	bool can_generate_attack(float time) const;
+	//モーションが終了したか？
+	bool is_motion_end() const;
 
 	//Fordebug
 	void select_motion();
@@ -56,8 +73,13 @@ protected:
 	bool motion_loop_{ true };
 	//同じモーションでも最初から再生するか？
 	bool motion_interruption{ false };
+	//移動速さ
+	float move_speed_{ 0.0f };
+	//1攻撃判定を生成したか？
+	bool has_attacked_{ false };
 	//パラメーター
 	EnemyDatabase::EnemyParameter parameter_;
+
 	//敵データベース参照
 	EnemyDatabase& e_DB_{ EnemyDatabase::GetInstance() };
 

@@ -110,7 +110,7 @@ void SkinningMesh::change_anim(int anim_index, bool loop, bool reset)
 }
 
 //アニメーションの総再生時間を秒に直して返す
-float SkinningMesh::anim_total_sec()
+float SkinningMesh::anim_total_sec() const
 {
 	return anim_total_frame_ / supposed_fps_;
 }
