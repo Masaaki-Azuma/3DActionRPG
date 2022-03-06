@@ -61,6 +61,15 @@ void Enemy::change_motion(unsigned int motion, bool loop)
 	motion_loop_ = loop;
 }
 
+void Enemy::dead(float delta_time)
+{
+	if (state_timer_ >= mesh_.anim_total_sec()) {
+		//敵討伐数を加算
+		world_->add_basterd(name_);
+		die();
+	}
+}
+
 void Enemy::generate_attack(const Sphere& collider, const std::string& name, float lifespan, float delay)
 {
 	world_->add_actor(new AttackCollider{ world_, collider, "EnemyAttackTag", name, "EnemyTag", lifespan, delay });

@@ -20,7 +20,6 @@ private:
     void move(float delta_time);
     void attack(float delta_time);
     void damage(float delta_time);
-    void dead(float delta_time);
     void defense(float delta_time);
     bool can_be_flinched() const;
 

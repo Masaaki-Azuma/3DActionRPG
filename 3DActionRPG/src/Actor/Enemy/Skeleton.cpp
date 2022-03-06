@@ -151,15 +151,6 @@ void Skeleton::damage(float delta_time)
 	}
 }
 
-void Skeleton::dead(float delta_time)
-{
-	if (state_timer_ >= mesh_.anim_total_sec()) {
-		//敵討伐数を加算
-		world_->add_basterd(name_);
-		die();
-	}
-}
-
 void Skeleton::defense(float delta_time)
 {
 	if (state_timer_ >= 2.0f) {

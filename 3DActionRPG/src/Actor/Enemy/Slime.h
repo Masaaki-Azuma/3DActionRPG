@@ -15,7 +15,6 @@ private:
 	void move(float delta_time);
 	void attack(float delta_time);
 	void damage(float delta_time);
-	void dead(float delta_time);
 
 	//ForDebug
 	virtual void draw_debug() const override;

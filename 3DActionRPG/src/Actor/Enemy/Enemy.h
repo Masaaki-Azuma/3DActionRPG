@@ -35,7 +35,9 @@ public:
 protected:
 	void change_state(unsigned int state, unsigned int motion, bool loop = true, bool reset = false);
 	void change_motion(unsigned int motion, bool loop = true);
-	virtual void update_state(float delta_time) = 0; 
+	virtual void update_state(float delta_time) = 0;
+	virtual void dead(float delta_time);
+
 	void generate_attack(const Sphere& collider, const std::string& name, float lifespan, float delay = 0.0f);
 	void take_damage(int damage);
 

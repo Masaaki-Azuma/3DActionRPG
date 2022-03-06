@@ -23,7 +23,6 @@ private:
     void slash(float delta_time);
     void tackle(float delta_time);
     void damage(float delta_time);
-    void dead(float delta_time);
 
     virtual void draw_debug() const override;
 

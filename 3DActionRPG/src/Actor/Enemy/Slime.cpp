@@ -131,17 +131,6 @@ void Slime::damage(float delta_time)
 	}
 }
 
-void Slime::dead(float delta_time)
-{
-	if (state_timer_ >= mesh_.anim_total_sec()) {
-		//敵討伐数を加算
-		world_->add_basterd(name_);
-		die();
-	}
-}
-
-
-
 void Slime::draw_debug() const
 {
 	//ForDebug:
