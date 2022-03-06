@@ -220,6 +220,7 @@ void Player::attack(float delta_time)
 
 void Player::damage(float delta_time)
 {
+	//TODO:ダメージ中一瞬当たり判定無効にする（連続攻撃は受けるが、同時攻撃は一つ分しか受けない）
 	if (state_timer_ >= mesh_.anim_total_sec()) {
 		change_state(State::Move, Motion_Idle);
 		return;

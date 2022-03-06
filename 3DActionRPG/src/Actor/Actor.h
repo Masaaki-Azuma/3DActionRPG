@@ -80,6 +80,7 @@ protected:
     bool            enable_collider_{ true };
     // 衝突判定
     Sphere collider_;
+    //TODO:要らないので消す
     //ポリゴンヒット情報
     DxLib::MV1_COLL_RESULT_POLY_DIM poly_hit_info_;
     // 死亡フラグ
