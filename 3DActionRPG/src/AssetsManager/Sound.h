@@ -9,11 +9,30 @@
 //サウンドID
 enum
 {
-	SE_BattleStart
+	SE_CursorMove,
+	SE_Select,
+	SE_Cancel,
+	SE_Buzzer,
+	SE_Enhance,
+	SE_Encount,
+	SE_Heal,
+	SE_BattleStart,
+	SE_BattleResult,
+	SE_ResultAppear01,
+	SE_ResultAppear02,
+	SE_GameResult,
+
+	SE_SwordAttack01,
+	SE_SwordAttack02,
+	SE_SwordAttack03,
+	SE_Avoid,
+	SE_MonsterDamage,
 };
 
 enum
 {
+	BGM_Title,
+	BGM_Map,
 	BGM_Battle,
 };
 class Sound : public Singleton<Sound>
@@ -29,6 +48,8 @@ public:
 	void play_SE(int SE_id);
 	//BGMをループ再生
 	void play_BGM(int BGM_id);
+	//現在のBGMを停止
+	void stop_BGM();
 
 private:
 	//SEを読み込み

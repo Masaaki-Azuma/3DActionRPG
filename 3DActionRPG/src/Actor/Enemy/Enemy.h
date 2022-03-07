@@ -4,6 +4,7 @@
 #include "Actor/Actor.h"
 #include "Actor/SkinningMesh.h"
 #include "AssetsManager/EnemyDatabase.h"
+#include "AssetsManager/Sound.h"
 
 class Enemy : public Actor
 {
@@ -90,6 +91,8 @@ protected:
 
 	//敵データベース参照
 	EnemyDatabase& e_DB_{ EnemyDatabase::GetInstance() };
+	//サウンド管理クラス参照
+	Sound& sound_{ Sound::GetInstance() };
 
 };
 #endif//!ENEMY_H_

@@ -2,6 +2,7 @@
 
 #include "Screen.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
 
 enum //アニメーション状態

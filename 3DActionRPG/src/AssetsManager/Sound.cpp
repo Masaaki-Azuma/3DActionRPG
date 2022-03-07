@@ -9,9 +9,29 @@ static std::unordered_map<int, std::string> BGM_file_name_list;
 
 void Sound::load(const std::string& scene)
 {
-    load_a_SE("Assets/Sound/SE/battle_result.mp3", SE_BattleStart, scene, { "PlayScene" });
+    load_a_SE("Assets/Sound/SE/cursor_move.mp3", SE_CursorMove, scene, { "TitleScene", "MapScene", "ParameterScene" });
+    load_a_SE("Assets/Sound/SE/menu_select.mp3", SE_Select, scene, { "TitleScene", "MapScene", "ParameterScene", "BattleResultScene", "GameResultScene" });
+    load_a_SE("Assets/Sound/SE/cancel.mp3", SE_Cancel, scene, { "ParameterScene" });
+    load_a_SE("Assets/Sound/SE/encount.mp3", SE_Encount, scene, { "MapScene" });
+    load_a_SE("Assets/Sound/SE/buzzer.mp3", SE_Buzzer, scene, { "ParameterScene" });
+    load_a_SE("Assets/Sound/SE/enhance.mp3", SE_Enhance, scene, { "ParameterScene" });
+    load_a_SE("Assets/Sound/SE/heal.mp3", SE_Heal, scene, { "MapScene" });
 
-    register_a_BGM("Assets/Sound/BGM/bravely,_in_the_battlefield.mp3", BGM_Battle);
+    load_a_SE("Assets/Sound/SE/battle_start.mp3", SE_BattleStart, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/battle_result.mp3", SE_BattleResult, scene, { "BattleResultScene" });
+    load_a_SE("Assets/Sound/SE/result_appear01.mp3", SE_ResultAppear01, scene, { "BattleResultScene" });
+    load_a_SE("Assets/Sound/SE/result_appear02.mp3", SE_ResultAppear02, scene, { "BattleResultScene" });
+    load_a_SE("Assets/Sound/SE/game_result.mp3", SE_GameResult, scene, { "GameResultScene" });
+
+    load_a_SE("Assets/Sound/SE/avoid.mp3", SE_Avoid, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/sword_attack01.mp3", SE_SwordAttack01, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/sword_attack02.mp3", SE_SwordAttack02, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/sword_attack03.mp3", SE_SwordAttack03, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/monster_damage.mp3", SE_MonsterDamage, scene, { "BattleScene" });
+
+    register_a_BGM("Assets/Sound/BGM/bgm_title.mp3", BGM_Title);
+    register_a_BGM("Assets/Sound/BGM/bgm_battle.mp3", BGM_Battle);
+    register_a_BGM("Assets/Sound/BGM/bgm_map01.mp3", BGM_Map);
 }
 
 void Sound::clear(const std::string& scene)
@@ -34,7 +54,13 @@ void Sound::play_SE(int SE_id)
 
 void Sound::play_BGM(int BGM_id)
 {
+    stop_BGM();
     DxLib::PlayMusic(BGM_file_name_list.at(BGM_id).c_str(), DX_PLAYTYPE_LOOP);
+}
+
+void Sound::stop_BGM()
+{
+    DxLib::StopMusic();
 }
 
 int Sound::load_a_SE(const char* file_name, int sound_id, const std::string& scene, std::vector<std::string> use_scenes)

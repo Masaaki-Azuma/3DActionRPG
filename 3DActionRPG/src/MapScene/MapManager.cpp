@@ -13,6 +13,7 @@
 #include "Util/Input.h"
 #include "Util/CsvReader.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
 #include "AssetsManager/PlayerDatabase.h"
 
@@ -36,13 +37,15 @@ void MapManager::update(float delta_time)
 	//エリア公開後敵名表示
 	if (is_appeared() && encount_text_.is_wait()) {
 		if (current_area_node_->enemy() == "Chest") {
+			Sound::GetInstance().play_SE(SE_Heal);
 			get_portion();
 			enter_map();
 			return;
 		}
 
-		encount_text_ = SlideInAnimation{ "VS　" + current_area_node_->enemy(), Font::japanese_font_120_edge, 120, DxLib::GetColor(207, 205, 175), 15.0f, 300.0f };
+		encount_text_ = SlideInAnimation{ "VS　" + current_area_node_->enemy(), Font::japanese_font_120_edge, 120, DxLib::GetColor(207, 205, 175), 40.0f, 300.0f };
 		encount_text_.start();
+		Sound::GetInstance().play_SE(SE_Encount);
 	}
 	
 }
@@ -134,6 +137,7 @@ void MapManager::pick_area()
 	//決定ボタンでエリアを決定
 	if (Input::get_button_down(PAD_INPUT_1)) {
 		if (prev_area_node_->next().empty()) return;
+		Sound::GetInstance().play_SE(SE_Select);
 		//選択エリアを現在地に更新
 		current_area_node_ = prev_area_node_->next().at(area_index_);
 		//シルエットを公開
@@ -143,9 +147,11 @@ void MapManager::pick_area()
 	}
 	//上下ボタンでエリアを選択
 	if (Input::get_button_down(PAD_INPUT_UP)) {
+		Sound::GetInstance().play_SE(SE_CursorMove);
 		area_index_ = (area_index_ + num_next_node - 1) % num_next_node;
 	}
 	if (Input::get_button_down(PAD_INPUT_DOWN)) {
+		Sound::GetInstance().play_SE(SE_CursorMove);
 		area_index_ = (area_index_ + 1) % num_next_node;
 	}
 }

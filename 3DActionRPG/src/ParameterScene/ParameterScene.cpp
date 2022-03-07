@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
 #include "Util/Input.h"
 
@@ -40,6 +41,8 @@ const int RiseValue[NumEnhanceableParameter]{ 100, 20 };
 void ParameterScene::start(void* data)
 {
     Image::load("ParameterScene");
+    Sound::GetInstance().load("ParameterScene");
+
     is_end_ = false;
     selected_parameter_index = 0;
     selected_menu_index = 0;
@@ -99,6 +102,7 @@ void ParameterScene::check_parameter()
 {
     //戻るボタンで項目選択へ
     if (Input::get_button_down(PAD_INPUT_2)) {
+        Sound::GetInstance().play_SE(SE_Cancel);
         menu_state = State::SelectMenu;
     }
 }
@@ -107,12 +111,14 @@ void ParameterScene::select_menu()
 {
     //戻るボタンでタイトルへもどる
     if (Input::get_button_down(PAD_INPUT_2)) {
+        Sound::GetInstance().play_SE(SE_Cancel);
         is_end_ = true;
         return;
     }
 
-    //決定時に選択されているパラメータを強化
+    //メニューを選択
     if (Input::get_button_down(PAD_INPUT_1)) {
+        Sound::GetInstance().play_SE(SE_Select);
         switch (selected_menu_index) {
         case Menu_CheckParameter:   menu_state = State::CheckParameter;  break;
         case Menu_EnhanceParameter: menu_state = State::EnhanceParamter; break;
@@ -122,9 +128,11 @@ void ParameterScene::select_menu()
 
     //上下キーで選択肢を変更
     if (Input::get_button_down(PAD_INPUT_DOWN)) {
+        Sound::GetInstance().play_SE(SE_CursorMove);
         selected_menu_index = (selected_menu_index + 1) % NumMenu;
     }
     else if (Input::get_button_down(PAD_INPUT_UP)) {
+        Sound::GetInstance().play_SE(SE_CursorMove);
         selected_menu_index = (selected_menu_index + NumMenu - 1) % NumMenu;
     }
 }
@@ -133,13 +141,12 @@ void ParameterScene::select_enhanced_parameter()
 {
     //戻るボタンで項目選択へ
     if (Input::get_button_down(PAD_INPUT_2)) {
+        Sound::GetInstance().play_SE(SE_Cancel);
         menu_state = State::SelectMenu;
     }
 
     //決定時に選択されているパラメータを強化
     if (Input::get_button_down(PAD_INPUT_1)) {
-
-
         switch (selected_parameter_index) {
         case Enhance_hp:     try_enhance_hp();    break;
         case Enhance_attack: try_enhance_attack(); break;
@@ -148,9 +155,11 @@ void ParameterScene::select_enhanced_parameter()
     }
     //上下キーで選択肢を変更
     if (Input::get_button_down(PAD_INPUT_DOWN)) {
+        Sound::GetInstance().play_SE(SE_CursorMove);
         selected_parameter_index = (selected_parameter_index + 1) % NumEnhanceableParameter;
     }
     else if (Input::get_button_down(PAD_INPUT_UP)) {
+        Sound::GetInstance().play_SE(SE_CursorMove);
         selected_parameter_index = (selected_parameter_index + NumEnhanceableParameter - 1) % NumEnhanceableParameter;
     }
 
@@ -162,12 +171,13 @@ void ParameterScene::try_enhance_hp()
     int possesed_gem = p_DB_.get_master_parameter().total_gem;
     int required_gem = RequiredGemList[ColHp];
     if (possesed_gem >= required_gem) {
+        Sound::GetInstance().play_SE(SE_Enhance);
         p_DB_.use_gem(required_gem);
         p_DB_.enhance_hp(RiseValue[ColHp]);
         hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
     }
     else {
-        /*足りないことを通知*/
+        Sound::GetInstance().play_SE(SE_Buzzer);
     }
 }
 
@@ -176,12 +186,13 @@ void ParameterScene::try_enhance_attack()
     int possesed_gem = p_DB_.get_master_parameter().total_gem;
     int required_gem = RequiredGemList[ColAttack];
     if (possesed_gem >= required_gem) {
+        Sound::GetInstance().play_SE(SE_Enhance);
         p_DB_.use_gem(required_gem);
         p_DB_.enhance_attack(RiseValue[ColAttack]);
         attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
     }
     else {
-        /*足りないことを通知*/
+        Sound::GetInstance().play_SE(SE_Buzzer);
     }
 }
 

@@ -5,6 +5,7 @@
 
 #include "Util/Input.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Sound.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "MapScene/MapManager.h"
@@ -22,9 +23,10 @@ static const int MenuInterval{ 150 }; //選択肢の高さ間隔
 void TitleScene::start(void* data)
 {
     Image::load("TitleScene");
+    Sound::GetInstance().load("TitleScene");
     is_end_ = false;
     select_index_ = 0;
-
+    Sound::GetInstance().play_BGM(BGM_Title);
 }
 
 void TitleScene::update(float delta_time)
@@ -70,6 +72,7 @@ void TitleScene::end()
         //プレイヤーの初期パラメータをセット
         PlayerDatabase::GetInstance().set_initial_parameter();
     }
+    Sound::GetInstance().clear();
     Image::clear();
 }
 
@@ -83,14 +86,17 @@ void TitleScene::select_menu()
 {
     //決定キーで選択肢を決定
     if (Input::get_button_down(PAD_INPUT_1)) {
+        Sound::GetInstance().play_SE(SE_Select);
         is_end_ = true;
     }
 
     //上下キーで選択肢を変更
     if (Input::get_button_down(PAD_INPUT_DOWN)) {
+        Sound::GetInstance().play_SE(SE_CursorMove);
         select_index_ = (select_index_ + 1) % NumSelect;
     }
     else if (Input::get_button_down(PAD_INPUT_UP)) {
+        Sound::GetInstance().play_SE(SE_CursorMove);
         select_index_ = (select_index_ + NumSelect - 1) % NumSelect;
     }
 }
