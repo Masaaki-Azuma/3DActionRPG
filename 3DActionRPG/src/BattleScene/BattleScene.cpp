@@ -2,6 +2,7 @@
 
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Mesh.h"
+#include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
 #include "Util/Input.h"
 #include "AssetsManager/PlayerDatabase.h"
@@ -27,7 +28,7 @@ void BattleScene::start(void* data)
 	//リソースの読み込み
 	Image::load("BattleScene");
 	Mesh::load();
-
+	Sound::GetInstance().load("BattleScene");
 	//ライト設定
 	light_.add_directional_light(Vector3{ 1, -1, 1 });
 	light_.add_directional_light(Vector3{ -1, -1, -1 });
@@ -54,6 +55,7 @@ void BattleScene::start(void* data)
 	//敵を生成
 	spawn_enemy(enemy);
 	
+	Sound::GetInstance().play_BGM(BGM_Battle);
 }
 
 void BattleScene::update(float delta_time)
@@ -112,6 +114,7 @@ void BattleScene::end()
 	light_.clear();
 
 	//リソースの破棄
+	Sound::GetInstance().clear();
 	Mesh::clear();
 	Image::clear();
 }

@@ -2,6 +2,7 @@
 
 #include "Util/Input.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Sound.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "MapManager.h"
 
@@ -16,6 +17,7 @@ void MapScene::start(void* data)
 {
     Image::load("MapScene");
     is_end_ = false;
+    Sound::GetInstance().load("MapScene");
 
     //HPゲージ
     hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40 , Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray };
@@ -25,6 +27,7 @@ void MapScene::start(void* data)
     //バトルシーンから帰ってきたときの更新処理
     map_.enter_map();
 
+    Sound::GetInstance().play_BGM(BGM_Map);
 }
 
 void MapScene::update(float delta_time)
@@ -65,6 +68,7 @@ std::string MapScene::next() const
 
 void MapScene::end()
 {
+    Sound::GetInstance().clear();
     Image::clear();
 }
 

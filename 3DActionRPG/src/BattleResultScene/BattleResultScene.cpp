@@ -9,6 +9,7 @@
 #include "AssetsManager/PlayerDatabase.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
 #include "Screen.h"
 
@@ -33,6 +34,9 @@ BattleResultScene::BattleResultScene():
 
 void BattleResultScene::start(void* data)
 {
+    Sound& sound = Sound::GetInstance();
+    sound.stop_BGM();
+    sound.load("BattleResultScene");
     Image::load("BattleResultScene");
 
     is_end_ = false;
@@ -46,6 +50,8 @@ void BattleResultScene::start(void* data)
     result_time_.reset(result_.time);
     result_time_.set_color(DxLib::GetColor(0, 0, 0));
     result_time_.set_font(Font::japanese_font_50);
+
+    sound.play_SE(SE_BattleResult);
 }
 
 void BattleResultScene::update(float delta_time)
@@ -59,6 +65,7 @@ void BattleResultScene::update(float delta_time)
     scene_timer_.update(delta_time);
     //全結果表示後Aボタンで終了
     if (Input::get_button(PAD_INPUT_1) && scene_timer_.has_elapsed(TimeList.back())) { //A
+        Sound::GetInstance().play_SE(SE_Select);
         is_end_ = true;
     }
 
@@ -74,7 +81,7 @@ void BattleResultScene::draw() const
 
     if (!scene_timer_.has_elapsed(TimeList.at(0))) return;
     if (scene_timer_.has_excessed(TimeList.at(0))) {
-        /*サウンド*/
+        Sound::GetInstance().play_SE(SE_ResultAppear01);
     }
 
     /*モンスター討伐結果表示*/
@@ -82,7 +89,7 @@ void BattleResultScene::draw() const
 
     if (!scene_timer_.has_elapsed(TimeList.at(1))) return;
     if (scene_timer_.has_excessed(TimeList.at(1))) {
-        /*サウンド*/
+        Sound::GetInstance().play_SE(SE_ResultAppear01);
     }
 
     /*タイムボーナス表示*/
@@ -90,7 +97,7 @@ void BattleResultScene::draw() const
 
     if (!scene_timer_.has_elapsed(TimeList.at(2))) return;
     if (scene_timer_.has_excessed(TimeList.at(2))) {
-        /*サウンド*/
+        Sound::GetInstance().play_SE(SE_ResultAppear02);
     }
 
     /*合計ジェム表示*/

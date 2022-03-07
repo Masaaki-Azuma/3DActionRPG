@@ -64,6 +64,8 @@ void Player::update(float delta_time)
 {
 	
 	update_state(delta_time);
+	//状態タイマーの更新
+	update_state_timer_(delta_time);
 	//壁の押し出し処理
 	react_wall();
 
@@ -128,9 +130,6 @@ void Player::update_state(float delta_time)
 	case State::Avoid:  avoid(delta_time);  break;
 	case State::Dead:   dead(delta_time);   break;
 	}
-
-	//状態タイマーの更新
-	state_timer_ += delta_time;
 }
 
 //状態とモーションを変化、ループのないモーション設定時はは必ず呼ぶ
@@ -149,12 +148,12 @@ void Player::move(float delta_time)
 	if (Input::get_button_down(PAD_INPUT_2)) {
 		change_state(State::Avoid, Motion_RollingForward, false);
 		avoid(delta_time);
+		sound_.play_SE(SE_Avoid);
 		return;
 	}
 
 	//攻撃
 	if (Input::get_button_down(PAD_INPUT_1)) {
-		generate_attack(0.2f, 0.2f);
 		change_state(State::Attack, Motion_Attack01, false);
 		return;
 	}
@@ -197,25 +196,34 @@ void Player::attack(float delta_time)
 		return;
 	}
 
-	//モーション終わりの0.2秒前以降に攻撃ボタンでコンボ
-	if (Input::get_button_down(PAD_INPUT_1) && state_timer_ >= mesh_.anim_total_sec() - 0.2f) {
+	//各攻撃モーションの適切なタイミングで攻撃判定を生成
+	switch (motion_) {
+	case Motion_Attack01: timely_generate_attack(0.2f); break;
+	case Motion_Attack02: timely_generate_attack(0.2f); break;
+	case Motion_Attack03: timely_generate_attack(0.15f); break;
+	case Motion_Attack04: timely_generate_attack(0.5f); break;
+	case Motion_Attack05: timely_generate_attack(0.45f); break;
+	}
+
+	//モーション終わりの0.2秒前以降に攻撃ボタンを押すとコンボ
+	if (Input::get_button_down(PAD_INPUT_1) && has_elapsed(mesh_.anim_total_sec() - 0.2f)) {
 		is_combo = true;
 	}
 
 	//コンボ条件が成立してるか？
-	if (is_combo && state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end() && is_combo) {
 		is_combo = false;
 		switch (combo_counter) {
-		case 0: combo_attack(Motion_Attack02, 0.2f, 0.2f); break;
-		case 1: combo_attack(Motion_Attack03, 0.2f, 0.15f); break;
-		case 2: combo_attack(Motion_Attack04, 0.2f, 0.5f); break;
-		case 3: combo_attack(Motion_Attack05, 0.2f, 0.45f); break;
+		case 0: change_state(State::Attack, Motion_Attack02, false); break;
+		case 1: change_state(State::Attack, Motion_Attack03, false); break;
+		case 2: change_state(State::Attack, Motion_Attack04, false); break;
+		case 3: change_state(State::Attack, Motion_Attack05, false); break;
 		}
 		combo_counter++;
 	}
 
 	//攻撃入力が無いままモーション終了したら移動状態へ
-	if (state_timer_ >= mesh_.anim_total_sec()) { 
+	if (is_motion_end()) { 
 		//攻撃状態をリセット
 		is_combo = false;
 		combo_counter = 0;
@@ -228,7 +236,7 @@ void Player::attack(float delta_time)
 void Player::damage(float delta_time)
 {
 	//TODO:ダメージ中一瞬当たり判定無効にする（連続攻撃は受けるが、同時攻撃は一つ分しか受けない）
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		change_state(State::Move, Motion_Idle);
 		return;
 	}
@@ -253,7 +261,7 @@ void Player::avoid(float delta_time)
 	}
 
 	//回避終了後移動状態へ
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		is_avoiding = false;
 		change_state(State::Move, Motion_Idle);
 		return;
@@ -263,7 +271,7 @@ void Player::avoid(float delta_time)
 
 void Player::dead(float delta_time)
 {
-	if (state_timer_ >= mesh_.anim_total_sec()) {
+	if (is_motion_end()) {
 		die();
 		return;
 	}
@@ -279,6 +287,14 @@ void Player::generate_attack(float lifespan, float delay)
 	Sphere attack{ 80.0f, position };
 
 	world_->add_actor(new AttackCollider{ world_, attack, "PlayerAttackTag", "AttackCollider", "PlayerTag", lifespan, delay });
+}
+
+void Player::timely_generate_attack(float time)
+{
+	if (has_excessed(time)) {
+		sound_.play_SE(SE_SwordAttack01);
+		generate_attack(0.2f);
+	}
 }
 
 void Player::select_motion()
@@ -321,5 +337,26 @@ void Player::take_damage(int damage)
 {
 	parameter_.hp -= damage;
 	p_db_.set_hp(parameter_.hp);
+}
+
+void Player::update_state_timer_(float delta_time)
+{
+	prev_state_timer_ = state_timer_;
+	state_timer_ += delta_time;
+}
+
+bool Player::has_elapsed(float time)
+{
+	return state_timer_ >= time;
+}
+
+bool Player::has_excessed(float time)
+{
+	return state_timer_ >= time && prev_state_timer_ < time;
+}
+
+bool Player::is_motion_end() const
+{
+	return state_timer_ >= mesh_.anim_total_sec();
 }
 

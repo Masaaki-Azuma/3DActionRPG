@@ -128,6 +128,7 @@ void Enemy::generate_attack(const Sphere& collider, const std::string& name, flo
 void Enemy::take_damage(int damage)
 {
 	parameter_.hp -= damage;
+	sound_.play_SE(SE_MonsterDamage);
 }
 
 bool Enemy::is_motion_end() const
@@ -148,7 +149,7 @@ bool Enemy::has_elapsed(float time)
 
 bool Enemy::has_excessed(float time)
 {
-	return state_timer_ >= time && prev_state_timer_ <= time;
+	return state_timer_ >= time && prev_state_timer_ < time;
 }
 
 void Enemy::select_motion()

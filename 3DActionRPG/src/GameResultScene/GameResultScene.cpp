@@ -4,6 +4,7 @@
 
 #include "Util/Input.h"
 #include "AssetsManager/Image.h"
+#include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "MapScene/MapManager.h"
@@ -12,13 +13,18 @@
 void GameResultScene::start(void* data)
 {
     Image::load("GameResultScene");
+    Sound::GetInstance().load("GameResultScene");
+    Sound::GetInstance().stop_BGM();
     is_end_ = false;
+
+    Sound::GetInstance().play_SE(SE_GameResult);
 }
 
 void GameResultScene::update(float delta_time)
 {
-    //ForDebug:シーンを抜け出す仮動作
+    //決定キーでシーン終了
     if (Input::get_button_down(PAD_INPUT_1)) {
+        Sound::GetInstance().play_SE(SE_Select);
         is_end_ = true;
     }
 }
