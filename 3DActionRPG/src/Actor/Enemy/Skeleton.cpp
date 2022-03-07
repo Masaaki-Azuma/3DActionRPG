@@ -45,7 +45,7 @@ Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotati
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
 }
 
-void Skeleton::react(Actor& other)
+void Skeleton::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
 		int damage_value  = PlayerDatabase::GetInstance().get_current_parameter().attack;
@@ -75,7 +75,6 @@ void Skeleton::react(Actor& other)
 
 void Skeleton::update_state(float delta_time)
 {
-	motion_interruption = false;
 	switch (state_) {
 	case State::Move:   move(delta_time);   break;
 	case State::Attack: attack(delta_time); break;
@@ -83,8 +82,6 @@ void Skeleton::update_state(float delta_time)
 	case State::Dead:   dead(delta_time);   break;
 	case StateSkeleton::Defense: defense(delta_time); break;
 	}
-
-	state_timer_ += delta_time;
 }
 
 void Skeleton::move(float delta_time)

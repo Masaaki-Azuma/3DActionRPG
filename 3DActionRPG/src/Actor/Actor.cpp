@@ -97,6 +97,19 @@ Vector3 Actor::forward() const
     return forward.Normalize();
 }
 
+void Actor::collide_actor(Actor& other)
+{
+    Vector3 pos_self = position();
+    pos_self.y = 0.0f;
+    Vector3 pos_other = other.position();
+    pos_other.y = 0.0f;
+    Vector3 direction = pos_self - pos_other;
+    float distance = direction.Length();
+    float radius_sum = collider().radius + other.collider().radius;
+    float overlap = radius_sum - distance;
+    position_ += direction.Normalize() * overlap * 0.5f;
+}
+
 void Actor::react_wall()
 {
     world_->collide_field(collider(), position_);

@@ -50,7 +50,7 @@ BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& 
 	mesh_.set_scale(Vector3{ 1.0f, 1.0f, 1.0f });
 }
 
-void BlackKnight::react(Actor& other)
+void BlackKnight::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
 		//プレイヤーの攻撃力分ダメージを受ける
@@ -79,8 +79,6 @@ void BlackKnight::update_state(float delta_time)
 	case State::Damage: damage(delta_time); break;
 	case State::Dead: dead(delta_time); break;
 	}
-
-	state_timer_ += delta_time;
 }
 
 void BlackKnight::move(float delta_time)
