@@ -33,9 +33,11 @@ public:
 	virtual void react(Actor& other) override;
 
 protected:
+	virtual void react_player_attack(Actor& other);
 	void change_state(unsigned int state, unsigned int motion, bool loop = true, bool reset = false);
 	void change_motion(unsigned int motion, bool loop = true);
 	virtual void update_state(float delta_time) = 0;
+	void update_state_timer(float delta_time);
 	//状態関数
 	virtual void dead(float delta_time);
 
@@ -53,6 +55,10 @@ protected:
 	void take_damage(int damage);
 	//攻撃判定を生成できるタイミングか？
 	bool can_generate_attack(float time) const;
+	//ある状態になってから指定時間を経過しているか？
+	bool has_elapsed(float time);
+	//ある状態になってからちょうど指定時間をすぎたタイミングか？
+	bool has_excessed(float time);
 	//モーションが終了したか？
 	bool is_motion_end() const;
 
@@ -67,6 +73,8 @@ protected:
 	unsigned int state_;
 	//状態タイマー
 	float state_timer_{ 0.0f };
+	//状態タイマー履歴
+	float prev_state_timer_{ 0.0f };
 	//モーション番号
 	unsigned int motion_;
 	//モーションループするか？

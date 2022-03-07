@@ -28,7 +28,7 @@ private:
 	//
 	void update_state(float delta_time);
 	//状態を変化させる
-	void change_state(State state, unsigned int motion, bool loop = true);
+	void change_state(State state, unsigned int motion, bool loop = true, bool motion_interruption = false);
 	//移動状態更新
 	void move(float delta_time);
 	//攻撃状態更新
@@ -63,6 +63,8 @@ private:
 	unsigned int motion_;
 	//モーションループするか？
 	bool motion_loop_;
+	//モーション割込み
+	bool motion_interruption_;
 	//戦闘パラメーター
 	PlayerDatabase::Parameter parameter_;
 	//プレイヤーデータ参照

@@ -68,7 +68,7 @@ void Player::update(float delta_time)
 	react_wall();
 
 	//メッシュの更新
-	mesh_.change_anim(motion_, motion_loop_);
+	mesh_.change_anim(motion_, motion_loop_, motion_interruption_);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
 	mesh_.update(delta_time);
@@ -102,7 +102,12 @@ void Player::react(Actor& other)
 			mesh_.change_anim(Motion_Die, motion_loop_);
 			return;
 		}
-		change_state(State::Damage, Motion_Damage, false);
+		change_state(State::Damage, Motion_Damage, false, true);
+		mesh_.change_anim(Motion_Die, motion_loop_, motion_interruption_);
+	}
+
+	if (other.tag() == "EnemyTag") {
+		collide_actor(other);
 	}
 }
 
@@ -114,6 +119,7 @@ bool Player::store_model_handle(int model_handle)
 
 void Player::update_state(float delta_time)
 {
+	motion_interruption_ = false;
 	//状態による行動分岐
 	switch (state_) {
 	case State::Move:   move(delta_time);   break;
@@ -128,11 +134,12 @@ void Player::update_state(float delta_time)
 }
 
 //状態とモーションを変化、ループのないモーション設定時はは必ず呼ぶ
-void Player::change_state(State state, unsigned int motion, bool loop)
+void Player::change_state(State state, unsigned int motion, bool loop, bool motion_interruption)
 {
 	state_ = state;
 	motion_ = motion;
 	motion_loop_ = loop;
+	motion_interruption_ = motion_interruption;
 	state_timer_ = 0.0f;
 }
 

@@ -54,6 +54,7 @@ public:
     //前方向を取得
     Vector3 forward() const;
 protected:
+    void collide_actor(Actor& other);
     //壁との押し出し処理
     void react_wall();
     //ポリゴンヒット情報を削除

@@ -27,10 +27,10 @@ void Enemy::update(float delta_time)
 
 	//現在の状態を更新
 	update_state(delta_time);
+	//状態タイマーを更新
+	update_state_timer(delta_time);
 	//壁との押し出し処理
 	react_wall();
-	//ForDebug
-	//select_motion();
 
 	//メッシュの更新
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
@@ -48,7 +48,15 @@ void Enemy::draw() const
 	draw_debug();
 }
 
-void Enemy::react(Actor& other){}
+void Enemy::react(Actor& other)
+{
+	react_player_attack(other);
+	if (other.tag() == "EnemyTag" || other.tag() == "PlayerTag") {
+		collide_actor(other);
+	}
+}
+
+void Enemy::react_player_attack(Actor& other){}
 
 void Enemy::change_state(unsigned int state, unsigned int motion, bool loop, bool is_interruptive)
 {
@@ -64,6 +72,12 @@ void Enemy::change_motion(unsigned int motion, bool loop)
 {
 	motion_ = motion;
 	motion_loop_ = loop;
+}
+
+void Enemy::update_state_timer(float delta_time)
+{
+	prev_state_timer_ = state_timer_;
+	state_timer_ += delta_time;
 }
 
 void Enemy::dead(float delta_time)
@@ -125,6 +139,16 @@ bool Enemy::can_generate_attack(float time) const
 {
 	//モーション開始から指定時間が過ぎている && まだ攻撃判定を生成していない
 	return state_timer_ >= time && !has_attacked_;
+}
+
+bool Enemy::has_elapsed(float time)
+{
+	return state_timer_ >= time;
+}
+
+bool Enemy::has_excessed(float time)
+{
+	return state_timer_ >= time && prev_state_timer_ <= time;
 }
 
 void Enemy::select_motion()

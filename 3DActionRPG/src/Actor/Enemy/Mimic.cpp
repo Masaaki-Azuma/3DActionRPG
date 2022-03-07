@@ -46,7 +46,7 @@ Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation):
 
 }
 
-void Mimic::react(Actor& other)
+void Mimic::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
 		//プレイヤーの攻撃力分ダメージを受ける
@@ -68,7 +68,6 @@ void Mimic::react(Actor& other)
 
 void Mimic::update_state(float delta_time)
 {
-	motion_interruption = false;
 	switch (state_) {
 	case StateMimic::Move:   move(delta_time);   break;
 	case StateMimic::Attack: attack(delta_time); break;
@@ -78,8 +77,6 @@ void Mimic::update_state(float delta_time)
 	case StateMimic::LongAttack: long_attack(delta_time); break;
 	case StateMimic::Surprise: surprise(delta_time); break;
 	}
-
-	state_timer_ += delta_time;
 }
 
 void Mimic::move(float delta_time)

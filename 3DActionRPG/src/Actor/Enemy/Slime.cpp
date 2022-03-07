@@ -19,9 +19,10 @@ enum //モーション
 	Motion_WalkForward = 12,
 };
 
-static const float DetectionRadius{ 400.0f }; //プレイヤーを検知する範囲半径
-static const float AttackRadius{ 50.0f };
+static const float DetectionRadius{ 800.0f }; //プレイヤーを検知する範囲半径
+static const float AttackRadius{ 150.0f };
 static const float MoveSpeed{ 200.0f };
+static const float DashSpeed{ 350.0f };
 
 Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation):
 	Enemy{ world, position, rotation }
@@ -41,11 +42,7 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation):
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
 }
 
-void Slime::late_update(float delta_time)
-{
-}
-
-void Slime::react(Actor& other)
+void Slime::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
 		//プレイヤーの攻撃力分ダメージを受ける
@@ -66,15 +63,21 @@ void Slime::react(Actor& other)
 
 void Slime::update_state(float delta_time)
 {
-	motion_interruption = false;
 	switch (state_) {
 	case State::Move:   move(delta_time);   break;
 	case State::Attack: attack(delta_time); break;
 	case State::Damage: damage(delta_time); break;
 	case State::Dead:   dead(delta_time);   break;
+	case StateSlime::Idle: idle(delta_time); break;
+	case StateSlime::Dash: dash(delta_time); break;
 	}
+}
 
-	state_timer_ += delta_time;
+void Slime::idle(float delta_time)
+{
+	if (has_elapsed(1.2f)) {
+		change_state(StateSlime::Move, Motion_Idle);
+	}
 }
 
 void Slime::move(float delta_time)
@@ -93,14 +96,17 @@ void Slime::move(float delta_time)
 	float distance = get_vec_to_player().Length();
 	//距離により状態
 	if (distance <= AttackRadius) { //攻撃状態
-		Vector3 pos_attack = position_ + forward() * 100.0f;
-		generate_attack(Sphere{50.0f, pos_attack}, "SlimeAttack", 0.5f, 0.4f);
 		change_state(State::Attack, Motion_Attack02, false);
 		return;
 	}
 	else if (distance <= DetectionRadius) {  //移動状態
 		velocity = make_approach();
 		motion = Motion_WalkForward;
+		if (has_elapsed(3.0f)) {
+			velocity_ = velocity.Normalize() * DashSpeed;
+			change_state(StateSlime::Dash, Motion_Run);
+			return;
+		}
 	}
 
 	velocity_ = velocity;
@@ -112,11 +118,29 @@ void Slime::attack(float delta_time)
 {
 	if (can_generate_attack(0.4f)) {
 		Vector3 pos_attack = position_ + forward() * 100.0f;
-		generate_attack(Sphere{ 50.0f, pos_attack }, "SlimeAttack", 0.5f);
+		generate_attack(Sphere{ 50.0f, pos_attack }, "SlimeAttack", 0.2f);
 
 	}
 	if (is_motion_end()) {
-		change_state(State::Move, Motion_Idle);
+		change_state(StateSlime::Idle, Motion_Idle);
+	}
+}
+
+void Slime::dash(float delta_time)
+{
+	//一定方向へダッシュ
+	position_ += velocity_ * delta_time;
+
+	//ダッシュ軌道上に攻撃判定を生成
+	for (int i = 0; i < 6; ++i) {
+		if (has_excessed(i * 0.5f)) {
+			Vector3 pos_attack = position_ + forward() * 100.0f;
+			generate_attack(Sphere{ 50.0f, pos_attack }, "SlimeAttack", 0.3f);
+		}
+	}
+
+	if (has_elapsed(2.65f)) {
+		change_state(StateSlime::Idle, Motion_Idle);
 	}
 }
 

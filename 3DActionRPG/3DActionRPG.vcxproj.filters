@@ -50,6 +50,7 @@
     <ClCompile Include="src\BattleScene\Field.cpp" />
     <ClCompile Include="src\Actor\Timer.cpp" />
     <ClCompile Include="src\Util\Animation\FadeInAnimation.cpp" />
+    <ClCompile Include="src\AssetsManager\Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -106,5 +107,6 @@
     <ClInclude Include="src\BattleScene\Field.h" />
     <ClInclude Include="src\Actor\Timer.h" />
     <ClInclude Include="src\Util\Animation\FadeInAnimation.h" />
+    <ClInclude Include="src\AssetsManager\Sound.h" />
   </ItemGroup>
 </Project>
