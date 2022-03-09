@@ -57,8 +57,6 @@ protected:
     void collide_actor(Actor& other);
     //壁との押し出し処理
     void react_wall();
-    //ポリゴンヒット情報を削除
-    void delete_poly_hit_info();
 
     // コピー禁止
     Actor(const Actor& other) = delete;
@@ -81,9 +79,6 @@ protected:
     bool            enable_collider_{ true };
     // 衝突判定
     Sphere collider_;
-    //TODO:要らないので消す
-    //ポリゴンヒット情報
-    DxLib::MV1_COLL_RESULT_POLY_DIM poly_hit_info_;
     // 死亡フラグ
     bool            dead_{ false };
 };

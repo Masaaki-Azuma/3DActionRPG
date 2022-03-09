@@ -51,11 +51,11 @@ void ParameterScene::start(void* data)
     //体力ゲージ
     hp_gauge_ = ExtendableBarGauge{ 1240, 180, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray };
     hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
-    hp_gauge_.set_edge_width(10);
+    hp_gauge_.set_edge_width(3);
     //攻撃力ゲージ
     attack_gauge_ = ExtendableBarGauge{ 1240, 180 + EnhanceButtonInverval, 540, 40, Texture_GaugeFrame, Texture_GaugeBarRed, Texture_GaugeBarGray};
     attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
-    attack_gauge_.set_edge_width(10);
+    attack_gauge_.set_edge_width(3);
 }
 
 void ParameterScene::update(float delta_time)
@@ -170,7 +170,8 @@ void ParameterScene::try_enhance_hp()
 {
     int possesed_gem = p_DB_.get_master_parameter().total_gem;
     int required_gem = RequiredGemList[ColHp];
-    if (possesed_gem >= required_gem) {
+    //ジェムが足りており、かつ体力が最大強化されていなければ強化
+    if (possesed_gem >= required_gem && p_DB_.get_master_parameter().hp < p_DB_.limit_hp()) {
         Sound::GetInstance().play_SE(SE_Enhance);
         p_DB_.use_gem(required_gem);
         p_DB_.enhance_hp(RiseValue[ColHp]);
@@ -185,7 +186,8 @@ void ParameterScene::try_enhance_attack()
 {
     int possesed_gem = p_DB_.get_master_parameter().total_gem;
     int required_gem = RequiredGemList[ColAttack];
-    if (possesed_gem >= required_gem) {
+    //ジェムが足りており、かつ体力が最大強化されていなければ強化
+    if (possesed_gem >= required_gem && p_DB_.get_master_parameter().attack < p_DB_.limit_attack()) {
         Sound::GetInstance().play_SE(SE_Enhance);
         p_DB_.use_gem(required_gem);
         p_DB_.enhance_attack(RiseValue[ColAttack]);

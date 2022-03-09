@@ -38,7 +38,7 @@ void BattleScene::start(void* data)
 	//HPゲージ
 	hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray};
 	hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
-	hp_gauge_.set_edge_width(10);
+	hp_gauge_.set_edge_width(3);
 
 	//タイマー
 	timer_.set_color(DxLib::GetColor(200, 200, 200));
@@ -144,7 +144,9 @@ void BattleScene::spawn_enemy(const std::string& enemy)
 		world_.add_actor(new Slime{ &world_,  Vector3{ 500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 	}
 	else if (enemy == "Skeleton") {
-		world_.add_actor(new Skeleton{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+		//world_.add_actor(new Skeleton{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+		world_.add_actor(new Skeleton{ &world_,  Vector3{ -500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
+		world_.add_actor(new Skeleton{ &world_,  Vector3{ 500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 	}
 	else if (enemy == "Mage") {
 		world_.add_actor(new Mage{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });

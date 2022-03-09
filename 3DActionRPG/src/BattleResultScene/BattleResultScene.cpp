@@ -137,6 +137,7 @@ void* BattleResultScene::data()
 //敵討伐によって得られたジェム数を取得
 int BattleResultScene::calc_enemy_gem(const std::string& enemy, int num_basterd) const
 {
+    if (num_basterd == 0) return 0;
     //ある種族の敵一体当たりのドロップジェム数
     int gem_per_enemy = EnemyDatabase::GetInstance().get_drop_gem(enemy);
     //その種族から得られた総ジェム数
@@ -147,6 +148,7 @@ int BattleResultScene::calc_enemy_gem(const std::string& enemy, int num_basterd)
 //タイムボーナスによるジェム数を取得
 int BattleResultScene::calc_bonus_gem() const
 {
+    if (result_.battle_result == "Lose") return 0;
     int bonus_gem = 0;
     for (auto p : time_bonus_gem_list) {
         if (result_time_.get_sec() <= p.first) {
@@ -198,17 +200,25 @@ void BattleResultScene::draw_monster_result() const
 
         species_counter++;
     }
+
+    //一体も敵を倒さなかった場合
+    if (species_counter == 0) {
+        draw_line_result(result_height_base, text_color, "", 0);
+    }
 }
 
 //ある種族の敵の討伐結果描画
 void BattleResultScene::draw_line_result(float height, int text_color, const std::string& e_name, int e_basterd) const
 {
-    // 敵のアイコン
-    Image::draw_graph(e_DB_.enemy_icon_table(e_name), 800.0f, height - 50);
-    //敵討伐数
-    Font::draw(920, height, "×" + std::to_string(e_basterd), text_color, Font::japanese_font_50);
-    //右矢印
-    Image::draw_graph(Texture_rightArrow, 1130, height);
+    //一体以上敵を倒した場合描画
+    if (e_name != "") {
+        // 敵のアイコン
+        Image::draw_graph(e_DB_.enemy_icon_table(e_name), 800.0f, height - 50);
+        //敵討伐数
+        Font::draw(920, height, "×" + std::to_string(e_basterd), text_color, Font::japanese_font_50);
+        //右矢印
+        Image::draw_graph(Texture_rightArrow, 1130, height);
+    }
     //ジェム画像
     Image::draw_graph(Texture_gem, 1260, height);
     //ジェム数
@@ -219,11 +229,14 @@ void BattleResultScene::draw_line_result(float height, int text_color, const std
 //タイムボーナス描画
 void BattleResultScene::draw_time_bonus() const
 {
-    //経過時間
-    static const Vector3 timer_pos{ 850, bonus_height };
-    result_time_.draw(timer_pos);
-    //右矢印
-    Image::draw_graph(Texture_rightArrow, 1130, bonus_height);
+    //勝利時のみ所要時間を表示
+    if (result_.battle_result == "Win") {
+        //経過時間
+        static const Vector3 timer_pos{ 850, bonus_height };
+        result_time_.draw(timer_pos);
+        //右矢印
+        Image::draw_graph(Texture_rightArrow, 1130, bonus_height);
+    }
     //ジェム画像
     Image::draw_graph(Texture_gem, 1260, bonus_height);
     //ジェム数

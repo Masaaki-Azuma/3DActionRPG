@@ -115,9 +115,3 @@ void Actor::react_wall()
     world_->collide_field(collider(), position_);
 }
 
-void Actor::delete_poly_hit_info()
-{
-    //ポリゴンヒット情報を削除
-    DxLib::MV1CollResultPolyDimTerminate(poly_hit_info_);
-}
-
