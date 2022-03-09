@@ -43,9 +43,7 @@ public:
 	bool is_final_area();
 	//演出終了したか？
 	bool is_end();
-
-	//HACK:これはバトルシーンから戻ってきたときに呼び出される関数であるので、適切な名前に変更せよ
-	//前回選択したエリアを過去のエリアへ変更
+	//マップに入ったときのマップ更新処理
 	void enter_map();
 	//選択エリアの敵の名前を取得
 	std::string& selected_enemy();

@@ -5,7 +5,7 @@ class ExtendableBarGauge
 {
 public:
 	ExtendableBarGauge() = default;
-	ExtendableBarGauge(float left, float top, int width, int height, unsigned int frame_id, unsigned int bar_id, unsigned int barBG_id = -1);
+	ExtendableBarGauge(float left, float top, int width, int height, int frame_id, int bar_id, int barBG_id = -1);
 	‾ExtendableBarGauge();
 	void set_edge_width(int width);
 	void div_frame();
@@ -18,9 +18,9 @@ private:
 	void draw_barBG(float curr_value) const;
 
 private:
-	unsigned int frame_id_;
-	unsigned int bar_id_;
-	unsigned int barBG_id_;
+	int frame_id_;
+	int bar_id_;
+	int barBG_id_;
 
 	int frame_left_{ -1 };
 	int frame_right_{ -1 };
@@ -41,6 +41,7 @@ private:
 
 	int current_max_{ 1 };
 	int limit_max_{ 1 };
+	//画像左端からバー中身左端までの距離
 	int edge_width_{ 0 };
 };
 #endif//!EXTENDABLE_BAR_GAUGE_H_

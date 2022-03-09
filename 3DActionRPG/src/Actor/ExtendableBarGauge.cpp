@@ -5,7 +5,7 @@
 #include "AssetsManager/Image.h"
 
 
-ExtendableBarGauge::ExtendableBarGauge(float left, float top, int width, int height, unsigned int frame_id, unsigned int bar_id, unsigned int barBG_id):
+ExtendableBarGauge::ExtendableBarGauge(float left, float top, int width, int height, int frame_id, int bar_id, int barBG_id):
 	left_{ left },
 	top_{ top },
 	width_{ width },
@@ -91,32 +91,24 @@ void ExtendableBarGauge::draw_frame() const
 	//左端
 	DxLib::DrawGraphF(left_, top_, frame_left_, true);
 	//間
-	int curr_frame_width = static_cast<int>(width_ * current_max_ / limit_max_);
-	DxLib::DrawExtendGraphF(left_ + edge_width_, top_, left_ + curr_frame_width - edge_width_, top_ + height_, frame_mid_, true);
+	int curr_frame_width = static_cast<int>((width_ - edge_width_ * 2) * current_max_ / limit_max_);
+
+	DxLib::DrawExtendGraphF(left_ + edge_width_, top_, left_ + edge_width_ + curr_frame_width, top_ + height_, frame_mid_, true);
 	//右端
-	DxLib::DrawGraphF(left_ + curr_frame_width - edge_width_, top_, frame_right_, true);
+	DxLib::DrawGraphF(left_ + edge_width_ + curr_frame_width, top_, frame_right_, true);
 }
 
 void ExtendableBarGauge::draw_bar(float curr_value) const
 {
-	//左端
-	DxLib::DrawGraphF(left_, top_, bar_left_, true);
-	//間
-	int curr_width = static_cast<int>(width_ * curr_value / limit_max_);
-	DxLib::DrawExtendGraphF(left_ + edge_width_, top_, left_ + curr_width - edge_width_, top_ + height_, bar_mid_, true);
-	//右端
-	DxLib::DrawGraphF(left_ + curr_width - edge_width_, top_, bar_right_, true);
+	int curr_width = static_cast<int>((width_ - edge_width_ * 2) * curr_value / limit_max_);
+	DxLib::DrawExtendGraphF(left_ + edge_width_, top_, left_ + edge_width_ + curr_width, top_ + height_, bar_mid_, true);
 }
 
 void ExtendableBarGauge::draw_barBG(float curr_value) const
 {
 	if (barBG_id_ != -1) {
-		//左端
-		DxLib::DrawGraphF(left_, top_, barBG_left_, true);
 		//間
-		int curr_width = static_cast<int>(width_ * current_max_ / limit_max_);
-		DxLib::DrawExtendGraphF(left_ + edge_width_, top_, left_ + curr_width - edge_width_, top_ + height_, barBG_mid_, true);
-		//右端
-		DxLib::DrawGraphF(left_ + curr_width - edge_width_, top_, barBG_right_, true);
+		int curr_width = static_cast<int>((width_ - edge_width_ * 2) * current_max_ / limit_max_);
+		DxLib::DrawExtendGraphF(left_ + edge_width_, top_, left_ + edge_width_ + curr_width, top_ + height_, barBG_mid_, true);
 	}
 }

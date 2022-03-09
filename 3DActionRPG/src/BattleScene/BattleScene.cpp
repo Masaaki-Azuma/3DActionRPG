@@ -38,7 +38,7 @@ void BattleScene::start(void* data)
 	//HPゲージ
 	hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray};
 	hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
-	hp_gauge_.set_edge_width(10);
+	hp_gauge_.set_edge_width(3);
 
 	//タイマー
 	timer_.set_color(DxLib::GetColor(200, 200, 200));

@@ -51,11 +51,11 @@ void ParameterScene::start(void* data)
     //体力ゲージ
     hp_gauge_ = ExtendableBarGauge{ 1240, 180, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray };
     hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
-    hp_gauge_.set_edge_width(10);
+    hp_gauge_.set_edge_width(3);
     //攻撃力ゲージ
     attack_gauge_ = ExtendableBarGauge{ 1240, 180 + EnhanceButtonInverval, 540, 40, Texture_GaugeFrame, Texture_GaugeBarRed, Texture_GaugeBarGray};
     attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
-    attack_gauge_.set_edge_width(10);
+    attack_gauge_.set_edge_width(3);
 }
 
 void ParameterScene::update(float delta_time)
