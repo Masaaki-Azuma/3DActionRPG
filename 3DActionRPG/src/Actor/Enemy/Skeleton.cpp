@@ -20,11 +20,13 @@ enum
 	Motion_Idle = 7,
 	Motion_Run = 9,
 	Motion_Taunting = 10,
+	Motion_WalkForward= 16,
 };
 
-static const float DetectionRadius{ 800.0f }; //プレイヤーを検知する範囲半径
+static const float DetectionRadius{ 600.0f }; //プレイヤーを検知する範囲半径
 static const float AttackRadius{ 200.0f };     //プレイヤーを攻撃し始める範囲半径
-static const float MoveSpeed{ 380.0f };       //移動スピード
+static const float RunSpeed{ 380.0f };       //移動スピード
+static const float WalkSpeed{ 150.0f };       //移動スピード
 
 //HACK:Enemy基底クラスにまとめられる処理はないか？
 Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotation):
@@ -33,7 +35,7 @@ Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotati
 	assert(DetectionRadius >= AttackRadius && "プレイヤー感知半径が不正です");
 
 	name_ = "Skeleton";
-	move_speed_ = MoveSpeed;
+	move_speed_ = RunSpeed;
 	collider_ = Sphere{ 60.0f, Vector3{0.0f, 50.0f, 0.0f} };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
@@ -76,11 +78,12 @@ void Skeleton::react_player_attack(Actor& other)
 void Skeleton::update_state(float delta_time)
 {
 	switch (state_) {
-	case State::Move:   move(delta_time);   break;
-	case State::Attack: attack(delta_time); break;
-	case State::Damage: damage(delta_time); break;
-	case State::Dead:   dead(delta_time);   break;
+	case StateSkeleton::Move:   move(delta_time);   break;
+	case StateSkeleton::Attack: attack(delta_time); break;
+	case StateSkeleton::Damage: damage(delta_time); break;
+	case StateSkeleton::Dead:   dead(delta_time);   break;
 	case StateSkeleton::Defense: defense(delta_time); break;
+	case StateSkeleton::Search: search(delta_time); break;
 	}
 }
 
@@ -108,7 +111,13 @@ void Skeleton::move(float delta_time)
 		//走りモーションを設定
 		motion = Motion_Run;
 	}
+	else if (has_elapsed(5.0f)) {
+		velocity_ = make_approach().Normalize() * WalkSpeed;
+		change_state(StateSkeleton::Search, Motion_WalkForward);
+		return;
+	}
 
+	//HACK:移動量の反映は別の場所でやった方がよいのでは？
 	velocity_ = velocity;
 	position_ += velocity_ * delta_time;
 	change_motion(motion);
@@ -132,6 +141,7 @@ void Skeleton::attack(float delta_time)
 
 	//最大2コンボまで攻撃
 	if (is_motion_end()) {
+		flinch_count_ = 0;
 		switch (motion_) {
 		case Motion_Attack01: change_state(State::Attack, Motion_Attack02);         break;
 		case Motion_Attack02: change_state(StateSkeleton::Defense, Motion_Defense); break;
@@ -142,19 +152,37 @@ void Skeleton::attack(float delta_time)
 void Skeleton::damage(float delta_time)
 {
 	if (is_motion_end()) {
-		if(can_be_flinched()) change_state(State::Move, Motion_Idle);
+		if (flinch_count_ >= 7) change_state(State::Attack, Motion_Attack01);
+		else if(can_be_flinched()) change_state(State::Move, Motion_Idle);
 		else                  change_state(StateSkeleton::Defense, Motion_Defense);
-		//連続ひるみ回数をリセット
-		flinch_count_ = 0;
 	}
 }
 
 void Skeleton::defense(float delta_time)
 {
-	if (state_timer_ >= 2.0f) {
+	if (has_elapsed(1.0f)) {
 		//連続ひるみ回数をリセット
 		flinch_count_ = 0;
 		change_state(State::Move, Motion_Idle);
+	}
+}
+
+void Skeleton::search(float delta_time)
+{
+	//プレイヤーを見つけるまで歩いて探索
+	position_ += velocity_ * delta_time;
+
+	//プレイヤーを検索し、存在しなかったら棒立ち状態
+	Actor* player = find_player();
+	if (!player) {
+		change_motion(Motion_Idle);
+		return;
+	}
+
+	//プレイヤーとの距離
+	float distance = get_vec_to_player().Length();
+	if (distance <= DetectionRadius) {
+		change_state(State::Move, Motion_Run);
 	}
 }
 
@@ -172,4 +200,5 @@ void Skeleton::draw_debug() const
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, yellow, yellow, false);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), AttackRadius, 4, red, red, false);
 	DxLib::DrawFormatString(0, 20, DxLib::GetColor(255, 255, 255), "skeleton_hp:%d", parameter_.hp);
+	DxLib::DrawFormatString(0, 40, DxLib::GetColor(255, 255, 255), "flinch_count: %d", flinch_count_);
 }

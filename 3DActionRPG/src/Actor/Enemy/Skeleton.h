@@ -10,6 +10,7 @@ public:
     struct StateSkeleton : Enemy::State
     {
         static const unsigned int Defense = State::DeriveTop;
+        static const unsigned int Search = State::DeriveTop + 1;
     };
 public:
     Skeleton(IWorld* world, const Vector3& position, const Vector3& rotation = Vector3{ 0.0f, 180.0f, 0.0f });
@@ -21,6 +22,7 @@ private:
     void attack(float delta_time);
     void damage(float delta_time);
     void defense(float delta_time);
+    void search(float delta_time);
     bool can_be_flinched() const;
 
     //ForDebug
