@@ -170,7 +170,8 @@ void ParameterScene::try_enhance_hp()
 {
     int possesed_gem = p_DB_.get_master_parameter().total_gem;
     int required_gem = RequiredGemList[ColHp];
-    if (possesed_gem >= required_gem) {
+    //ジェムが足りており、かつ体力が最大強化されていなければ強化
+    if (possesed_gem >= required_gem && p_DB_.get_master_parameter().hp < p_DB_.limit_hp()) {
         Sound::GetInstance().play_SE(SE_Enhance);
         p_DB_.use_gem(required_gem);
         p_DB_.enhance_hp(RiseValue[ColHp]);
@@ -185,7 +186,8 @@ void ParameterScene::try_enhance_attack()
 {
     int possesed_gem = p_DB_.get_master_parameter().total_gem;
     int required_gem = RequiredGemList[ColAttack];
-    if (possesed_gem >= required_gem) {
+    //ジェムが足りており、かつ体力が最大強化されていなければ強化
+    if (possesed_gem >= required_gem && p_DB_.get_master_parameter().attack < p_DB_.limit_attack()) {
         Sound::GetInstance().play_SE(SE_Enhance);
         p_DB_.use_gem(required_gem);
         p_DB_.enhance_attack(RiseValue[ColAttack]);
