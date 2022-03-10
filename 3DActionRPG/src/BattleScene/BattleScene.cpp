@@ -15,9 +15,16 @@
 #include "Actor/Enemy/Mimic.h"
 #include "Actor/Enemy/BlackKnight.h"
 
+enum
+{
+	Scene_Start,
+	Scene_Battle,
+	Scene_BattleResult,
+};
 
 BattleScene::BattleScene():
-	p_DB_{PlayerDatabase::GetInstance()}
+	p_DB_{PlayerDatabase::GetInstance()},
+	start_text_{ "Battle Start!", Font::japanese_font_120_edge, DxLib::GetColor(207, 205, 175), Vector3{0.0f, 200.0f, 0.0f}, 0.5f}
 {
 }
 
@@ -39,15 +46,17 @@ void BattleScene::start(void* data)
 	hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray};
 	hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
 	hp_gauge_.set_edge_width(3);
-
 	//タイマー
 	timer_.set_color(DxLib::GetColor(200, 200, 200));
 	timer_.set_font(Font::japanese_font_60_edge);
 	timer_.reset();
+	//バトル開始テキストをアクティブに
+	start_text_.reset();
+	start_text_.start();
 
-	world_.add_actor(new Player{ &world_ });
-	world_.add_field(new Field{Mesh::ground_handle, Mesh::stage_collider_handle, Mesh::skybox_handle });
 	//アクター追加
+	world_.add_field(new Field{Mesh::ground_handle, Mesh::stage_collider_handle, Mesh::skybox_handle });
+	world_.add_actor(new Player{ &world_ });
 	world_.add_camera(new Camera{ &world_ });
 
 	//MapSceneから送られたデータを取得
@@ -60,25 +69,12 @@ void BattleScene::start(void* data)
 
 void BattleScene::update(float delta_time)
 {
-	/*バトルリザルトシーン*/
-	//バトルリザルトシーンが続いている間、バトルシーンは更新しない
-	if (!result_scene_.is_end()) {
-		result_scene_.update(delta_time);
-		return;
-	}
-
-	/*バトルシーン*/
-	world_.update(delta_time);
-
-	//タイマー更新
-	timer_.update(delta_time);
-
-	//戦闘が終了したらリザルトシーンへ
-	if (is_settled()) {
-		//バトルシーンは実質終了
-		is_end_ = true;
-		result_scene_.start(data());
-		return;
+	//シーン内の状態で分岐
+	//それぞれ別シーンのクラスとして作ることもできる
+	switch (scene_state_) {
+	case Scene_Start:        update_start(delta_time);         break;
+	case Scene_Battle:       update_battle(delta_time);        break;
+	case Scene_BattleResult: update_battle_result(delta_time); break;
 	}
 }
 
@@ -91,8 +87,10 @@ void BattleScene::draw() const
 	//タイマー描画
 	timer_.draw_center(40.0f);
 
+	//バトル開始テキスト
+	if(scene_state_ == Scene_Start) start_text_.draw();
 	//バトル終了状態ではバトルリザルトシーンを描画
-	if(is_end_)result_scene_.draw();
+	if(scene_state_ == Scene_BattleResult)result_scene_.draw();
 }
 
 bool BattleScene::is_end() const
@@ -128,6 +126,38 @@ void* BattleScene::data()
 	result_.basterd_list = world_.basterd_list();
 	result_.time = timer_.get_sec();
     return &result_;
+}
+
+void BattleScene::update_start(float delta_time)
+{
+	/*スタートシーン*/
+	start_text_.update(delta_time);
+	if (start_text_.is_end() && Input::get_button_down(PAD_INPUT_1)) {
+		scene_state_ = Scene_Battle;
+	}
+}
+
+void BattleScene::update_battle(float delta_time)
+{
+	/*バトルシーン*/
+	world_.update(delta_time);
+
+	//タイマー更新
+	timer_.update(delta_time);
+
+	//戦闘が終了したらリザルトシーンへ
+	if (is_settled()) {
+		//バトルシーンは実質終了
+		is_end_ = true;
+		scene_state_ = Scene_BattleResult;
+		result_scene_.start(data());
+	}
+}
+
+void BattleScene::update_battle_result(float delta_time)
+{
+	/*バトルリザルトシーン*/
+	result_scene_.update(delta_time);
 }
 
 bool BattleScene::is_settled() const

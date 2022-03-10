@@ -8,6 +8,7 @@
 #include "BattleResultScene/BattleResultScene.h"
 #include "Actor/ExtendableBarGauge.h"
 #include "Actor/Timer.h"
+#include "Util/Animation/FadeInAnimation.h"
 
 class PlayerDatabase;
 
@@ -24,6 +25,10 @@ public:
     virtual void end() override;
     virtual void* data() override;
 private:
+    void update_start(float delta_time);
+    void update_battle(float delta_time);
+    void update_battle_result(float delta_time);
+
     //戦闘が終了したか？
     bool is_settled() const;
     void spawn_enemy(const std::string& enemy);
@@ -36,11 +41,15 @@ private:
     Light light_;
     //HPゲージ
     ExtendableBarGauge hp_gauge_;
+    //バトル開始テキスト
+    FadeInAnimation start_text_;
     //タイマー
     Timer timer_;
 
     //シーン終了フラグ
     bool is_end_{ false };
+    //シーン状態
+    int scene_state_;
     //バトルリザルトシーン
     BattleResultScene result_scene_;
     //リザルト
