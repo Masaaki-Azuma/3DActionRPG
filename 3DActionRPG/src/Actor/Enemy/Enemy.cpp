@@ -107,15 +107,20 @@ Vector3 Enemy::make_distance()
 {
 	Vector3 direction = get_vec_to_player();
 	Vector3 velocity = -direction.Normalize() * move_speed_;
-	rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
+	rotation_.y = degree_forward(direction);
 	return velocity;
+}
+
+float Enemy::degree_forward(const Vector3& forward)
+{
+	return Vector3::SignedAngleY(Vector3::FORWARD, forward) * MyMath::Rad2Deg;
 }
 
 Vector3 Enemy::make_approach()
 {
 	Vector3 direction = get_vec_to_player();
 	Vector3 velocity = direction.Normalize() * move_speed_;
-	rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, direction) * MyMath::Rad2Deg;
+	rotation_.y = degree_forward(direction);
 	return velocity;
 }
 

@@ -11,7 +11,6 @@
 
 const float Speed{ 10.0f };
 const float AvoidSpeed{ 15.0f };
-const float Gravity{ -0.1f };
 const Vector3 CollisionOffset{ 0, 50.0f, 0 };
 const float CollisionRadius{ 50.0f };
 
@@ -80,8 +79,6 @@ void Player::draw() const
 {
 	//ForDebug
 	collider().draw();
-	
-	
 	
 	//メッシュを描画
 	mesh_.draw();
@@ -168,7 +165,6 @@ void Player::move(float delta_time)
 	if (Input::get_button(PAD_INPUT_UP)) {
 		velocity_ = forward * Speed;
 		rotation_.y = camera_rotation.y;
-		//motion_ = RunForward;
 		motion = Motion_Sprint;
 	}
 	else if (Input::get_button(PAD_INPUT_DOWN)) {
