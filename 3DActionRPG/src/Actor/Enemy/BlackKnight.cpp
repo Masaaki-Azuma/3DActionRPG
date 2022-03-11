@@ -7,6 +7,7 @@
 #include "AssetsManager/Mesh.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "BattleScene/IWorld.h"
+#include "Actor/CrackGenerator.h"
 
 enum
 {
@@ -78,6 +79,7 @@ void BlackKnight::update_state(float delta_time)
 	case StateBK::Slash: slash(delta_time); break;
 	case State::Damage: damage(delta_time); break;
 	case State::Dead: dead(delta_time); break;
+	case StateBK::Crack: crack(delta_time); break;
 	}
 }
 
@@ -110,8 +112,15 @@ void BlackKnight::move(float delta_time)
 		velocity = make_approach();
 		motion = Motion_WalkForward;
 		//一定時間移動状態が続いたらタックル
-		if (state_timer_ >= 3.0f) {
+		if (has_elapsed(3.0f)) {
 			change_state(StateBK::Tackle, Motion_Attack03, false);
+			return;
+		}
+	}
+	else {
+		if (has_elapsed(4.0f)) {
+			make_approach();
+			change_state(StateBK::Crack, Motion_Attack02, false);
 			return;
 		}
 	}
@@ -161,6 +170,17 @@ void BlackKnight::damage(float delta_time)
 {
 	if (is_motion_end()) {
 		change_state(StateBK::Slash, Motion_Attack01, false);
+	}
+}
+
+void BlackKnight::crack(float delta_time)
+{
+	if (has_excessed(1.0f)) {
+		world_->add_actor(new CrackGenerator{ *world_, position(), forward() });
+	}
+
+	if (is_motion_end()) {
+		change_state(StateBK::Move, Motion_Idle);
 	}
 }
 

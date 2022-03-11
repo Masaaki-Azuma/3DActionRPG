@@ -48,11 +48,14 @@
     <ClCompile Include="src\Util\Animation\SlideInAnimation.cpp" />
     <ClCompile Include="src\BattleScene\Light.cpp" />
     <ClCompile Include="src\BattleScene\Field.cpp" />
-    <ClCompile Include="src\Actor\Timer.cpp" />
+    <ClCompile Include="src\Actor\TimerUI.cpp" />
     <ClCompile Include="src\Util\Animation\FadeInAnimation.cpp" />
     <ClCompile Include="src\AssetsManager\Sound.cpp" />
     <ClCompile Include="src\Actor\JewelAttack.cpp" />
     <ClCompile Include="src\BattleScene\EnemySpawner.cpp" />
+    <ClCompile Include="src\Actor\CrackGenerator.cpp" />
+    <ClCompile Include="src\Util\SimpleTimer.cpp" />
+    <ClCompile Include="src\Actor\CrackAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -107,10 +110,13 @@
     <ClInclude Include="src\MapScene\NullNode.h" />
     <ClInclude Include="src\BattleScene\Light.h" />
     <ClInclude Include="src\BattleScene\Field.h" />
-    <ClInclude Include="src\Actor\Timer.h" />
+    <ClInclude Include="src\Actor\TimerUI.h" />
     <ClInclude Include="src\Util\Animation\FadeInAnimation.h" />
     <ClInclude Include="src\AssetsManager\Sound.h" />
     <ClInclude Include="src\Actor\JewelAttack.h" />
     <ClInclude Include="src\BattleScene\EnemySpawner.h" />
+    <ClInclude Include="src\Actor\CrackGenerator.h" />
+    <ClInclude Include="src\Util\SimpleTimer.h" />
+    <ClInclude Include="src\Actor\CrackAttack.h" />
   </ItemGroup>
 </Project>

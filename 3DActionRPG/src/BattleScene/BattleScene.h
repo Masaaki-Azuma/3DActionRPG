@@ -8,7 +8,7 @@
 #include "EnemySpawner.h"
 #include "BattleResultScene/BattleResultScene.h"
 #include "Actor/ExtendableBarGauge.h"
-#include "Actor/Timer.h"
+#include "Actor/TimerUI.h"
 #include "Util/Animation/FadeInAnimation.h"
 
 class PlayerDatabase;
@@ -47,7 +47,7 @@ private:
     //バトル開始テキスト
     FadeInAnimation start_text_;
     //タイマー
-    Timer timer_;
+    TimerUI timer_;
 
     //シーン終了フラグ
     bool is_end_{ false };
