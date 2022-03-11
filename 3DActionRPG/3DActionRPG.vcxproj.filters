@@ -52,6 +52,7 @@
     <ClCompile Include="src\Util\Animation\FadeInAnimation.cpp" />
     <ClCompile Include="src\AssetsManager\Sound.cpp" />
     <ClCompile Include="src\Actor\JewelAttack.cpp" />
+    <ClCompile Include="src\BattleScene\EnemySpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -110,5 +111,6 @@
     <ClInclude Include="src\Util\Animation\FadeInAnimation.h" />
     <ClInclude Include="src\AssetsManager\Sound.h" />
     <ClInclude Include="src\Actor\JewelAttack.h" />
+    <ClInclude Include="src\BattleScene\EnemySpawner.h" />
   </ItemGroup>
 </Project>
