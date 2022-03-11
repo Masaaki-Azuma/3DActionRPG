@@ -48,6 +48,8 @@ protected:
 	Vector3 get_vec_to_player();
 	//距離を取る
 	Vector3 make_distance();
+	//指定方向を向くような回転角度を取得
+	float degree_forward(const Vector3& forward);
 	//近づく
 	Vector3 make_approach();
 	//攻撃判定を生成
@@ -86,6 +88,8 @@ protected:
 	float move_speed_{ 0.0f };
 	//1攻撃判定を生成したか？
 	bool has_attacked_{ false };
+	//連続ダメージに対するひるみ回数
+	int flinch_count_{ 0 };
 	//パラメーター
 	EnemyDatabase::EnemyParameter parameter_;
 

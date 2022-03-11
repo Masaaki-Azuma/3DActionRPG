@@ -24,6 +24,7 @@ public:
 	static int mage_handle;
 	static int black_knight_handle;
 	static int mimic_handle;
+	static int jewel_handle;
 };
 #endif//!MESH_H_
 

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Actor\JewelAttack.cpp" />
     <ClCompile Include="src\AssetsManager\Sound.cpp" />
     <ClCompile Include="src\Util\Animation\FadeInAnimation.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -81,6 +82,7 @@
     <ClCompile Include="src\Actor\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Actor\JewelAttack.h" />
     <ClInclude Include="src\AssetsManager\Sound.h" />
     <ClInclude Include="src\Util\Animation\FadeInAnimation.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

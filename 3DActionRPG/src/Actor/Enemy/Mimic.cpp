@@ -4,28 +4,32 @@
 #include "AssetsManager/PlayerDatabase.h"
 #include "Util/DxConverter.h"
 #include "Util/MyMath.h"
+#include "Util/Matrix4x4.h"
 #include "BattleScene/IWorld.h"
+#include "Actor/JewelAttack.h"
 
 enum
 {
-	Motion_Attack01    = 0,
-	Motion_Attack02    = 1,
-	Motion_Die         = 2,
-	Motion_Damage      = 4,
-	Motion_Idle01      = 5,
-	Motion_Imitate     = 6,
-	Motion_Idle02      = 7,
-	Motion_Run         = 8,
-	Motion_Surprise    = 11,
+	Motion_Attack01     = 0,
+	Motion_Attack02     = 1,
+	Motion_Die          = 2,
+	Motion_Damage       = 4,
+	Motion_Idle01       = 5,
+	Motion_Imitate      = 6,
+	//Motion_Idle02       = 7,
+	Motion_Run          = 8,
+	Motion_Surprise     = 11,
+	Motion_Rage         = 12,
 	Motion_WalkBackward = 13,
-	Motion_WalkForward = 14,
+	Motion_WalkForward  = 14,
 };
 
-static const float ActiveRadius{ 400.0f };
+static const float ActiveRadius{ 450.0f };     //imitate状態を解除する範囲半径
 static const float DetectionRadius{ 1200.0f }; //プレイヤーを検知する範囲半径
-const float EscapeRadius{ 150.0f };
+static const float EscapeRadius{ 150.0f };            //
 static const float AttackRadius{ 200.0f };     //プレイヤーを攻撃し始める範囲半径
-static const float MoveSpeed{ 200.0f };       //移動スピード
+static const float MoveSpeed{ 200.0f };        //移動スピード
+static const float DashSpeed{ 400.0f };
 
 Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation):
 	Enemy{world, position, rotation}
@@ -49,6 +53,8 @@ Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation):
 void Mimic::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
+		//ひるめ回数を増やす
+		flinch_count_++;
 		//プレイヤーの攻撃力分ダメージを受ける
 		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
 		if (parameter_.hp <= 0) {
@@ -69,13 +75,14 @@ void Mimic::react_player_attack(Actor& other)
 void Mimic::update_state(float delta_time)
 {
 	switch (state_) {
-	case StateMimic::Move:   move(delta_time);   break;
-	case StateMimic::Attack: attack(delta_time); break;
-	case StateMimic::Damage: damage(delta_time); break;
-	case StateMimic::Dead:   dead(delta_time);   break;
-	case StateMimic::Imitate: imitate(delta_time); break;
+	case StateMimic::Move:       move(delta_time);        break;
+	case StateMimic::Attack:     attack(delta_time);      break;
+	case StateMimic::Damage:     damage(delta_time);      break;
+	case StateMimic::Dead:       dead(delta_time);        break;
+	case StateMimic::Imitate:    imitate(delta_time);     break;
 	case StateMimic::LongAttack: long_attack(delta_time); break;
-	case StateMimic::Surprise: surprise(delta_time); break;
+	case StateMimic::Surprise:   surprise(delta_time);    break;
+	case StateMimic::Rage:       rage(delta_time);        break;
 	}
 }
 
@@ -112,6 +119,17 @@ void Mimic::move(float delta_time)
 		//一定時間移動状態が続いたら長射程攻撃
 		if (state_timer_ >= 5.0f) {
 			change_state(StateMimic::LongAttack, Motion_Attack02, false);
+			return;
+		}
+	}
+	else {
+		if (has_elapsed(3.0f)) {
+			//HACK:状態変化直後のみ呼ばれる処理を追加するべきではないか
+			Vector3 toward_player = (player->position() - position_).Normalize();
+			toward_player.y = 0.0f;
+			velocity_ = toward_player * DashSpeed;
+			rotation_.y = degree_forward(velocity_);
+			change_state(StateMimic::Rage, Motion_Rage);
 			return;
 		}
 	}
@@ -168,6 +186,38 @@ void Mimic::surprise(float delta_time)
 {
 	if (is_motion_end()) {
 		change_state(StateMimic::Move, Motion_Idle01);
+	}
+}
+
+void Mimic::rage(float delta_time)
+{
+	position_ += velocity_ * delta_time;
+	//一定時間ごとにばらまき攻撃
+	for (int i = 1; i < 5; ++i) {
+		//ばらまき間隔
+		const float ScatterInterval = 1.0f;
+		if (has_excessed(ScatterInterval * i)) {
+			//宝石をばらまく
+			scatter_jewel();
+		}
+	}
+
+	if (has_elapsed(5.0f)) {
+		change_state(StateMimic::Move, Motion_Idle01);
+	}
+}
+
+void Mimic::scatter_jewel()
+{
+	//ばらまく宝石の数
+	static const int NumJewel = 8;
+	static const float JewelHeight = 300.0f;
+	for (int i = 0; i < NumJewel; ++i) {
+		Vector3 jewel_velocity = Vector3{ 0.0f, 450.0f, 80.0f };
+		jewel_velocity = jewel_velocity * Matrix4x4::rotateY(360.0f / NumJewel * i);
+		Vector3 jewel_position = position_;
+		jewel_position.y = JewelHeight;
+		world_->add_actor(new JewelAttack{ world_, jewel_position, jewel_velocity });
 	}
 }
 

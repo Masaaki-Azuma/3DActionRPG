@@ -28,9 +28,9 @@ private:
     //ForDebug
     virtual void draw_debug() const override;
 
-private:
-    //連続ダメージに対するひるみ回数
-    int flinch_count_{ 0 };
+//private:
+//    //連続ダメージに対するひるみ回数
+//    int flinch_count_{ 0 };
 };
 #endif//!SKELETON_H_
 
