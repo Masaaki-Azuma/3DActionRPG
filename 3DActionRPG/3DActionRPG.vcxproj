@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BattleScene\EnemySpawner.cpp" />
     <ClCompile Include="src\Actor\JewelAttack.cpp" />
     <ClCompile Include="src\AssetsManager\Sound.cpp" />
     <ClCompile Include="src\Util\Animation\FadeInAnimation.cpp">
@@ -82,6 +83,7 @@
     <ClCompile Include="src\Actor\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BattleScene\EnemySpawner.h" />
     <ClInclude Include="src\Actor\JewelAttack.h" />
     <ClInclude Include="src\AssetsManager\Sound.h" />
     <ClInclude Include="src\Util\Animation\FadeInAnimation.h">

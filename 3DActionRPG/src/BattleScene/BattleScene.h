@@ -5,6 +5,7 @@
 #include "World.h"
 #include "Light.h"
 #include "Field.h"
+#include "EnemySpawner.h"
 #include "BattleResultScene/BattleResultScene.h"
 #include "Actor/ExtendableBarGauge.h"
 #include "Actor/Timer.h"
@@ -39,6 +40,8 @@ private:
     World world_;
     //ライト
     Light light_;
+    //敵生成器
+    EnemySpawner enemy_spawner_;
     //HPゲージ
     ExtendableBarGauge hp_gauge_;
     //バトル開始テキスト
