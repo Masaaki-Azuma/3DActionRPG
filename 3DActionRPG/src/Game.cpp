@@ -3,7 +3,7 @@
 #include <DxLib.h>
 
 #include "Util/MyRandom.h"
-#include "Util/Input.h"
+#include "Util/PadInput.h"
 #include "AssetsManager/Font.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/PlayerDatabase.h"
@@ -28,7 +28,7 @@ Game::‾Game()
 void Game::Init() 
 {
 	Font::load();
-	Input::init();
+	PadInput::GetInstance().Init();
 	MyRandom::Init();
 	//セーブデータをロード
 	PlayerDatabase& p_DB = PlayerDatabase::GetInstance();
@@ -53,7 +53,7 @@ void Game::Init()
 
 void Game::Update() 
 {
-	Input::update();
+	PadInput::GetInstance().Update();
     //60fps固定
 	static const float delta_time = 1 / 60.0f;
 	scene_manager_.update(delta_time);

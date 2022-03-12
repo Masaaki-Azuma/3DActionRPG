@@ -66,7 +66,6 @@ protected:
 	bool is_motion_end() const;
 
 	//Fordebug
-	void select_motion();
 	virtual void draw_debug() const {};
 
 protected:

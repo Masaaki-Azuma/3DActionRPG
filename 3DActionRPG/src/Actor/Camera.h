@@ -4,6 +4,7 @@
 #include "Actor.h"
 
 class IWorld;
+class PadInput;
 
 class Camera : public Actor
 {
@@ -23,6 +24,7 @@ private:
 private:
 	IWorld* world_{ nullptr };
 	Actor* target_{ nullptr };
+	PadInput& input_;
 };
 #endif//!CAMERA_H_
 

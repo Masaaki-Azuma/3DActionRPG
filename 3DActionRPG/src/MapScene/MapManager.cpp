@@ -10,7 +10,7 @@
 #include "AreaNode.h"
 #include "NullNode.h"
 #include "Util/MyRandom.h"
-#include "Util/Input.h"
+#include "Util/PadInput.h"
 #include "Util/CsvReader.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Sound.h"
@@ -133,9 +133,10 @@ const std::string MapManager::pick_enemy(int depth)
 
 void MapManager::pick_area()
 {
+	PadInput& input = PadInput::GetInstance();
 	const int num_next_node = prev_area_node_->next().size();
 	//決定ボタンでエリアを決定
-	if (Input::get_button_down(PAD_INPUT_1)) {
+	if (input.GetButtonDown(XINPUT_BUTTON_B)) {
 		if (prev_area_node_->next().empty()) return;
 		Sound::GetInstance().play_SE(SE_Select);
 		//選択エリアを現在地に更新
@@ -146,11 +147,11 @@ void MapManager::pick_area()
 		is_picked_ = true;
 	}
 	//上下ボタンでエリアを選択
-	if (Input::get_button_down(PAD_INPUT_UP)) {
+	if (input.GetButtonDown(XINPUT_BUTTON_DPAD_UP)) {
 		Sound::GetInstance().play_SE(SE_CursorMove);
 		area_index_ = (area_index_ + num_next_node - 1) % num_next_node;
 	}
-	if (Input::get_button_down(PAD_INPUT_DOWN)) {
+	if (input.GetButtonDown(XINPUT_BUTTON_DPAD_DOWN)) {
 		Sound::GetInstance().play_SE(SE_CursorMove);
 		area_index_ = (area_index_ + 1) % num_next_node;
 	}

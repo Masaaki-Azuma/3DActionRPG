@@ -5,6 +5,8 @@
 #include "AssetsManager/PlayerDatabase.h"
 #include "Actor/ExtendableBarGauge.h"
 
+class PadInput;
+
 class ParameterScene :
     public IScene
 {
@@ -18,6 +20,7 @@ private:
     };
 
 public:
+    ParameterScene();
     virtual void start(void* data = nullptr) override;
     virtual void update(float delta_time) override;
     virtual void draw() const override;
@@ -52,6 +55,7 @@ private:
     ExtendableBarGauge attack_gauge_;
 
     PlayerDatabase& p_DB_{ PlayerDatabase::GetInstance() };
+    PadInput& input_;
 
 };
 #endif//!PARAMETER_SCENE_H_

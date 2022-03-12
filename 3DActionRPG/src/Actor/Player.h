@@ -3,6 +3,7 @@
 
 #include "Actor.h"
 #include "SkinningMesh.h"
+#include "Util/PadInput.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "AssetsManager/Sound.h"
 
@@ -62,7 +63,6 @@ private:
 	bool is_motion_end() const;
 
 	//ForDebug
-	void select_motion();
 	Vector3 camera_angle();
 	Vector3 camera_forward();
 
@@ -81,6 +81,8 @@ private:
 	bool motion_loop_;
 	//モーション割込み
 	bool motion_interruption_;
+	//コンボカウンター
+	int combo_counter_{ 0 };
 	//戦闘パラメーター
 	PlayerDatabase::Parameter parameter_;
 
@@ -88,6 +90,8 @@ private:
 	PlayerDatabase& p_db_{ PlayerDatabase::GetInstance() };
 	//サウンド管理クラス参照
 	Sound& sound_{ Sound::GetInstance() };
+	//入力管理クラス参照
+	PadInput& input_{ PadInput::GetInstance() };
 
 };
 #endif//!PLAYER_H_

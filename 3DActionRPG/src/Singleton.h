@@ -1,6 +1,12 @@
 #ifndef SINGLETON_H_
 #define SINGLETON_H_
 
+/*
+このクラスの派生クラスは以下の実装を強制する
+1.コンストラクタ・デストラクタをprivate
+2.基底クラスをフレンドクラス登録
+*/
+
 //外部での生成、コピーを許可しない、継承・テンプレート前提
 template<class T>
 class Singleton

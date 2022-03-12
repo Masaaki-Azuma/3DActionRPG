@@ -117,7 +117,7 @@ const Vector2 operator/(const Vector2& v, float scalar)
 bool operator==(const Vector2& v1, const Vector2& v2)
 {
      if (v1.x != v2.x) return false;
-     if (v2.y != v2.y) return false;
+     if (v1.y != v2.y) return false;
      return true;
 }
 

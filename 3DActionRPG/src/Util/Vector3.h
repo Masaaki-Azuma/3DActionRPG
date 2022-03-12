@@ -26,8 +26,9 @@ public:
 	Vector3 Cross(const Vector3& other) const;
 	static float Dot(const Vector3& v1, const Vector3& v2);
 	static Vector3 Cross(const Vector3& v1, const Vector3& v2);
+	//地面に投影したベクトル間の成す角度(弧度法)を取得
 	static float Angle(const Vector3& v1, const Vector3& v2);
-	//地面に投影したベクトル間の成す符号付き角度を取得
+	//地面に投影したベクトル間の成す符号付き角度(弧度法)を取得
 	static float SignedAngleY(const Vector3& from, const Vector3& to);
 
 	const Vector3 operator-() const;

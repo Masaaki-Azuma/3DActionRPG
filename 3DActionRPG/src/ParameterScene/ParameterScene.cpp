@@ -6,7 +6,7 @@
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
-#include "Util/Input.h"
+#include "Util/PadInput.h"
 
 //HACK:PlayerDatabaseのenumとまとめられないか？
 enum //パラメータの強化内容
@@ -37,6 +37,11 @@ static const int EnhanceButtonInverval{ 400 };
 const int RequiredGemList[NumEnhanceableParameter]{ 100, 500 };
 //パラメータ上昇値
 const int RiseValue[NumEnhanceableParameter]{ 100, 10 };
+
+ParameterScene::ParameterScene():
+    input_{PadInput::GetInstance()}
+{
+}
 
 void ParameterScene::start(void* data)
 {
@@ -101,7 +106,7 @@ void* ParameterScene::data()
 void ParameterScene::check_parameter()
 {
     //戻るボタンで項目選択へ
-    if (Input::get_button_down(PAD_INPUT_2)) {
+    if (input_.GetButtonDown(XINPUT_BUTTON_A)) {
         Sound::GetInstance().play_SE(SE_Cancel);
         menu_state = State::SelectMenu;
     }
@@ -110,14 +115,14 @@ void ParameterScene::check_parameter()
 void ParameterScene::select_menu()
 {
     //戻るボタンでタイトルへもどる
-    if (Input::get_button_down(PAD_INPUT_2)) {
+    if (input_.GetButtonDown(XINPUT_BUTTON_A)) {
         Sound::GetInstance().play_SE(SE_Cancel);
         is_end_ = true;
         return;
     }
 
     //メニューを選択
-    if (Input::get_button_down(PAD_INPUT_1)) {
+    if (input_.GetButtonDown(XINPUT_BUTTON_B)) {
         Sound::GetInstance().play_SE(SE_Select);
         switch (selected_menu_index) {
         case Menu_CheckParameter:   menu_state = State::CheckParameter;  break;
@@ -127,11 +132,11 @@ void ParameterScene::select_menu()
     }
 
     //上下キーで選択肢を変更
-    if (Input::get_button_down(PAD_INPUT_DOWN)) {
+    if (input_.GetButtonDown(XINPUT_BUTTON_DPAD_DOWN)) {
         Sound::GetInstance().play_SE(SE_CursorMove);
         selected_menu_index = (selected_menu_index + 1) % NumMenu;
     }
-    else if (Input::get_button_down(PAD_INPUT_UP)) {
+    else if (input_.GetButtonDown(XINPUT_BUTTON_DPAD_UP)) {
         Sound::GetInstance().play_SE(SE_CursorMove);
         selected_menu_index = (selected_menu_index + NumMenu - 1) % NumMenu;
     }
@@ -140,13 +145,13 @@ void ParameterScene::select_menu()
 void ParameterScene::select_enhanced_parameter()
 {
     //戻るボタンで項目選択へ
-    if (Input::get_button_down(PAD_INPUT_2)) {
+    if (input_.GetButtonDown(XINPUT_BUTTON_A)) {
         Sound::GetInstance().play_SE(SE_Cancel);
         menu_state = State::SelectMenu;
     }
 
     //決定時に選択されているパラメータを強化
-    if (Input::get_button_down(PAD_INPUT_1)) {
+    if (input_.GetButtonDown(XINPUT_BUTTON_B)) {
         switch (selected_parameter_index) {
         case Enhance_hp:     try_enhance_hp();    break;
         case Enhance_attack: try_enhance_attack(); break;
@@ -154,11 +159,11 @@ void ParameterScene::select_enhanced_parameter()
         }
     }
     //上下キーで選択肢を変更
-    if (Input::get_button_down(PAD_INPUT_DOWN)) {
+    if (input_.GetButtonDown(XINPUT_BUTTON_DPAD_DOWN)) {
         Sound::GetInstance().play_SE(SE_CursorMove);
         selected_parameter_index = (selected_parameter_index + 1) % NumEnhanceableParameter;
     }
-    else if (Input::get_button_down(PAD_INPUT_UP)) {
+    else if (input_.GetButtonDown(XINPUT_BUTTON_DPAD_UP)) {
         Sound::GetInstance().play_SE(SE_CursorMove);
         selected_parameter_index = (selected_parameter_index + NumEnhanceableParameter - 1) % NumEnhanceableParameter;
     }

@@ -5,7 +5,7 @@
 #include <numeric>
 #include <unordered_map>
 
-#include "Util/Input.h"
+#include "Util/PadInput.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "AssetsManager/Image.h"
@@ -56,6 +56,8 @@ void BattleResultScene::start(void* data)
 
 void BattleResultScene::update(float delta_time)
 {
+    PadInput& input = PadInput::GetInstance();
+
     static const float ScrollSpeed{ 10.0f };
     //背景を下へスクロール
     BG_height_ = (std::min)(BG_height_ + ScrollSpeed, Screen::Height / 2.0f);
@@ -63,8 +65,8 @@ void BattleResultScene::update(float delta_time)
 
     //シーン経過時間更新
     scene_timer_.update(delta_time);
-    //全結果表示後Aボタンで終了
-    if (Input::get_button(PAD_INPUT_1) && scene_timer_.has_elapsed(TimeList.back())) { //A
+    //全結果表示後Bボタンで終了
+    if (input.GetButtonDown(XINPUT_BUTTON_B) && scene_timer_.has_elapsed(TimeList.back())) { //A
         Sound::GetInstance().play_SE(SE_Select);
         is_end_ = true;
     }
