@@ -68,10 +68,13 @@ void BlackKnight::react_player_attack(Actor& other)
 		}
 
 		if (flinch_count_ >= parameter_.max_flinch_count) {
+			//ひるみ回数をリセット
+			flinch_count_ = 0;
 			//プレイヤー方向へ向き直る
 			make_approach();
 			//反撃
-			change_state(StateBK::Slash, Motion_Attack01, false);
+			change_state(StateBK::Slash, Motion_Attack01, false, true);
+			mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 		}
 		else {
 			//ダメージ状態に
