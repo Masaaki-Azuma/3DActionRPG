@@ -96,6 +96,8 @@ void Slime::move(float delta_time)
 	float distance = get_vec_to_player().Length();
 	//距離により状態
 	if (distance <= AttackRadius) { //攻撃状態
+		//プレイヤー方向に向き直る
+		make_approach();
 		change_state(State::Attack, Motion_Attack02, false);
 		return;
 	}
