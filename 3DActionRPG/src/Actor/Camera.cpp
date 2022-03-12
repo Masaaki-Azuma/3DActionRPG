@@ -3,6 +3,7 @@
 #include <DxLib.h>
 
 #include "Util/Input.h"
+#include "Util/PadInput.h"
 #include "Util/DxConverter.h"
 #include "Util/MyMath.h"
 #include "Util/Matrix4x4.h"
@@ -11,7 +12,8 @@
 const float RotateSpeed{ 1.0f };
 Vector3 TargetOffset{ 0, 360, -390 };
 
-Camera::Camera(IWorld* world)
+Camera::Camera(IWorld* world):
+	input_{PadInput::GetInstance()}
 {
 	world_ = world;
 	name_ = "Camera";
@@ -53,13 +55,15 @@ void Camera::follow_target()
 
 void Camera::rotate(float delta_time)
 {
+	Vector2 dir_Rstick = input_.GetRightStick();
+	rotation_.y += dir_Rstick.x * RotateSpeed;
 	//カメラ回転
-	if (Input::get_button(PAD_INPUT_RIGHT)) {
+	/*if (Input::get_button(PAD_INPUT_RIGHT)) {
 		rotation_.y += RotateSpeed;
 	}
 	else if (Input::get_button(PAD_INPUT_LEFT)) {
 		rotation_.y -= RotateSpeed;
-	}
+	}*/
 }
 
 void Camera::arrange_camera()

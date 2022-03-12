@@ -56,6 +56,7 @@
     <ClCompile Include="src\Actor\CrackGenerator.cpp" />
     <ClCompile Include="src\Util\SimpleTimer.cpp" />
     <ClCompile Include="src\Actor\CrackAttack.cpp" />
+    <ClCompile Include="src\Util\PadInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -118,5 +119,6 @@
     <ClInclude Include="src\Actor\CrackGenerator.h" />
     <ClInclude Include="src\Util\SimpleTimer.h" />
     <ClInclude Include="src\Actor\CrackAttack.h" />
+    <ClInclude Include="src\Util\PadInput.h" />
   </ItemGroup>
 </Project>

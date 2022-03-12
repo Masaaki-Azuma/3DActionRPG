@@ -10,7 +10,7 @@
 #include "AttackCollider.h"
 
 const float Speed{ 10.0f };
-const float AvoidSpeed{ 15.0f };
+const float AvoidSpeed{ 12.0f };
 const Vector3 CollisionOffset{ 0, 50.0f, 0 };
 const float CollisionRadius{ 50.0f };
 
@@ -18,20 +18,20 @@ const float CollisionRadius{ 50.0f };
 /*名前の衝突回避のために、無名列挙型には接頭語をつけることを推奨する*/
 enum
 {
-	Motion_Attack01 = 0,
-	Motion_Attack02 = 1,
-	Motion_Attack03 = 2,
-	Motion_Attack04 = 3,
-	Motion_Attack05 = 4,
-	Motion_Die = 9,
-	Motion_Recover = 10,
-	Motion_Damage = 14,
-	Motion_Idle = 15,
-	Motion_RollingForward = 22,
+	Motion_Attack01        = 0,
+	Motion_Attack02        = 1,
+	Motion_Attack03        = 2,
+	Motion_Attack04        = 3,
+	Motion_Attack05        = 4,
+	Motion_Die             = 9,
+	Motion_Recover         = 10,
+	Motion_Damage          = 14,
+	Motion_Idle            = 15,
+	Motion_RollingForward  = 22,
 	Motion_RollingBackward = 23,
-	Motion_RunForward = 26,
-	Motion_RunBackward = 27,
-	Motion_Sprint = 29,
+	Motion_RunForward      = 26,
+	Motion_RunBackward     = 27,
+	Motion_Sprint          = 29,
 };
 
 Player::Player(IWorld* world, const Vector3& position):
@@ -80,11 +80,16 @@ void Player::draw() const
 	//collider().draw();
 	//メッシュを描画
 	mesh_.draw();
+
+	DrawFormatString(0, 80, GetColor(255, 255, 255), "LStick: (%f, %f)", input_.GetLeftStick().x, input_.GetLeftStick().y);
+	DrawFormatString(0, 100, GetColor(255, 255, 255), "RStick: (%f, %f)", input_.GetRightStick().x, input_.GetRightStick().y);
 }
 
 void Player::react(Actor& other)
 {
 	if (other.tag() == "EnemyAttackTag") {
+		//敵の攻撃に割り込まれたら、コンボリセット
+		combo_counter_ = 0;
 		int damage = EnemyDatabase::GetInstance().get_attack(other.name());
 		take_damage(damage);
 		if (parameter_.hp <= 0) {
@@ -134,56 +139,52 @@ void Player::change_state(State state, unsigned int motion, bool loop, bool moti
 
 void Player::move(float delta_time)
 {
+
+	//移動状態のモーション番号
+	unsigned int motion = Motion_Idle;
+	//カメラの前方向を取得
+	Vector3 cam_forward = camera_forward();
+	//移動
+	Vector2 dir_Lstick = input_.GetLeftStick();
+	if (dir_Lstick == Vector2::ZERO) {
+		velocity_ = Vector3::ZERO;
+	}
+	else {
+		//カメラ右＋正面入力で-90度？
+		float angle = Vector3::SignedAngleY(Vector3::FORWARD, Vector3{ dir_Lstick.x, 0.0f, dir_Lstick.y });
+		Vector3 velocity = cam_forward.Normalize() * Matrix4x4::rotateY(angle * MyMath::Rad2Deg) * Speed;
+		velocity_ = velocity;
+		rotation_.y = Vector3::SignedAngleY(Vector3::FORWARD, velocity_) * MyMath::Rad2Deg ;
+		motion = Motion_Sprint;
+	}
+
 	//回避
-	if (Input::get_button_down(PAD_INPUT_2)) {
+	if (input_.GetButtonDown(XINPUT_BUTTON_A)) {
 		change_state(State::Avoid, Motion_RollingForward, false);
-		avoid(delta_time);
 		sound_.play_SE(SE_Avoid);
 		return;
 	}
 
 	//攻撃
-	if (Input::get_button_down(PAD_INPUT_1)) {
+	if (input_.GetButton(XINPUT_BUTTON_B)) {
 		change_state(State::Attack, Motion_Attack01, false);
 		return;
 	}
 
-	//移動状態のモーション番号
-	unsigned int motion = Motion_Idle;
-	//カメラの前方向を取得
-	Vector3 camera_rotation = camera_angle();
-	Vector3 forward = camera_forward();
-	//移動
-	velocity_ = Vector3::ZERO;
-	if (Input::get_button(PAD_INPUT_UP)) {
-		velocity_ = forward * Speed;
-		rotation_.y = camera_rotation.y;
-		motion = Motion_Sprint;
-	}
-	else if (Input::get_button(PAD_INPUT_DOWN)) {
-		velocity_ = -forward * Speed;
-		rotation_.y = camera_rotation.y;
-		motion = Motion_RunBackward;
-	}
 	position_ += velocity_;
 	change_state(State::Move, motion);
 }
 
 void Player::attack(float delta_time)
 {
-	//コンボ攻撃予定か？
-	static bool is_combo = false;
-	//コンボ攻撃回数
-	static int combo_counter = 0;
-
-	//回避ボタンを押すと割り込んで回避状態へ
-	if (Input::get_button_down(PAD_INPUT_2)) {
-		//攻撃状態を初期化
-		is_combo = false;
-		combo_counter = 0;
-		change_state(State::Avoid, Motion_RollingForward, false);
-		return;
-	}
+	////回避ボタンを押すと割り込んで回避状態へ
+	//if (Input::get_button_down(PAD_INPUT_2)) {
+	//	//攻撃状態を初期化
+	//	is_combo__ = false;
+	//	combo_counter__ = 0;
+	//	change_state(State::Avoid, Motion_RollingForward, false);
+	//	return;
+	//}
 
 	//各攻撃モーションの適切なタイミングで攻撃判定を生成
 	switch (motion_) {
@@ -194,28 +195,21 @@ void Player::attack(float delta_time)
 	case Motion_Attack05: timely_generate_attack(0.45f); break;
 	}
 
-	//モーション終わりの0.2秒前以降に攻撃ボタンを押すとコンボ
-	if (Input::get_button_down(PAD_INPUT_1) && has_elapsed(mesh_.anim_total_sec() - 0.2f)) {
-		is_combo = true;
-	}
-
-	//コンボ条件が成立してるか？
-	if (is_motion_end() && is_combo) {
-		is_combo = false;
-		switch (combo_counter) {
+	//モーション終わりに攻撃ボタンを押しているとコンボ
+	if (input_.GetButton(XINPUT_BUTTON_B) && is_motion_end()) {
+		switch (combo_counter_) {
 		case 0: change_state(State::Attack, Motion_Attack02, false); break;
 		case 1: change_state(State::Attack, Motion_Attack03, false); break;
 		case 2: change_state(State::Attack, Motion_Attack04, false); break;
 		case 3: change_state(State::Attack, Motion_Attack05, false); break;
 		}
-		combo_counter++;
+		combo_counter_++;
 	}
 
 	//攻撃入力が無いままモーション終了したら移動状態へ
 	if (is_motion_end()) { 
 		//攻撃状態をリセット
-		is_combo = false;
-		combo_counter = 0;
+		combo_counter_ = 0;
 		//移動状態へ
 		change_state(State::Move, Motion_Idle);
 		return;
@@ -237,17 +231,12 @@ void Player::avoid(float delta_time)
 	static bool is_avoiding{ false };
 	//回避開始直後なら、入力方向へローリング
 	if (!is_avoiding) {
-		Vector3 forward = camera_forward();
-		if (Input::get_button(PAD_INPUT_DOWN)) {
-			velocity_ = -forward * AvoidSpeed;
-			rotation_.y = camera_angle().y + 180.0f;
-		}
-		else {
-			velocity_ = forward * AvoidSpeed;
-		}
 		//回避最中へ
 		is_avoiding = true;
+		velocity_ = forward() * AvoidSpeed;
 	}
+
+	position_ += velocity_;
 
 	//回避終了後移動状態へ
 	if (is_motion_end()) {
@@ -255,7 +244,6 @@ void Player::avoid(float delta_time)
 		change_state(State::Move, Motion_Idle);
 		return;
 	}
-	position_ += velocity_;
 }
 
 void Player::dead(float delta_time)
