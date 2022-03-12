@@ -21,7 +21,7 @@ public:
 	};
 	
 public:
-	Player(IWorld* world);
+	Player(IWorld* world, const Vector3& position);
 	‾Player();
 	virtual void update(float delta_time) override;
 	virtual void draw() const override;

@@ -34,7 +34,7 @@ enum
 	Motion_Sprint = 29,
 };
 
-Player::Player(IWorld* world):
+Player::Player(IWorld* world, const Vector3& position):
 	mesh_{Mesh::player_handle, 30.0f},
 	state_{State::Move},
 	state_timer_{0.0f},
@@ -44,7 +44,7 @@ Player::Player(IWorld* world):
 	world_ = world;
 	name_ = "Player";
 	tag_ = "PlayerTag";
-	position_ = Vector3{ 0.0f, 0.0f, 0.0f };
+	position_ = position;
 	collider_ = Sphere{ CollisionRadius, CollisionOffset };
 	parameter_ = p_db_.get_current_parameter();
 

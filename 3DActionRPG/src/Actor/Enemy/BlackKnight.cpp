@@ -54,8 +54,10 @@ BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& 
 void BlackKnight::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
+		flinch_count_++;
 		//プレイヤーの攻撃力分ダメージを受ける
 		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
+		//体力ゼロで死亡
 		if (parameter_.hp <= 0) {
 			//当たり判定を無効化
 			enable_collider_ = false;
@@ -64,22 +66,31 @@ void BlackKnight::react_player_attack(Actor& other)
 			mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 			return;
 		}
-		//ダメージ状態に
-		change_state(State::Damage, Motion_Damage, false, true);
-		mesh_.change_anim(motion_, motion_loop_, motion_interruption);
+
+		if (flinch_count_ >= parameter_.max_flinch_count) {
+			//プレイヤー方向へ向き直る
+			make_approach();
+			//反撃
+			change_state(StateBK::Slash, Motion_Attack01, false);
+		}
+		else {
+			//ダメージ状態に
+			change_state(State::Damage, Motion_Damage, false, true);
+			mesh_.change_anim(motion_, motion_loop_, motion_interruption);
+		}
 	}
 }
 
 void BlackKnight::update_state(float delta_time)
 {
 	switch (state_) {
-	case State::Move: move(delta_time); break;
-	case State::Attack: attack(delta_time); break;
+	case StateBK::Move:   move(delta_time);   break;
+	case StateBK::Attack: attack(delta_time); break;
 	case StateBK::Tackle: tackle(delta_time); break;
-	case StateBK::Slash: slash(delta_time); break;
-	case State::Damage: damage(delta_time); break;
-	case State::Dead: dead(delta_time); break;
-	case StateBK::Crack: crack(delta_time); break;
+	case StateBK::Slash:  slash(delta_time);  break;
+	case StateBK::Damage: damage(delta_time); break;
+	case StateBK::Dead:   dead(delta_time);   break;
+	case StateBK::Crack:  crack(delta_time);  break;
 	}
 }
 
@@ -118,8 +129,10 @@ void BlackKnight::move(float delta_time)
 		}
 	}
 	else {
-		if (has_elapsed(4.0f)) {
+		if (has_elapsed(1.0f)) {
+			//プレイヤーへ向き直る
 			make_approach();
+			//地割れ攻撃
 			change_state(StateBK::Crack, Motion_Attack02, false);
 			return;
 		}
@@ -138,6 +151,7 @@ void BlackKnight::attack(float delta_time)
 
 	}
 	if (is_motion_end()) {
+		flinch_count_ = 0;
 		change_state(State::Move, Motion_Idle);
 	}
 }
@@ -150,6 +164,7 @@ void BlackKnight::slash(float delta_time)
 
 	}
 	if (is_motion_end()) {
+		flinch_count_ = 0;
 		change_state(State::Move, Motion_Idle);
 	}
 }
@@ -169,6 +184,7 @@ void BlackKnight::tackle(float delta_time)
 void BlackKnight::damage(float delta_time)
 {
 	if (is_motion_end()) {
+		make_approach();
 		change_state(StateBK::Slash, Motion_Attack01, false);
 	}
 }
@@ -195,4 +211,5 @@ void BlackKnight::draw_debug() const
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, yellow, yellow, false);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), AttackRadius, 4, red, red, false);
 	DxLib::DrawFormatString(0, 20, DxLib::GetColor(255, 255, 255), "blackKnight_hp:%d", parameter_.hp);
+	DxLib::DrawFormatString(0, 40, DxLib::GetColor(255, 255, 255), "blackKnight_flince:%d", flinch_count_);
 }

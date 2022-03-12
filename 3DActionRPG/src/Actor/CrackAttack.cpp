@@ -24,8 +24,8 @@ void CrackAttack::update(float delta_time)
 	static const float MoveSpeed = 400.0f;
 	position_.y = (std::min)(position_.y + MoveSpeed * delta_time, 0.0f);
 	//一定時間経過で消滅
-	static const float DeathTime = 2.0f;
-	if (timer_.has_elapsed(DeathTime)) {
+	static const float Lifespan = 2.0f;
+	if (timer_.has_elapsed(Lifespan)) {
 		die();
 	}
 }
