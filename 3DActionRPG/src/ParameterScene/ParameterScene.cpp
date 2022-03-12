@@ -36,7 +36,7 @@ static const int EnhanceButtonInverval{ 400 };
 //必要ジェム数
 const int RequiredGemList[NumEnhanceableParameter]{ 100, 500 };
 //パラメータ上昇値
-const int RiseValue[NumEnhanceableParameter]{ 100, 20 };
+const int RiseValue[NumEnhanceableParameter]{ 100, 10 };
 
 void ParameterScene::start(void* data)
 {

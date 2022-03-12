@@ -21,9 +21,9 @@ static const int bonus_height{ result_height_base + result_height_interval * 3 }
 static const int total_height{ result_height_base + result_height_interval * 4 }; //トータルジェム行高さ
 static const std::vector<float> TimeList{ 0.6f, 1.2f, 1.8f };                     //シーン時間表
 static const std::vector<std::pair<int, int>> time_bonus_gem_list{                //バトル時間と獲得ジェムの対応表
-    {30, 300},
-    {60, 200},
-    {90, 100}
+    {30, 100},
+    {60, 50},
+    {90, 20}
 };
 
 BattleResultScene::BattleResultScene():

@@ -1,6 +1,6 @@
-Slime,0,0,25,40,0
-Skeleton,0,0,70,55,0
+Slime,85,75,25,25,0
+Skeleton,14,15,70,65,0
 Mage,0,0,0,0,0
-Mimic,0,0,5,5,0
-BlackKnight,100,0,0,0,100
-Chest,0,100,0,0,0
+Mimic,1,2,2,4,0
+BlackKnight,0,0,0,0,100
+Chest,0,8,3,6,0

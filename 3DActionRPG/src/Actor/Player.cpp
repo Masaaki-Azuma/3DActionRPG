@@ -61,7 +61,6 @@ Player::‾Player()
 
 void Player::update(float delta_time)
 {
-	
 	update_state(delta_time);
 	//状態タイマーの更新
 	update_state_timer_(delta_time);
@@ -78,15 +77,9 @@ void Player::update(float delta_time)
 void Player::draw() const
 {
 	//ForDebug
-	collider().draw();
-	
+	//collider().draw();
 	//メッシュを描画
 	mesh_.draw();
-
-	//ForDebug
-	//DxLib::DrawFormatString(0, 0, DxLib::GetColor(255, 255, 255), "motion:%d", motion_);
-	DxLib::DrawFormatString(0, 0, DxLib::GetColor(255, 255, 255), "player_hp:%d", parameter_.hp);
-
 }
 
 void Player::react(Actor& other)
