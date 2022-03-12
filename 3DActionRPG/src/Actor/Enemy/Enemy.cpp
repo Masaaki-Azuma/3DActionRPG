@@ -1,7 +1,6 @@
 #include "Enemy.h"
 
 #include "Util/MyMath.h"
-#include "Util/Input.h"
 #include "AssetsManager/Mesh.h"
 #include "BattleScene/IWorld.h"
 #include "Actor/AttackCollider.h"
@@ -157,15 +156,3 @@ bool Enemy::has_excessed(float time)
 	return state_timer_ >= time && prev_state_timer_ < time;
 }
 
-void Enemy::select_motion()
-{
-	//ForDebug
-	if (Input::get_button_down(PAD_INPUT_5)) { //S
-		motion_++;
-		mesh_.change_anim(motion_);
-	}
-	if (Input::get_button_down(PAD_INPUT_4)) { //A
-		motion_--;
-		mesh_.change_anim(motion_);
-	}
-}

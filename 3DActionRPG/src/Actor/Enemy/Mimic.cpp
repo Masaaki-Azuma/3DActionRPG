@@ -153,6 +153,8 @@ void Mimic::attack(float delta_time)
 void Mimic::damage(float delta_time)
 {
 	if (is_motion_end()) {
+		//プレイヤーへ向き直る
+		make_approach();
 		change_state(State::Attack, Motion_Attack01, false);
 	}
 }

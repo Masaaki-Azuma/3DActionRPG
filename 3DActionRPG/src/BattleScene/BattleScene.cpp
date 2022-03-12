@@ -4,7 +4,7 @@
 #include "AssetsManager/Mesh.h"
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
-#include "Util/Input.h"
+#include "Util/PadInput.h"
 #include "AssetsManager/PlayerDatabase.h"
 
 #include "Actor/Camera.h"
@@ -129,9 +129,10 @@ void* BattleScene::data()
 
 void BattleScene::update_start(float delta_time)
 {
+	PadInput& input = PadInput::GetInstance();
 	/*スタートシーン*/
 	start_text_.update(delta_time);
-	if (start_text_.is_end() && Input::get_button_down(PAD_INPUT_1)) {
+	if (start_text_.is_end() && input.GetButtonDown(XINPUT_BUTTON_B)) {
 		scene_state_ = Scene_Battle;
 	}
 }

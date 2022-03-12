@@ -1,6 +1,5 @@
 #include "Player.h"
 
-#include "Util/Input.h"
 #include "Util/DxConverter.h"
 #include "Util/Matrix4x4.h"
 #include "Util/MyMath.h"
@@ -166,7 +165,7 @@ void Player::move(float delta_time)
 	}
 
 	//攻撃
-	if (input_.GetButton(XINPUT_BUTTON_B)) {
+	if (input_.GetButtonDown(XINPUT_BUTTON_B)) {
 		change_state(State::Attack, Motion_Attack01, false);
 		return;
 	}
@@ -271,19 +270,6 @@ void Player::timely_generate_attack(float time)
 	if (has_excessed(time)) {
 		sound_.play_SE(SE_SwordAttack01);
 		generate_attack(0.2f);
-	}
-}
-
-void Player::select_motion()
-{
-	//ForDebug
-	if (Input::get_button_down(PAD_INPUT_1)) {
-		motion_++;
-		mesh_.change_anim(motion_);
-	}
-	if (Input::get_button_down(PAD_INPUT_2)) {
-		motion_--;
-		mesh_.change_anim(motion_);
 	}
 }
 

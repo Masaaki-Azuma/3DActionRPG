@@ -63,7 +63,6 @@ private:
 	bool is_motion_end() const;
 
 	//ForDebug
-	void select_motion();
 	Vector3 camera_angle();
 	Vector3 camera_forward();
 

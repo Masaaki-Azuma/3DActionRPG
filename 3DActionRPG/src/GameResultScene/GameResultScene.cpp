@@ -2,7 +2,7 @@
 
 #include <DxLib.h>
 
-#include "Util/Input.h"
+#include "Util/PadInput.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
@@ -22,8 +22,9 @@ void GameResultScene::start(void* data)
 
 void GameResultScene::update(float delta_time)
 {
+    PadInput& input = PadInput::GetInstance();
     //決定キーでシーン終了
-    if (Input::get_button_down(PAD_INPUT_1)) {
+    if (input.GetButtonDown(XINPUT_BUTTON_B)) {
         Sound::GetInstance().play_SE(SE_Select);
         is_end_ = true;
     }

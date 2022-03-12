@@ -3,7 +3,7 @@
 #include <DxLib.h>
 #include <cassert>
 
-#include "Util/Input.h"
+#include "Util/PadInput.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/PlayerDatabase.h"
@@ -84,18 +84,19 @@ void* TitleScene::data()
 
 void TitleScene::select_menu()
 {
+    PadInput& input = PadInput::GetInstance();
     //決定キーで選択肢を決定
-    if (Input::get_button_down(PAD_INPUT_1)) {
+    if (input.GetButtonDown(XINPUT_BUTTON_B)) {
         Sound::GetInstance().play_SE(SE_Select);
         is_end_ = true;
     }
 
     //上下キーで選択肢を変更
-    if (Input::get_button_down(PAD_INPUT_DOWN)) {
+    if (input.GetButtonDown(XINPUT_BUTTON_DPAD_DOWN)) {
         Sound::GetInstance().play_SE(SE_CursorMove);
         select_index_ = (select_index_ + 1) % NumSelect;
     }
-    else if (Input::get_button_down(PAD_INPUT_UP)) {
+    else if (input.GetButtonDown(XINPUT_BUTTON_DPAD_UP)) {
         Sound::GetInstance().play_SE(SE_CursorMove);
         select_index_ = (select_index_ + NumSelect - 1) % NumSelect;
     }

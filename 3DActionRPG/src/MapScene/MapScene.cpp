@@ -1,6 +1,6 @@
 #include "MapScene.h"
 
-#include "Util/Input.h"
+#include "Util/PadInput.h"
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/PlayerDatabase.h"
@@ -41,7 +41,7 @@ void MapScene::update(float delta_time)
     map_.update(delta_time);
     
     //演出終了後、決定キーで進む
-    if (Input::get_button_down(PAD_INPUT_1) && map_.is_end()) {
+    if (PadInput::GetInstance().GetButtonDown(XINPUT_BUTTON_B) && map_.is_end()) {
         is_end_ = true;
         return;
     }
