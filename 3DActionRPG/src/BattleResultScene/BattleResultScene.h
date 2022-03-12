@@ -6,7 +6,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "Actor/Timer.h"
+#include "Actor/TimerUI.h"
 
 class EnemyDatabase;
 
@@ -48,9 +48,9 @@ private:
 private:
     bool is_end_{ true };
     //バトル所要時間
-    Timer result_time_;
+    TimerUI result_time_;
     //経過時間
-    Timer scene_timer_;
+    TimerUI scene_timer_;
     //シーン背景の高さ
     float BG_height_;
 

@@ -15,6 +15,7 @@ int Mesh::mage_handle{ -1 };
 int Mesh::mimic_handle{ -1 };
 int Mesh::jewel_handle{ -1 };
 int Mesh::black_knight_handle{ -1 };
+int Mesh::crack_handle{ -1 };
 
 void Mesh::load()
 {
@@ -33,6 +34,7 @@ void Mesh::load()
 	mimic_handle = load_a_mesh("Assets/Mesh/Mimic/Mimic.mv1");
 	jewel_handle = load_a_mesh("Assets/Mesh/Mimic/Jewel.mv1");
 	black_knight_handle = load_a_mesh("Assets/Mesh/BlackKnight/BlackKnight.mv1");
+	crack_handle = load_a_mesh("Assets/Mesh/BlackKnight/Crack.mv1");
 }
 
 void Mesh::clear()
@@ -49,6 +51,7 @@ void Mesh::clear()
 	clear_a_mesh(mimic_handle);
 	clear_a_mesh(jewel_handle);
 	clear_a_mesh(black_knight_handle);
+	clear_a_mesh(crack_handle);
 }
 
 int Mesh::load_a_mesh(const char* file_name)

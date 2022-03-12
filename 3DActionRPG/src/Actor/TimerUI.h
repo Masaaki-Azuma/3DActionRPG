@@ -5,10 +5,10 @@
 
 #include "Util/Vector3.h"
 
-class Timer
+class TimerUI
 {
 public:
-	Timer();
+	TimerUI();
 	void set_color(unsigned int color_handle);
 	void set_font(int font_handle);
 	void reset(float time = 0.0f);

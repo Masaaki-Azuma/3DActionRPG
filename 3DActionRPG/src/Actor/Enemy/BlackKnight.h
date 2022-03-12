@@ -11,6 +11,8 @@ public:
     {
         static const unsigned int Tackle = State::DeriveTop;
         static const unsigned int Slash = State::DeriveTop + 1;
+        static const unsigned int Crack = State::DeriveTop + 2;
+
     };
 public:
     BlackKnight(IWorld* world, const Vector3& position, const Vector3& rotation = Vector3{ 0.0f, 180.0f, 0.0f });
@@ -23,6 +25,7 @@ private:
     void slash(float delta_time);
     void tackle(float delta_time);
     void damage(float delta_time);
+    void crack(float delta_time);
 
     virtual void draw_debug() const override;
 

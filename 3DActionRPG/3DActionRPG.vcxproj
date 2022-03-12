@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Actor\CrackAttack.cpp" />
+    <ClCompile Include="src\Util\SimpleTimer.cpp" />
+    <ClCompile Include="src\Actor\CrackGenerator.cpp" />
     <ClCompile Include="src\BattleScene\EnemySpawner.cpp" />
     <ClCompile Include="src\Actor\JewelAttack.cpp" />
     <ClCompile Include="src\AssetsManager\Sound.cpp" />
@@ -80,9 +83,12 @@
     <ClCompile Include="src\Util\Vector3.cpp" />
     <ClCompile Include="src\BattleScene\World.cpp" />
     <ClCompile Include="src\TitleScene\TitleScene.cpp" />
-    <ClCompile Include="src\Actor\Timer.cpp" />
+    <ClCompile Include="src\Actor\TimerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Actor\CrackAttack.h" />
+    <ClInclude Include="src\Util\SimpleTimer.h" />
+    <ClInclude Include="src\Actor\CrackGenerator.h" />
     <ClInclude Include="src\BattleScene\EnemySpawner.h" />
     <ClInclude Include="src\Actor\JewelAttack.h" />
     <ClInclude Include="src\AssetsManager\Sound.h" />
@@ -149,7 +155,7 @@
     <ClInclude Include="src\Util\Vector3.h" />
     <ClInclude Include="src\BattleScene\World.h" />
     <ClInclude Include="src\TitleScene\TitleScene.h" />
-    <ClInclude Include="src\Actor\Timer.h" />
+    <ClInclude Include="src\Actor\TimerUI.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -23,6 +23,7 @@ public:
 	static int skeleton_handle;
 	static int mage_handle;
 	static int black_knight_handle;
+	static int crack_handle;
 	static int mimic_handle;
 	static int jewel_handle;
 };
