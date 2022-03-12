@@ -38,14 +38,13 @@ void AttackCollider::update(float delta_time)
 void AttackCollider::draw() const
 {
 	//衝突判定のデバッグ表示
-	if (enable_collider_) collider().draw();
+	//if (enable_collider_) collider().draw();
 }
 
 void AttackCollider::react(Actor& other)
 {
 	//自分と同じタグorオーナーと同じタグは衝突判定しない
 	if (other.tag() == tag() || other.tag() == owner_tag_) return;
-
-		//衝突したら死亡
-		die();
+	//衝突したら死亡
+	die();
 }

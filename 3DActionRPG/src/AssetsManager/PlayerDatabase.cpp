@@ -5,7 +5,7 @@
 #include "Util/CsvReader.h"
 
 const int PlayerDatabase::LimitHP{ 10000 };
-const int PlayerDatabase::LimitAttack{ 5000 };
+const int PlayerDatabase::LimitAttack{ 300 };
 
 void PlayerDatabase::set_dst_file(const std::string& file_name)
 {
