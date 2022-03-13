@@ -28,6 +28,13 @@ void Sound::load(const std::string& scene)
     load_a_SE("Assets/Sound/SE/sword_attack02.mp3", SE_SwordAttack02, scene, { "BattleScene" });
     load_a_SE("Assets/Sound/SE/sword_attack03.mp3", SE_SwordAttack03, scene, { "BattleScene" });
     load_a_SE("Assets/Sound/SE/monster_damage.mp3", SE_MonsterDamage, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/slime_attack.mp3", SE_SlimeAttack, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/slime_bound.mp3", SE_SlimeBounce, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/skeleton_sword.mp3", SE_SkeletonAttack, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/skeleton_run.mp3", SE_SkeletonRun, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/shieldguard.mp3", SE_SkeletonGuard, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/mimic_longAttack.mp3", SE_MimicLongAttack, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/mimic_rage.mp3", SE_MimicRage, scene, { "BattleScene" });
 
     register_a_BGM("Assets/Sound/BGM/bgm_title.mp3", BGM_Title);
     register_a_BGM("Assets/Sound/BGM/bgm_battle.mp3", BGM_Battle);
@@ -42,14 +49,27 @@ void Sound::clear(const std::string& scene)
     }
 }
 
-const int Sound::sound_handle(int texture_id)
+const int Sound::sound_handle(int texture_id) const
 {
     return SE_id_list[texture_id];
 }
 
-void Sound::play_SE(int SE_id)
+void Sound::play_SE(int SE_id, PlayMode mode)
 {
-    DxLib::PlaySoundMem(sound_handle(SE_id), DX_PLAYTYPE_BACK);
+    switch (mode) {
+    case PlayMode::Single: DxLib::PlaySoundMem(sound_handle(SE_id), DX_PLAYTYPE_BACK); break;
+    case PlayMode::Loop:   DxLib::PlaySoundMem(sound_handle(SE_id), DX_PLAYTYPE_LOOP); break;
+    }
+}
+
+void Sound::stop_SE(int SE_id)
+{
+    DxLib::StopSoundMem(sound_handle(SE_id));
+}
+
+bool Sound::check_SE_playing(int SE_id) const
+{
+    return DxLib::CheckSoundMem(sound_handle(SE_id));
 }
 
 void Sound::play_BGM(int BGM_id)

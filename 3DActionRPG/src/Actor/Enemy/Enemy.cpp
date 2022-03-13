@@ -44,7 +44,7 @@ void Enemy::draw() const
 
 	//Fordebug
 	//collider().draw();
-	//draw_debug();
+	draw_debug();
 }
 
 void Enemy::react(Actor& other)

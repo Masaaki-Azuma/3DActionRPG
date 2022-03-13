@@ -14,6 +14,7 @@ public:
     };
 public:
     Skeleton(IWorld* world, const Vector3& position, const Vector3& rotation = Vector3{ 0.0f, 180.0f, 0.0f });
+    ‾Skeleton();
     virtual void react_player_attack(Actor& other) override;
 protected:
     virtual void update_state(float delta_time) override;
@@ -28,9 +29,8 @@ private:
     //ForDebug
     virtual void draw_debug() const override;
 
-//private:
-//    //連続ダメージに対するひるみ回数
-//    int flinch_count_{ 0 };
+private:
+    int se_run_handle_{ -1 };
 };
 #endif//!SKELETON_H_
 

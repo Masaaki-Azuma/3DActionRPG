@@ -27,6 +27,16 @@ enum
 	SE_SwordAttack03,
 	SE_Avoid,
 	SE_MonsterDamage,
+
+	SE_SlimeAttack,
+	SE_SlimeBounce,
+	SE_SkeletonAttack,
+	SE_SkeletonWalk,
+	SE_SkeletonRun,
+	SE_SkeletonGuard,
+	SE_MimicLongAttack,
+	SE_MimicRage,
+
 };
 
 enum
@@ -35,6 +45,13 @@ enum
 	BGM_Map,
 	BGM_Battle,
 };
+
+enum class PlayMode
+{
+	Single,
+	Loop,
+};
+
 class Sound : public Singleton<Sound>
 {
 public:
@@ -43,9 +60,13 @@ public:
 	//全テクスチャメモリを解放
 	void clear(const std::string& scene = "");
 	//dxlib由来のテクスチャハンドルを取得する
-	const int sound_handle(int texture_id);
-	//SEを一度再生
-	void play_SE(int SE_id);
+	const int sound_handle(int texture_id) const;
+	//SEを再生
+	void play_SE(int SE_id, PlayMode mode = PlayMode::Single);
+	//SEを停止
+	void stop_SE(int SE_id);
+	//SEが再生中か？
+	bool check_SE_playing(int SE_id) const;
 	//BGMをループ再生
 	void play_BGM(int BGM_id);
 	//現在のBGMを停止

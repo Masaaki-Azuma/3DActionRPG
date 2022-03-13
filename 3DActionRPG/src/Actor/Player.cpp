@@ -79,9 +79,6 @@ void Player::draw() const
 	//collider().draw();
 	//メッシュを描画
 	mesh_.draw();
-
-	DrawFormatString(0, 80, GetColor(255, 255, 255), "LStick: (%f, %f)", input_.GetLeftStick().x, input_.GetLeftStick().y);
-	DrawFormatString(0, 100, GetColor(255, 255, 255), "RStick: (%f, %f)", input_.GetRightStick().x, input_.GetRightStick().y);
 }
 
 void Player::react(Actor& other)

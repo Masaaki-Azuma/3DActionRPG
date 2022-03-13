@@ -45,13 +45,22 @@ Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotati
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
+
+	se_run_handle_ = DxLib::DuplicateSoundMem(sound_.sound_handle(SE_SkeletonRun));
+}
+
+Skeleton::‾Skeleton()
+{
+	DxLib::DeleteSoundMem(se_run_handle_);
 }
 
 void Skeleton::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
+		DxLib::StopSoundMem(se_run_handle_);
 		int damage_value  = PlayerDatabase::GetInstance().get_current_parameter().attack;
 		if (!can_be_flinched() || state_ == StateSkeleton::Defense) {
+			sound_.play_SE(SE_SkeletonGuard);
 			//ダメージを半減
 			damage_value /= 2;
 			//ダメージ状態に
@@ -87,6 +96,7 @@ void Skeleton::update_state(float delta_time)
 	}
 }
 
+//HACK:音声停止処理が散らかっている、うまくまとめよ
 void Skeleton::move(float delta_time)
 {
 	//プレイヤーを検索し、存在しなかったら棒立ち状態
@@ -103,6 +113,7 @@ void Skeleton::move(float delta_time)
 	float distance = get_vec_to_player().Length();
 	//距離が一定以下だと状態遷移
 	if (distance <= AttackRadius) { //攻撃状態
+		DxLib::StopSoundMem(se_run_handle_);
 		change_state(State::Attack, Motion_Attack01, false);
 		return;
 	}
@@ -110,13 +121,19 @@ void Skeleton::move(float delta_time)
 		velocity = make_approach();
 		//走りモーションを設定
 		motion = Motion_Run;
+		//移動SE
+		if (!DxLib::CheckSoundMem(se_run_handle_)) {
+			DxLib::PlaySoundMem(se_run_handle_, DX_PLAYTYPE_LOOP);
+		}
 	}
 	else if (has_elapsed(5.0f)) {
+		DxLib::StopSoundMem(se_run_handle_);
 		velocity_ = make_approach().Normalize() * WalkSpeed;
 		change_state(StateSkeleton::Search, Motion_WalkForward);
 		return;
 	}
 
+	if(velocity == Vector3::ZERO) DxLib::StopSoundMem(se_run_handle_);
 	//HACK:移動量の反映は別の場所でやった方がよいのでは？
 	velocity_ = velocity;
 	position_ += velocity_ * delta_time;
@@ -128,12 +145,14 @@ void Skeleton::attack(float delta_time)
 	switch (motion_) {
 	case Motion_Attack01:
 		if (can_generate_attack(0.2f)) {
+			sound_.play_SE(SE_SkeletonAttack);
 			//攻撃判定を生成
 			generate_attack(Sphere{ 100.0f, position_ + forward() * 150.0f }, "SkeletonAttack", 0.3f);
 		}
 		break;
 	case Motion_Attack02:
 		if (can_generate_attack(0.4f)) {
+			sound_.play_SE(SE_SkeletonAttack);
 			generate_attack(Sphere{ 100.0f, position_ + forward() * 180.0f }, "SkeletonAttack", 0.3f);
 		}
 		break;
@@ -201,4 +220,5 @@ void Skeleton::draw_debug() const
 	DrawSphere3D(DxConverter::GetVECTOR(position_), AttackRadius, 4, red, red, false);
 	DxLib::DrawFormatString(0, 20, DxLib::GetColor(255, 255, 255), "skeleton_hp:%d", parameter_.hp);
 	DxLib::DrawFormatString(0, 40, DxLib::GetColor(255, 255, 255), "flinch_count: %d", flinch_count_);
+	DxLib::DrawFormatString(0, 60, DxLib::GetColor(255, 255, 255), "flinch_count: %d", sound_.check_SE_playing(SE_SkeletonRun));
 }

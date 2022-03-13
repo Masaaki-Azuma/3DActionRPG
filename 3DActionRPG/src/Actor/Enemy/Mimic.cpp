@@ -117,13 +117,15 @@ void Mimic::move(float delta_time)
 		//前歩きモーションを設定
 		motion = Motion_WalkForward;
 		//一定時間移動状態が続いたら長射程攻撃
-		if (state_timer_ >= 5.0f) {
+		if (has_elapsed(5.0f)) {
+			sound_.play_SE(SE_MimicLongAttack);
 			change_state(StateMimic::LongAttack, Motion_Attack02, false);
 			return;
 		}
 	}
 	else {
 		if (has_elapsed(3.0f)) {
+			sound_.play_SE(SE_MimicRage, PlayMode::Loop);
 			//HACK:状態変化直後のみ呼ばれる処理を追加するべきではないか
 			Vector3 toward_player = (player->position() - position_).Normalize();
 			toward_player.y = 0.0f;
@@ -205,6 +207,7 @@ void Mimic::rage(float delta_time)
 	}
 
 	if (has_elapsed(5.0f)) {
+		sound_.stop_SE(SE_MimicLongAttack);
 		change_state(StateMimic::Move, Motion_Idle01);
 	}
 }
