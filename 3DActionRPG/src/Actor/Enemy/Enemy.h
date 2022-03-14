@@ -5,6 +5,7 @@
 #include "Actor/SkinningMesh.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "AssetsManager/Sound.h"
+#include "Actor/ExtendableBarGauge.h"
 
 class Enemy : public Actor
 {
@@ -42,6 +43,8 @@ protected:
 	//状態関数
 	virtual void dead(float delta_time);
 
+	//HPバーを表示
+	void draw_hp_gauge() const;
 	//プレイヤーを検索
 	Actor* find_player();
 	//プレイヤー方向のベクトルを取得
@@ -91,6 +94,8 @@ protected:
 	int flinch_count_{ 0 };
 	//パラメーター
 	EnemyDatabase::EnemyParameter parameter_;
+	//HPゲージ
+	ExtendableBarGauge hp_gauge_;
 
 	//敵データベース参照
 	EnemyDatabase& e_DB_{ EnemyDatabase::GetInstance() };

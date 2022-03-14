@@ -119,6 +119,7 @@ void Slime::move(float delta_time)
 void Slime::attack(float delta_time)
 {
 	if (can_generate_attack(0.4f)) {
+		sound_.play_SE(SE_SlimeAttack);
 		Vector3 pos_attack = position_ + forward() * 100.0f;
 		generate_attack(Sphere{ 50.0f, pos_attack }, "SlimeAttack", 0.2f);
 
@@ -134,8 +135,11 @@ void Slime::dash(float delta_time)
 	position_ += velocity_ * delta_time;
 
 	//ダッシュ軌道上に攻撃判定を生成
-	for (int i = 0; i < 6; ++i) {
-		if (has_excessed(i * 0.5f)) {
+	static const int NumAttack = 4;
+	static const float AttackInterval = 0.7f;
+	for (int i = 0; i < NumAttack; ++i) {
+		if (has_excessed(i * AttackInterval - 0.15f)) {
+			sound_.play_SE(SE_SlimeBounce);
 			Vector3 pos_attack = position_ + forward() * 100.0f;
 			generate_attack(Sphere{ 50.0f, pos_attack }, "SlimeAttack", 0.3f);
 		}

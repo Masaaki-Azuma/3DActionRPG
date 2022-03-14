@@ -70,7 +70,7 @@ private:
 	static void clear_a_texture(int texture_id);
 
 
-public:
+private:
 	static std::vector<int> texture_id_list;
 	static int texture_couter;
 

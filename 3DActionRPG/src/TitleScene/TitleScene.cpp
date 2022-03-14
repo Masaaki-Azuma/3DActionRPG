@@ -27,6 +27,7 @@ void TitleScene::start(void* data)
     is_end_ = false;
     select_index_ = 0;
     Sound::GetInstance().play_BGM(BGM_Title);
+    Sound::GetInstance().set_BGM_volume(0.8f);
 }
 
 void TitleScene::update(float delta_time)

@@ -79,14 +79,12 @@ void Player::draw() const
 	//collider().draw();
 	//メッシュを描画
 	mesh_.draw();
-
-	DrawFormatString(0, 80, GetColor(255, 255, 255), "LStick: (%f, %f)", input_.GetLeftStick().x, input_.GetLeftStick().y);
-	DrawFormatString(0, 100, GetColor(255, 255, 255), "RStick: (%f, %f)", input_.GetRightStick().x, input_.GetRightStick().y);
 }
 
 void Player::react(Actor& other)
 {
 	if (other.tag() == "EnemyAttackTag") {
+		sound_.play_SE(SE_Damage);
 		//敵の攻撃に割り込まれたら、コンボリセット
 		combo_counter_ = 0;
 		int damage = EnemyDatabase::GetInstance().get_attack(other.name());
@@ -170,6 +168,9 @@ void Player::move(float delta_time)
 		return;
 	}
 
+	if (velocity_ != Vector3::ZERO && !sound_.check_SE_playing(SE_GroundWalk)) {
+		sound_.play_SE(SE_GroundWalk);
+	}
 	position_ += velocity_;
 	change_state(State::Move, motion);
 }
@@ -298,7 +299,7 @@ void Player::combo_attack(unsigned motion, float lifespan, float delay)
 
 void Player::take_damage(int damage)
 {
-	parameter_.hp -= damage;
+	parameter_.hp = (std::max)(parameter_.hp - damage, 0);
 	p_db_.set_hp(parameter_.hp);
 }
 
