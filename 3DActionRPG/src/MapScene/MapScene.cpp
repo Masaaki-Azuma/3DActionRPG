@@ -28,6 +28,7 @@ void MapScene::start(void* data)
     map_.enter_map();
 
     Sound::GetInstance().play_BGM(BGM_Map);
+    Sound::GetInstance().set_BGM_volume(0.8f);
 }
 
 void MapScene::update(float delta_time)

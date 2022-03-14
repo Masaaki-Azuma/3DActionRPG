@@ -51,7 +51,8 @@ void BattleResultScene::start(void* data)
     result_time_.set_color(DxLib::GetColor(0, 0, 0));
     result_time_.set_font(Font::japanese_font_50);
 
-    sound.play_SE(SE_BattleResult);
+    if      (result_.battle_result == "Win")  sound.play_SE(SE_BattleWin);
+    else if (result_.battle_result == "Lose") sound.play_SE(SE_BattleLose);
 }
 
 void BattleResultScene::update(float delta_time)

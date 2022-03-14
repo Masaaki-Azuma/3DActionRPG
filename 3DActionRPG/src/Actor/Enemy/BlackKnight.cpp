@@ -9,6 +9,8 @@
 #include "BattleScene/IWorld.h"
 #include "Actor/CrackGenerator.h"
 
+#include "AssetsManager/Image.h"
+
 enum
 {
 	Motion_Attack01 = 0,
@@ -149,6 +151,7 @@ void BlackKnight::move(float delta_time)
 void BlackKnight::attack(float delta_time)
 {
 	if (can_generate_attack(1.0f)) {
+		sound_.play_SE(SE_BlackKnightSwingDown);
 		Vector3 pos_attack = position_ + forward() * 300.0f;
 		generate_attack(Sphere{ 150.0f, pos_attack }, name_ + "Attack", 0.5f);
 
@@ -162,6 +165,7 @@ void BlackKnight::attack(float delta_time)
 void BlackKnight::slash(float delta_time)
 {
 	if (can_generate_attack(0.6f)) {
+		sound_.play_SE(SE_BlackKnightSlash);
 		Vector3 pos_attack = position_ + forward() * 300.0f;
 		generate_attack(Sphere{ 150.0f, pos_attack }, name_ + "Attack", 0.2f);
 
@@ -175,6 +179,7 @@ void BlackKnight::slash(float delta_time)
 void BlackKnight::tackle(float delta_time)
 {
 	if (can_generate_attack(0.6f)) {
+		sound_.play_SE(SE_BlackKnightTackle);
 		Vector3 pos_attack = position_ + forward() * 500.0f;
 		generate_attack(Sphere{ 250.0f, pos_attack }, name_ + "Attack", 0.3f);
 	}
@@ -195,6 +200,7 @@ void BlackKnight::damage(float delta_time)
 void BlackKnight::crack(float delta_time)
 {
 	if (has_excessed(1.0f)) {
+		sound_.play_SE(SE_BlackKnightSwingDown);
 		world_->add_actor(new CrackGenerator{ *world_, position(), forward() });
 	}
 
@@ -215,4 +221,8 @@ void BlackKnight::draw_debug() const
 	DrawSphere3D(DxConverter::GetVECTOR(position_), AttackRadius, 4, red, red, false);
 	DxLib::DrawFormatString(0, 20, DxLib::GetColor(255, 255, 255), "blackKnight_hp:%d", parameter_.hp);
 	DxLib::DrawFormatString(0, 40, DxLib::GetColor(255, 255, 255), "blackKnight_flince:%d", flinch_count_);
+
+	Vector3 hp_gauge_pos = position_ + Vector3{ 0.0f,400.0f, 0.0f };
+	//DxLib::DrawBillboard3D(DxConverter::GetVECTOR(hp_gauge_pos), 0.5f, 0.5f, 200.0f, 0.0f, Image::texture_handle(Texture_GaugeBarGreen), true);
+
 }

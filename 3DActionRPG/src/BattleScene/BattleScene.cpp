@@ -64,6 +64,7 @@ void BattleScene::start(void* data)
 	spawn_enemy(enemy);
 	
 	Sound::GetInstance().play_BGM(BGM_Battle);
+	Sound::GetInstance().set_BGM_volume(0.8f);
 }
 
 void BattleScene::update(float delta_time)

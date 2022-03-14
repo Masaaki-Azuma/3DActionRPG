@@ -18,15 +18,16 @@ void Sound::load(const std::string& scene)
     load_a_SE("Assets/Sound/SE/heal.mp3", SE_Heal, scene, { "MapScene" });
 
     load_a_SE("Assets/Sound/SE/battle_start.mp3", SE_BattleStart, scene, { "BattleScene" });
-    load_a_SE("Assets/Sound/SE/battle_result.mp3", SE_BattleResult, scene, { "BattleResultScene" });
+    load_a_SE("Assets/Sound/SE/battle_win.mp3", SE_BattleWin, scene, { "BattleResultScene" });
+    load_a_SE("Assets/Sound/SE/battle_lose.mp3", SE_BattleLose, scene, { "BattleResultScene" });
     load_a_SE("Assets/Sound/SE/result_appear01.mp3", SE_ResultAppear01, scene, { "BattleResultScene" });
     load_a_SE("Assets/Sound/SE/result_appear02.mp3", SE_ResultAppear02, scene, { "BattleResultScene" });
     load_a_SE("Assets/Sound/SE/game_result.mp3", SE_GameResult, scene, { "GameResultScene" });
 
     load_a_SE("Assets/Sound/SE/avoid.mp3", SE_Avoid, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/damage.mp3", SE_Damage, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/ground_walk.mp3", SE_GroundWalk, scene, { "BattleScene" });
     load_a_SE("Assets/Sound/SE/sword_attack01.mp3", SE_SwordAttack01, scene, { "BattleScene" });
-    load_a_SE("Assets/Sound/SE/sword_attack02.mp3", SE_SwordAttack02, scene, { "BattleScene" });
-    load_a_SE("Assets/Sound/SE/sword_attack03.mp3", SE_SwordAttack03, scene, { "BattleScene" });
     load_a_SE("Assets/Sound/SE/monster_damage.mp3", SE_MonsterDamage, scene, { "BattleScene" });
     load_a_SE("Assets/Sound/SE/slime_attack.mp3", SE_SlimeAttack, scene, { "BattleScene" });
     load_a_SE("Assets/Sound/SE/slime_bound.mp3", SE_SlimeBounce, scene, { "BattleScene" });
@@ -35,6 +36,10 @@ void Sound::load(const std::string& scene)
     load_a_SE("Assets/Sound/SE/shieldguard.mp3", SE_SkeletonGuard, scene, { "BattleScene" });
     load_a_SE("Assets/Sound/SE/mimic_longAttack.mp3", SE_MimicLongAttack, scene, { "BattleScene" });
     load_a_SE("Assets/Sound/SE/mimic_rage.mp3", SE_MimicRage, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/blackKnight_sword03.mp3", SE_BlackKnightSlash, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/blackKnight_SwingDown03.mp3", SE_BlackKnightSwingDown, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/blockKnight_tackle.mp3", SE_BlackKnightTackle, scene, { "BattleScene" });
+    load_a_SE("Assets/Sound/SE/crack.mp3", SE_Crack, scene, { "BattleScene" });
 
     register_a_BGM("Assets/Sound/BGM/bgm_title.mp3", BGM_Title);
     register_a_BGM("Assets/Sound/BGM/bgm_battle.mp3", BGM_Battle);
@@ -76,6 +81,11 @@ void Sound::play_BGM(int BGM_id)
 {
     stop_BGM();
     DxLib::PlayMusic(BGM_file_name_list.at(BGM_id).c_str(), DX_PLAYTYPE_LOOP);
+}
+
+void Sound::set_BGM_volume(float volume)
+{
+    DxLib::SetVolumeMusic(static_cast<int>(volume * 255));
 }
 
 void Sound::stop_BGM()

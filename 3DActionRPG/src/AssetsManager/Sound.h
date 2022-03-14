@@ -17,15 +17,16 @@ enum
 	SE_Encount,
 	SE_Heal,
 	SE_BattleStart,
-	SE_BattleResult,
+	SE_BattleWin,
+	SE_BattleLose,
 	SE_ResultAppear01,
 	SE_ResultAppear02,
 	SE_GameResult,
 
 	SE_SwordAttack01,
-	SE_SwordAttack02,
-	SE_SwordAttack03,
 	SE_Avoid,
+	SE_Damage,
+	SE_GroundWalk,
 	SE_MonsterDamage,
 
 	SE_SlimeAttack,
@@ -36,6 +37,10 @@ enum
 	SE_SkeletonGuard,
 	SE_MimicLongAttack,
 	SE_MimicRage,
+	SE_BlackKnightSlash,
+	SE_BlackKnightSwingDown,
+	SE_BlackKnightTackle,
+	SE_Crack,
 
 };
 
@@ -69,6 +74,8 @@ public:
 	bool check_SE_playing(int SE_id) const;
 	//BGMをループ再生
 	void play_BGM(int BGM_id);
+	//0〜1（デフォルト）でBGM音量を調整
+	void set_BGM_volume(float volume);
 	//現在のBGMを停止
 	void stop_BGM();
 
