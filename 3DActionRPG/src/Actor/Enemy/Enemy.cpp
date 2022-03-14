@@ -47,8 +47,7 @@ void Enemy::draw() const
 	draw_hp_gauge();
 
 	//ForDebug
-	//Fordebug
-	collider().draw();
+	//collider().draw();
 	//draw_debug();
 }
 
