@@ -1,7 +1,9 @@
 #include "Enemy.h"
 
 #include "Util/MyMath.h"
+#include "Util/DxConverter.h"
 #include "AssetsManager/Mesh.h"
+#include "AssetsManager/Image.h"
 #include "BattleScene/IWorld.h"
 #include "Actor/AttackCollider.h"
 
@@ -42,9 +44,12 @@ void Enemy::draw() const
 {
 	mesh_.draw();
 
+	draw_hp_gauge();
+
+	//ForDebug
 	//Fordebug
-	//collider().draw();
-	draw_debug();
+	collider().draw();
+	//draw_debug();
 }
 
 void Enemy::react(Actor& other)
@@ -86,6 +91,22 @@ void Enemy::dead(float delta_time)
 		world_->add_basterd(name_);
 		die();
 	}
+}
+
+void Enemy::draw_hp_gauge() const
+{
+	static const float GaugeHeight = 20.0f;
+	static const float GaugeWidth = 200.0f;
+	static const float MaxSize = 200.0f;
+	Vector3 pos = collider().center + Vector3{ 0.0f, collider().radius * 2, 0.0f };
+	
+	float current_hp_rate = static_cast<float>(parameter_.hp) / e_DB_.get_parameter(name_).hp;
+	DxLib::DrawModiBillboard3D(DxConverter::GetVECTOR(pos),
+		-GaugeWidth / 2,  GaugeHeight / 2,
+		-GaugeWidth / 2 + GaugeWidth * current_hp_rate,  GaugeHeight / 2,
+		-GaugeWidth / 2 + GaugeWidth * current_hp_rate, -GaugeHeight / 2,
+		-GaugeWidth / 2, -GaugeHeight / 2,
+		Image::texture_handle(Texture_GaugeBarRed), TRUE);
 }
 
 Actor* Enemy::find_player()
@@ -131,7 +152,7 @@ void Enemy::generate_attack(const Sphere& collider, const std::string& name, flo
 
 void Enemy::take_damage(int damage)
 {
-	parameter_.hp -= damage;
+	parameter_.hp = (std::max)(parameter_.hp - damage, 0);
 	sound_.play_SE(SE_MonsterDamage);
 }
 
