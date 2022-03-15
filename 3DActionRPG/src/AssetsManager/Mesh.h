@@ -1,31 +1,43 @@
 #ifndef MESH_H_
 #define MESH_H_
 
+#include "Singleton.h"
+
+#include <vector>
 #include <string>
 
+enum
+{
+	Mesh_StageCollider,
+	Mesh_StageMesh,
+	Mesh_Skybox,
+
+	Mesh_Player,
+
+	Mesh_Slime,
+	Mesh_Skeleton,
+	Mesh_Mage,
+	Mesh_BlackKnight,
+	Mesh_Crack,
+	Mesh_Mimic,
+	Mesh_Jewel,
+};
+
 //3Dメッシュ管理クラス
-class Mesh
+class Mesh : public Singleton<Mesh>
 {
 public:
-	static void load();
-	static void clear();
+	void load(const std::string& scene);
+	void clear();
+	int mesh_handle(int mesh_id) const;
 private:
-	static int load_a_mesh(const char* file_name);
-	static void clear_a_mesh(int& handle);
-public:
-	static int stage_collider_handle;
-	static int ground_handle;
-	static int skybox_handle;
+	int load_a_mesh(const char* file_name, int mesh_id, const std::string& scene, std::vector<std::string> use_scenes);
 
-	static int player_handle;
+private:
+	Mesh() = default;
+	‾Mesh() = default;
 
-	static int slime_handle;
-	static int skeleton_handle;
-	static int mage_handle;
-	static int black_knight_handle;
-	static int crack_handle;
-	static int mimic_handle;
-	static int jewel_handle;
+	friend class Singleton<Mesh>;
 };
 #endif//!MESH_H_
 

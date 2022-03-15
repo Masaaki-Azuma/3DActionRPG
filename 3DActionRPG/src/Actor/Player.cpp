@@ -34,7 +34,7 @@ enum
 };
 
 Player::Player(IWorld* world, const Vector3& position):
-	mesh_{Mesh::player_handle, 30.0f},
+	mesh_{Mesh::GetInstance().mesh_handle(Mesh_Player), 30.0f},
 	state_{State::Move},
 	state_timer_{0.0f},
 	motion_{Motion_Idle},
@@ -51,6 +51,7 @@ Player::Player(IWorld* world, const Vector3& position):
 	mesh_.change_anim(motion_, motion_loop_);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_* MyMath::Deg2Rad);
+
 }
 
 Player::‾Player()

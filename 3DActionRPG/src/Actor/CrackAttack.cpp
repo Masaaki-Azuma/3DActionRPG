@@ -6,7 +6,7 @@
 #include "AttackCollider/AttackCollider.h"
 
 CrackAttack::CrackAttack(IWorld* world, const Vector3& position):
-	mesh_{Mesh::crack_handle}
+	mesh_{Mesh::GetInstance().mesh_handle(Mesh_Crack)}
 {
 	world_ = world;
 	position_ = position;

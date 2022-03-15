@@ -1,6 +1,6 @@
 #include "Field.h"
 
-#include "Actor/Sphere.h"
+#include "Util/Sphere.h"
 #include "Util/Vector3.h"
 #include "Util/DxConverter.h"
 

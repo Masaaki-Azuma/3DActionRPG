@@ -37,7 +37,7 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation):
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
-	mesh_ = SkinningMesh{ Mesh::slime_handle, 30.0f };
+	mesh_ = SkinningMesh{ Mesh::GetInstance().mesh_handle(Mesh_Slime), 30.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
