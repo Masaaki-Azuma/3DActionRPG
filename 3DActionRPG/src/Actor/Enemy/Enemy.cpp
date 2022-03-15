@@ -5,7 +5,7 @@
 #include "AssetsManager/Mesh.h"
 #include "AssetsManager/Image.h"
 #include "BattleScene/IWorld.h"
-#include "Actor/AttackCollider.h"
+#include "Actor/AttackCollider/AttackCollider.h"
 
 Enemy::Enemy(IWorld* world, const Vector3& position, const Vector3& rotation)
 {
@@ -42,11 +42,11 @@ void Enemy::update(float delta_time)
 
 void Enemy::draw() const
 {
+	//メッシュ描画
 	mesh_.draw();
-
+	//残り体力描画
 	draw_hp_gauge();
 
-	//ForDebug
 	//collider().draw();
 	//draw_debug();
 }
@@ -94,28 +94,29 @@ void Enemy::dead(float delta_time)
 
 void Enemy::draw_hp_gauge() const
 {
-	static const float GaugeHeight = 20.0f;
-	static const float GaugeWidth = 200.0f;
-	static const float MaxSize = 200.0f;
+	static const float GaugeHeight = 10.0f;
+	static const float GaugeWidth = 100.0f;
 	Vector3 pos = collider().center + Vector3{ 0.0f, collider().radius * 2, 0.0f };
 	
 	float current_hp_rate = static_cast<float>(parameter_.hp) / e_DB_.get_parameter(name_).hp;
+	DxLib::SetUseZBuffer3D(FALSE);
 	DxLib::DrawModiBillboard3D(DxConverter::GetVECTOR(pos),
 		-GaugeWidth / 2,  GaugeHeight / 2,
 		-GaugeWidth / 2 + GaugeWidth * current_hp_rate,  GaugeHeight / 2,
 		-GaugeWidth / 2 + GaugeWidth * current_hp_rate, -GaugeHeight / 2,
 		-GaugeWidth / 2, -GaugeHeight / 2,
-		Image::texture_handle(Texture_GaugeBarRed), TRUE);
+		Image::GetInstance().texture_handle(Texture_GaugeBarRed), TRUE);
+	DxLib::SetUseZBuffer3D(TRUE);
 }
 
-Actor* Enemy::find_player()
+std::shared_ptr<Actor> Enemy::find_player()
 {
 	return world_->find_actor("Player");
 }
 
 Vector3 Enemy::get_vec_to_player()
 {
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) return Vector3::ZERO;
 	Vector3 vec = player->position() - position();
 	vec.y = 0.0f;
@@ -145,7 +146,7 @@ Vector3 Enemy::make_approach()
 
 void Enemy::generate_attack(const Sphere& collider, const std::string& name, float lifespan, float delay)
 {
-	world_->add_actor(new AttackCollider{ world_, collider, "EnemyAttackTag", name, "EnemyTag", lifespan, delay });
+	world_->add_actor(std::make_shared<AttackCollider>(world_, collider, "EnemyAttackTag", name, "EnemyTag", lifespan, delay));
 	has_attacked_ = true;
 }
 

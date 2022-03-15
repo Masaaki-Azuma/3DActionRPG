@@ -33,7 +33,6 @@ const float AttackRadius{ 350.0f };  //プレイヤーを攻撃する範囲半�
 const float EscapeRadius{ 200.0f };
 const float MoveSpeed{ 200.0f };
 
-//TODO:コンボガードを入れれば、ゲームバランスがちょうどよくなりそう
 BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& rotation):
 	Enemy{ world, position, rotation }
 {
@@ -41,12 +40,13 @@ BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& 
 
 	name_ = "BlackKnight";
 	move_speed_ = MoveSpeed;
+	state_ = StateBK::Move;
 	collider_ = Sphere{ 200.0f, Vector3{0.0f, 20.0f, 0.0f} };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
-	mesh_ = SkinningMesh{ Mesh::black_knight_handle, 20.0f };
+	mesh_ = SkinningMesh{ Mesh::GetInstance().mesh_handle(Mesh_BlackKnight), 20.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
@@ -102,7 +102,7 @@ void BlackKnight::update_state(float delta_time)
 void BlackKnight::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_state(State::Move, Motion_Idle);
 		return;
@@ -201,7 +201,7 @@ void BlackKnight::crack(float delta_time)
 {
 	if (has_excessed(1.0f)) {
 		sound_.play_SE(SE_BlackKnightSwingDown);
-		world_->add_actor(new CrackGenerator{ *world_, position(), forward() });
+		world_->add_actor(std::make_shared<CrackGenerator>(*world_, position(), forward()));
 	}
 
 	if (is_motion_end()) {
@@ -212,7 +212,6 @@ void BlackKnight::crack(float delta_time)
 
 void BlackKnight::draw_debug() const
 {
-	//ForDebug:
 	static const int blue = DxLib::GetColor(0, 0, 255);
 	static const int yellow = DxLib::GetColor(255, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);

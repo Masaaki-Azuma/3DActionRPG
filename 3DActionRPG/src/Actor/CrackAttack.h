@@ -1,9 +1,10 @@
 #ifndef CRACK_ATTACK_
 #define CRACK_ATTACK_
 
-#include "Actor.h"
+#include "Actor/Actor.h"
 #include "Util/SimpleTimer.h"
 
+//地割れ攻撃
 class CrackAttack :
     public Actor
 {

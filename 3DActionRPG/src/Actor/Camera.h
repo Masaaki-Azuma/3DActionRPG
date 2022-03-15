@@ -10,6 +10,7 @@ class Camera : public Actor
 {
 public:
 	Camera(IWorld* world);
+	‾Camera(){}
 	virtual void update(float delta_time) override;
 	virtual void draw() const override;
 private:

@@ -1,7 +1,7 @@
 #ifndef ATTACK_COLLIDER_H_
 #define ATTACK_COLLIDER_H_
 
-#include "Actor.h"
+#include "../Actor.h"
 
 class AttackCollider :
     public Actor

@@ -10,9 +10,14 @@
 #include "MapScene/MapManager.h"
 #include "Screen.h"
 
+GameResultScene::GameResultScene():
+    image_{image_.GetInstance()}
+{
+}
+
 void GameResultScene::start(void* data)
 {
-    Image::load("GameResultScene");
+    image_.load("GameResultScene");
     Sound::GetInstance().load("GameResultScene");
     Sound::GetInstance().stop_BGM();
     is_end_ = false;
@@ -34,8 +39,8 @@ void GameResultScene::draw() const
 {
     const int text_color = DxLib::GetColor(0, 0, 0);
     //背景描画
-    Image::draw_graph(Texture_background_oldmap);
-    Image::draw_graph(Texture_board_gameResult);
+    image_.draw_graph(Texture_background_oldmap);
+    image_.draw_graph(Texture_board_gameResult);
 
     int get_gem = p_DB_.get_current_parameter().total_gem;
     int old_possessed_gem = p_DB_.get_master_parameter().total_gem;
@@ -44,14 +49,14 @@ void GameResultScene::draw() const
     static const float height_possessed_gem{ 550 };
 
     Font::draw_right_aligned(730, height_get_gem, "入手ジェム：", text_color, Font::japanese_font_50);
-    Image::draw_graph(Texture_gem, 820, height_get_gem);
+    image_.draw_graph(Texture_gem, 820, height_get_gem);
     Font::draw(910, height_get_gem, "×" + std::to_string(get_gem), text_color, Font::japanese_font_50);
 
     Font::draw_right_aligned(730, height_possessed_gem, "所持ジェム：", text_color, Font::japanese_font_50);
-    Image::draw_graph(Texture_gem, 820, height_possessed_gem);
+    image_.draw_graph(Texture_gem, 820, height_possessed_gem);
     Font::draw(910, height_possessed_gem, "×" + std::to_string(old_possessed_gem), text_color, Font::japanese_font_50);
-    Image::draw_graph(Texture_rightArrow, 1130, height_possessed_gem);
-    Image::draw_graph(Texture_gem, 1220, height_possessed_gem);
+    image_.draw_graph(Texture_rightArrow, 1130, height_possessed_gem);
+    image_.draw_graph(Texture_gem, 1220, height_possessed_gem);
     Font::draw(1310, height_possessed_gem, "×" + std::to_string(new_possessed_gem), text_color, Font::japanese_font_50);
 
     Font::draw_centered(900, "Bボタンで冒険を終える", text_color, Font::japanese_font_35);
@@ -76,7 +81,7 @@ void GameResultScene::end()
     //マップデータを削除
     MapManager::GetInstance().clear();
 
-    Image::clear();
+    image_.clear();
 }
 
 void* GameResultScene::data()

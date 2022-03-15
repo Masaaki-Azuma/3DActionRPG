@@ -75,14 +75,14 @@ void FadeInAnimation::draw() const
     if (is_waiting()) return;
 
     //不透明度の影響を有効化
-    DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha_);
+    DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(alpha_));
 
     switch (mode_) {
-    case Mode_Texture: Image::draw_rota_graph(texture_, position_.x, position_.y);         break;
+    case Mode_Texture: Image::GetInstance().draw_rota_graph(texture_, position_.x, position_.y);         break;
     case Mode_Text:    Font::draw_centered(position_.y, text_, font_color_, font_handle_); break;
     }
     //不透明度の影響を無効化
-    DxLib::SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha_);
+    DxLib::SetDrawBlendMode(DX_BLENDMODE_NOBLEND, static_cast<int>(alpha_));
 }
 
 bool FadeInAnimation::is_waiting() const

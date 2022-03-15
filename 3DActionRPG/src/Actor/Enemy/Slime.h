@@ -22,7 +22,6 @@ private:
 	void dash(float delta_time);
 	void damage(float delta_time);
 
-	//ForDebug
 	virtual void draw_debug() const override;
 };
 #endif//!SLIME_H_

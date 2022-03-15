@@ -6,6 +6,7 @@
 
 class IWorld;
 
+//地割れ攻撃の生成クラス
 class CrackGenerator :
     public Actor
 {

@@ -31,7 +31,7 @@ SlideInAnimation::SlideInAnimation(int texture_id, int image_width, int image_he
     height_{image_height},
     speed_{slide_speed},
     target_{target},
-    position_{Screen::Width / 2, -image_height}
+    position_{static_cast<float>(Screen::Width / 2), static_cast<float>(-image_height)}
 {
     reset();
 }
@@ -82,7 +82,7 @@ void SlideInAnimation::draw() const
 
     switch (mode_) {
     case Mode_Text: Font::draw_centered(position_.y, text_ , color_, font_handle_); break;
-    case Mode_Texture: Image::draw_rota_graph(textue_id_, position_.x, position_.y); break;
+    case Mode_Texture: Image::GetInstance().draw_rota_graph(textue_id_, position_.x, position_.y); break;
     }
 }
 

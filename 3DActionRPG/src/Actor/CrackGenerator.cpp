@@ -1,8 +1,8 @@
 #include "CrackGenerator.h"
 
+#include "AssetsManager/Sound.h"
 #include "BattleScene/IWorld.h"
 #include "Actor/CrackAttack.h"
-#include "AssetsManager/Sound.h"
 
 CrackGenerator::CrackGenerator(IWorld& world, const Vector3& position, const Vector3& direction):
 	world_{world},
@@ -28,7 +28,7 @@ void CrackGenerator::generate_crack()
 		if (timer_.has_excessed(CrackTimeInterval * i)) {
 			Sound::GetInstance().play_SE(SE_Crack);
 			Vector3 crack_pos = position_ + direction_ * CrackDistance * static_cast<float>(i);
-			world_.add_actor(new CrackAttack{&world_, crack_pos});
+			world_.add_actor(std::make_shared<CrackAttack>(&world_, crack_pos));
 		}
 	}
 

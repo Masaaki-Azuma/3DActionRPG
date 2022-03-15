@@ -53,7 +53,7 @@ void MapManager::update(float delta_time)
 void MapManager::draw()
 {
 	//背景描画
-	Image::draw_graph(Texture_background_oldmap);
+	Image::GetInstance().draw_graph(Texture_background_oldmap);
 	//全エリアを描画
 	draw_areas();
 	//カーソルを描画
@@ -97,9 +97,9 @@ void MapManager::clear()
 void MapManager::load_enemy_possibility_table(const std::string& difficulty)
 {
 	//元の確率表を読み込み
-	//CsvReader table{ "Assets/MapData/enemy_possibility_table.csv" };
+	CsvReader table{ "Assets/MapData/enemy_possibility_table.csv" };
 	//CsvReader table{ "Assets/MapData/enemy_possibility_mimic.csv" };
-	CsvReader table{ "Assets/MapData/enemy_possibility_BK.csv" };
+	//CsvReader table{ "Assets/MapData/enemy_possibility_BK.csv" };
 
 	//全敵種族を変換後確率表に登録
 	for (int row = 0; row < table.rows(); ++row) {
@@ -234,13 +234,12 @@ void MapManager::generate_nodes()
 
 void MapManager::link_nodes()
 {
-	CsvReader node_relation{ "Assets/MapData/node_relation.csv" }; //node,<nodeの横位置>,<nodeの縦位置>
+	CsvReader node_relation{ "Assets/MapData/node_relation.csv" };
 	int current_row = 0;
 
 	//各ノードが繋がる次のノードを登録
 	while (current_row < node_relation.rows()) {
 		/*  "node", <nodeの横位置>, <nodeの縦位置>  */
-		//ForDebug
 		assert(node_relation.get(current_row, 0) == "node" && "意図しない行を読み込みました");
 		//扱うノードの番号を取得
 		int node_depth, node_index;
@@ -258,7 +257,6 @@ void MapManager::link_nodes()
 			next_node_index = node_relation.geti(current_row, col);
 			node_list_[node_depth][node_index]->add_next(node_list_[node_depth + 1][next_node_index]);
 		}
-
 		//次の行へ
 		current_row++;
 	}
@@ -313,7 +311,7 @@ void MapManager::draw_areas()
 void MapManager::draw_player()
 {
 	Vector3 position = prev_area_node_->position();
-	Image::draw_rota_graph(Texture_icon_player, position.x, position.y);
+	Image::GetInstance().draw_rota_graph(Texture_icon_player, position.x, position.y);
 }
 
 void MapManager::draw_cursor()
@@ -321,7 +319,7 @@ void MapManager::draw_cursor()
 	//選択箇所をアイコンで示す
 	if (prev_area_node_->next().empty()) return; //ゴールなら描画の必要なし
 	Vector3 pos_next_area = prev_area_node_->next().at(area_index_)->position();
-	Image::draw_rota_graph(Texture_cursor, pos_next_area.x, pos_next_area.y - 60.0f, 0.6f);
+	Image::GetInstance().draw_rota_graph(Texture_cursor, pos_next_area.x, pos_next_area.y - 60.0f, 0.6f);
 }
 
 void MapManager::draw_instruction()

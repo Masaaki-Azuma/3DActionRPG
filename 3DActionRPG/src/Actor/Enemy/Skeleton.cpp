@@ -28,7 +28,6 @@ static const float AttackRadius{ 200.0f };     //プレイヤーを攻撃し始�
 static const float RunSpeed{ 380.0f };       //移動スピード
 static const float WalkSpeed{ 150.0f };       //移動スピード
 
-//HACK:Enemy基底クラスにまとめられる処理はないか？
 Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotation):
 	Enemy{ world, position, rotation }
 {
@@ -36,12 +35,13 @@ Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotati
 
 	name_ = "Skeleton";
 	move_speed_ = RunSpeed;
+	state_ = StateSkeleton::Move;
 	collider_ = Sphere{ 60.0f, Vector3{0.0f, 50.0f, 0.0f} };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
-	mesh_ = SkinningMesh{ Mesh::skeleton_handle, 30.0f };
+	mesh_ = SkinningMesh{ Mesh::GetInstance().mesh_handle(Mesh_Skeleton), 30.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
@@ -96,11 +96,10 @@ void Skeleton::update_state(float delta_time)
 	}
 }
 
-//HACK:音声停止処理が散らかっている、うまくまとめよ
 void Skeleton::move(float delta_time)
 {
 	//プレイヤーを検索し、存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_motion(Motion_Idle);
 		return;
@@ -134,7 +133,6 @@ void Skeleton::move(float delta_time)
 	}
 
 	if(velocity == Vector3::ZERO) DxLib::StopSoundMem(se_run_handle_);
-	//HACK:移動量の反映は別の場所でやった方がよいのでは？
 	velocity_ = velocity;
 	position_ += velocity_ * delta_time;
 	change_motion(motion);
@@ -192,7 +190,7 @@ void Skeleton::search(float delta_time)
 	position_ += velocity_ * delta_time;
 
 	//プレイヤーを検索し、存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_motion(Motion_Idle);
 		return;
@@ -213,7 +211,6 @@ bool Skeleton::can_be_flinched() const
 
 void Skeleton::draw_debug() const
 {
-	//ForDebug:
 	static const int yellow = DxLib::GetColor(255, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, yellow, yellow, false);

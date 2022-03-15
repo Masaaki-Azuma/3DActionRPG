@@ -17,7 +17,7 @@ static const float Gravity{ -600.0f };
 
 JewelAttack::JewelAttack(IWorld* world, const Vector3& position, const Vector3& velocity) :
 	AttackCollider{ world, Sphere{15.0f}, "EnemyAttackTag","MimicAttack", "EnemyTag", 2.0f},
-	mesh_{Mesh::jewel_handle}
+	mesh_{Mesh::GetInstance().mesh_handle(Mesh_Jewel)}
 {
 	//位置設定
 	position_ = position;

@@ -4,12 +4,10 @@
 #include "AssetsManager/Mesh.h"
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
-#include "Util/PadInput.h"
 #include "AssetsManager/PlayerDatabase.h"
-
+#include "Util/PadInput.h"
 #include "Actor/Camera.h"
 #include "Actor/Player.h"
-
 
 enum
 {
@@ -30,8 +28,8 @@ void BattleScene::start(void* data)
     is_end_ = false;
 
 	//リソースの読み込み
-	Image::load("BattleScene");
-	Mesh::load();
+	Image::GetInstance().load("BattleScene");
+	Mesh::GetInstance().load("BattleScene");
 	Sound::GetInstance().load("BattleScene");
 	//ライト設定
 	light_.add_directional_light(Vector3{ 1, -1, 1 });
@@ -54,9 +52,12 @@ void BattleScene::start(void* data)
 	scene_state_ = Scene_Start;
 
 	//アクター追加
-	world_.add_field(new Field{Mesh::ground_handle, Mesh::stage_collider_handle, Mesh::skybox_handle });
-	world_.add_actor(new Player{ &world_ , Vector3{0.0f, 0.0f, -500.0f} });
-	world_.add_camera(new Camera{ &world_ });
+	int stage_mesh = Mesh::GetInstance().mesh_handle(Mesh_StageMesh);
+	int stage_collider = Mesh::GetInstance().mesh_handle(Mesh_StageCollider);
+	int skybox = Mesh::GetInstance().mesh_handle(Mesh_Skybox);
+	world_.add_field(std::make_shared<Field>(stage_mesh, stage_collider, skybox));
+	world_.add_actor(std::make_shared<Player>(&world_, Vector3{ 0.0f, 0.0f, -500.0f }));
+	world_.add_camera(std::make_shared<Camera>(&world_));
 
 	//MapSceneから送られたデータを取得
 	const std::string& enemy = *(static_cast<std::string*>(data));
@@ -113,8 +114,8 @@ void BattleScene::end()
 
 	//リソースの破棄
 	Sound::GetInstance().clear();
-	Mesh::clear();
-	Image::clear();
+	Mesh::GetInstance().clear();
+	Image::GetInstance().clear();
 }
 
 void* BattleScene::data()

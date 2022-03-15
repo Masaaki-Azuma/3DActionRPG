@@ -3,7 +3,7 @@
 
 #include <DxLib.h>
 #include <string>
-#include "Sphere.h"
+#include "Util/Sphere.h"
 #include "Util/Vector3.h"
 
 class IWorld;   // ワールド抽象インターフェースの前方宣言

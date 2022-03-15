@@ -26,7 +26,6 @@ private:
     void search(float delta_time);
     bool can_be_flinched() const;
 
-    //ForDebug
     virtual void draw_debug() const override;
 
 private:

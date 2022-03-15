@@ -31,12 +31,13 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation):
 
 	name_ = "Slime";
 	move_speed_ = MoveSpeed;
+	state_ = State::Move;
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
-	mesh_ = SkinningMesh{ Mesh::slime_handle, 30.0f };
+	mesh_ = SkinningMesh{ Mesh::GetInstance().mesh_handle(Mesh_Slime), 30.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
@@ -83,7 +84,7 @@ void Slime::idle(float delta_time)
 void Slime::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_state(State::Move, Motion_Idle);
 		return;
@@ -159,7 +160,6 @@ void Slime::damage(float delta_time)
 
 void Slime::draw_debug() const
 {
-	//ForDebug:
 	static const int green = DxLib::GetColor(0, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, green, green, false);

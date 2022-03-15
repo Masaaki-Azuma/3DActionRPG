@@ -1,19 +1,19 @@
 #include "CrackAttack.h"
 
-#include "BattleScene/IWorld.h"
-#include "AttackCollider.h"
-#include "Util/DxConverter.h"
 #include "AssetsManager/Mesh.h"
+#include "Util/DxConverter.h"
+#include "BattleScene/IWorld.h"
+#include "AttackCollider/AttackCollider.h"
 
 CrackAttack::CrackAttack(IWorld* world, const Vector3& position):
-	mesh_{Mesh::crack_handle}
+	mesh_{Mesh::GetInstance().mesh_handle(Mesh_Crack)}
 {
 	world_ = world;
 	position_ = position;
 	position_.y = -50.0f;
 	enable_collider_ = false;
 	timer_.reset();
-	world_->add_actor(new AttackCollider{ world, Sphere{100.0f, position},"EnemyAttackTag", "BlackKnightAttack", "BlackKnight", 0.3f });
+	world_->add_actor(std::make_shared<AttackCollider>(world, Sphere{ 100.0f, position }, "EnemyAttackTag", "BlackKnightAttack", "BlackKnight", 0.3f));
 }
 
 void CrackAttack::update(float delta_time)

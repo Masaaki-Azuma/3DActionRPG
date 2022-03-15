@@ -2,7 +2,7 @@
 #define PLAYER_H_
 
 #include "Actor.h"
-#include "SkinningMesh.h"
+#include "Util/SkinningMesh.h"
 #include "Util/PadInput.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "AssetsManager/Sound.h"
@@ -62,7 +62,6 @@ private:
 	//モーションが終了したか？
 	bool is_motion_end() const;
 
-	//ForDebug
 	Vector3 camera_angle();
 	Vector3 camera_forward();
 

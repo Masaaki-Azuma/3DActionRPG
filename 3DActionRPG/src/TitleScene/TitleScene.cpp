@@ -20,9 +20,14 @@ enum //メニューの選択状態
 static const int NumSelect{ 2 };      //選択肢の数
 static const int MenuInterval{ 150 }; //選択肢の高さ間隔
 
+TitleScene::TitleScene():
+    image_{Image::GetInstance()}
+{
+}
+
 void TitleScene::start(void* data)
 {
-    Image::load("TitleScene");
+    image_.load("TitleScene");
     Sound::GetInstance().load("TitleScene");
     is_end_ = false;
     select_index_ = 0;
@@ -39,14 +44,14 @@ void TitleScene::update(float delta_time)
 void TitleScene::draw() const
 {
     //背景描画
-    Image::draw_graph(Texture_background_oldmap);
+    image_.draw_graph(Texture_background_oldmap);
     //タイトル描画
-    Image::draw_rota_graph(Texture_titleLogo, Screen::Width / 2, 380);
+    image_.draw_rota_graph(Texture_titleLogo, Screen::Width / 2, 380);
     //メニュー描画
-    Image::draw_graph(Texture_textGameStart, 1350, 700);
-    Image::draw_graph(Texture_textParameter, 1350, 700 + MenuInterval);
+    image_.draw_graph(Texture_textGameStart, 1350, 700);
+    image_.draw_graph(Texture_textParameter, 1350, 700 + MenuInterval);
     //カーソル描画
-    Image::draw_rota_graph(Texture_cursor, 1300.0f, 730.0f + MenuInterval * select_index_);
+    image_.draw_rota_graph(Texture_cursor, 1300.0f, 730.0f + MenuInterval * select_index_);
 }
 
 bool TitleScene::is_end() const
@@ -74,7 +79,7 @@ void TitleScene::end()
         PlayerDatabase::GetInstance().set_initial_parameter();
     }
     Sound::GetInstance().clear();
-    Image::clear();
+    image_.clear();
 }
 
 void* TitleScene::data()

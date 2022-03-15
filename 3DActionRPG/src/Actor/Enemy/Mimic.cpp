@@ -6,7 +6,7 @@
 #include "Util/MyMath.h"
 #include "Util/Matrix4x4.h"
 #include "BattleScene/IWorld.h"
-#include "Actor/JewelAttack.h"
+#include "Actor/AttackCollider/JewelAttack.h"
 
 enum
 {
@@ -42,7 +42,7 @@ Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation):
 	parameter_ = e_DB_.get_parameter(name_);
 
 	//メッシュ姿勢初期化
-	mesh_ = SkinningMesh{ Mesh::mimic_handle, 20.0f };
+	mesh_ = SkinningMesh{ Mesh::GetInstance().mesh_handle(Mesh_Mimic), 20.0f };
 	mesh_.change_anim(motion_, motion_loop_, motion_interruption);
 	mesh_.set_position(position_);
 	mesh_.set_rotation(rotation_ * MyMath::Deg2Rad);
@@ -53,10 +53,11 @@ Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation):
 void Mimic::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
-		//ひるめ回数を増やす
-		flinch_count_++;
 		//プレイヤーの攻撃力分ダメージを受ける
 		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
+		if (state_ == StateMimic::Rage)  return;
+		//ひるみ回数を増やす
+		flinch_count_++;
 		if (parameter_.hp <= 0) {
 			//当たり判定を無効化
 			enable_collider_ = false;
@@ -89,7 +90,7 @@ void Mimic::update_state(float delta_time)
 void Mimic::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_motion(Motion_Idle01);
 		return;
@@ -164,7 +165,7 @@ void Mimic::damage(float delta_time)
 
 void Mimic::imitate(float delta_time)
 {
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) return;
 	
 	//プレイヤーとの距離
@@ -207,7 +208,7 @@ void Mimic::rage(float delta_time)
 	}
 
 	if (has_elapsed(5.0f)) {
-		sound_.stop_SE(SE_MimicLongAttack);
+		sound_.stop_SE(SE_MimicRage);
 		change_state(StateMimic::Move, Motion_Idle01);
 	}
 }
@@ -222,13 +223,12 @@ void Mimic::scatter_jewel()
 		jewel_velocity = jewel_velocity * Matrix4x4::rotateY(360.0f / NumJewel * i);
 		Vector3 jewel_position = position_;
 		jewel_position.y = JewelHeight;
-		world_->add_actor(new JewelAttack{ world_, jewel_position, jewel_velocity });
+		world_->add_actor(std::make_shared<JewelAttack>( world_, jewel_position, jewel_velocity ));
 	}
 }
 
 void Mimic::draw_debug() const
 {
-	//ForDebug:
 	static const int yellow = DxLib::GetColor(255, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, yellow, yellow, false);

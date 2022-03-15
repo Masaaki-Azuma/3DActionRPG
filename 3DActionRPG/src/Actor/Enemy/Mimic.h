@@ -29,7 +29,7 @@ private:
     void rage(float delta_time);
     //宝石ばらまき攻撃
     void scatter_jewel();
-    //ForDebug:
+
     void draw_debug() const override;
 };
 #endif//!MIMIC_H_
