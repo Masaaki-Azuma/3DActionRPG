@@ -6,7 +6,7 @@
 #include "AssetsManager/Mesh.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "BattleScene/IWorld.h"
-#include "AttackCollider.h"
+#include "AttackCollider/AttackCollider.h"
 
 const float Speed{ 10.0f };
 const float AvoidSpeed{ 12.0f };

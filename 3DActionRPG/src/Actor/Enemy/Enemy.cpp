@@ -5,7 +5,7 @@
 #include "AssetsManager/Mesh.h"
 #include "AssetsManager/Image.h"
 #include "BattleScene/IWorld.h"
-#include "Actor/AttackCollider.h"
+#include "Actor/AttackCollider/AttackCollider.h"
 
 Enemy::Enemy(IWorld* world, const Vector3& position, const Vector3& rotation)
 {

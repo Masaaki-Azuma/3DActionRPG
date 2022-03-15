@@ -6,7 +6,7 @@
 #include "Util/MyMath.h"
 #include "Util/Matrix4x4.h"
 #include "BattleScene/IWorld.h"
-#include "Actor/JewelAttack.h"
+#include "Actor/AttackCollider/JewelAttack.h"
 
 enum
 {

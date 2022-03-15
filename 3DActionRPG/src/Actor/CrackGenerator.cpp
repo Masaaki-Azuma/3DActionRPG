@@ -1,8 +1,8 @@
 #include "CrackGenerator.h"
 
+#include "AssetsManager/Sound.h"
 #include "BattleScene/IWorld.h"
 #include "Actor/CrackAttack.h"
-#include "AssetsManager/Sound.h"
 
 CrackGenerator::CrackGenerator(IWorld& world, const Vector3& position, const Vector3& direction):
 	world_{world},

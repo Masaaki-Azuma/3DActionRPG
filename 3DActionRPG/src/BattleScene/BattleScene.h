@@ -5,10 +5,10 @@
 #include "World.h"
 #include "Light.h"
 #include "Field.h"
+#include "TimerUI.h"
 #include "EnemySpawner.h"
 #include "BattleResultScene/BattleResultScene.h"
 #include "Actor/ExtendableBarGauge.h"
-#include "Actor/TimerUI.h"
 #include "Util/Animation/FadeInAnimation.h"
 
 class PlayerDatabase;

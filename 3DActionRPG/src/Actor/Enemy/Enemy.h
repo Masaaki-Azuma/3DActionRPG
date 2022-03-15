@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Actor/Actor.h"
-#include "Actor/SkinningMesh.h"
+#include "Util/SkinningMesh.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "AssetsManager/Sound.h"
 #include "Actor/ExtendableBarGauge.h"

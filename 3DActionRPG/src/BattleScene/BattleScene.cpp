@@ -4,12 +4,10 @@
 #include "AssetsManager/Mesh.h"
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
-#include "Util/PadInput.h"
 #include "AssetsManager/PlayerDatabase.h"
-
+#include "Util/PadInput.h"
 #include "Actor/Camera.h"
 #include "Actor/Player.h"
-
 
 enum
 {
