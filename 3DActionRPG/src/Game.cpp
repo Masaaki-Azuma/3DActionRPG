@@ -36,19 +36,13 @@ void Game::Init()
 	p_DB.load_master_data();
 	//敵のパラメーターをロード
 	EnemyDatabase::GetInstance().load("Assets/Parameters/EnemyParameter.csv");
-
+	//シーンを登録
 	scene_manager_.add("TitleScene", new TitleScene{});
 	scene_manager_.add("BattleScene", new BattleScene{});
 	scene_manager_.add("MapScene", new MapScene{});
 	scene_manager_.add("GameResultScene", new GameResultScene{});
 	scene_manager_.add("ParameterScene", new ParameterScene{});
-
-
 	scene_manager_.change("TitleScene");
-	//scene_manager_.change("GameResultScene");
-	//scene_manager_.change("ParameterScene");
-	//scene_manager_.change("BattleScene");
-	//scene_manager_.change("MapScene");
 }
 
 void Game::Update() 

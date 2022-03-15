@@ -94,18 +94,19 @@ void Enemy::dead(float delta_time)
 
 void Enemy::draw_hp_gauge() const
 {
-	static const float GaugeHeight = 20.0f;
-	static const float GaugeWidth = 200.0f;
-	static const float MaxSize = 200.0f;
+	static const float GaugeHeight = 10.0f;
+	static const float GaugeWidth = 100.0f;
 	Vector3 pos = collider().center + Vector3{ 0.0f, collider().radius * 2, 0.0f };
 	
 	float current_hp_rate = static_cast<float>(parameter_.hp) / e_DB_.get_parameter(name_).hp;
+	DxLib::SetUseZBuffer3D(FALSE);
 	DxLib::DrawModiBillboard3D(DxConverter::GetVECTOR(pos),
 		-GaugeWidth / 2,  GaugeHeight / 2,
 		-GaugeWidth / 2 + GaugeWidth * current_hp_rate,  GaugeHeight / 2,
 		-GaugeWidth / 2 + GaugeWidth * current_hp_rate, -GaugeHeight / 2,
 		-GaugeWidth / 2, -GaugeHeight / 2,
 		Image::texture_handle(Texture_GaugeBarRed), TRUE);
+	DxLib::SetUseZBuffer3D(TRUE);
 }
 
 std::shared_ptr<Actor> Enemy::find_player()
