@@ -11,8 +11,6 @@ World::‾World()
 // 更新
 void World::update(float delta_time)
 {
-    // フィールドの更新
-    //field_->update(delta_time);
     // アクターの更新
     actors_.update(delta_time);
     // アクターの衝突
@@ -23,8 +21,6 @@ void World::update(float delta_time)
     actors_.remove();
     // カメラの更新
     camera_->update(delta_time);
-    // ライトの更新
-    //light_->update(delta_time);
 }
 
 // 描画
@@ -32,8 +28,6 @@ void World::draw() const
 {
     // カメラの描画
     camera_->draw();
-    // ライトの描画
-    //light_->draw();
     // フィールドの描画
     field_->draw();
     // アクターの描画
@@ -50,36 +44,30 @@ void World::clear()
     // アクターを消去
     actors_.clear();
     // カメラを消去
-    delete camera_;
     camera_ = nullptr;
     // ライトを消去
-    delete light_;
     light_ = nullptr;
     // フィールドを消去
-    delete field_;
     field_ = nullptr;
     //敵討伐数リスト
     basterd_list_.clear();
 }
 
 // カメラの追加
-void World::add_camera(Actor* camera)
+void World::add_camera(ActorPtr camera)
 {
-    delete camera_;	// 現在のカメラを削除
     camera_ = camera;
 }
 
 // ライトの追加
-void World::add_light(Actor* light)
+void World::add_light(ActorPtr light)
 {
-    delete light_;	// 現在のライトを削除
     light_ = light;
 }
 
 //// フィールドの追加
-void World::add_field(Field* field)
+void World::add_field(std::shared_ptr<Field> field)
 {
-    delete field_;	// 現在のフィールドを削除
     field_ = field;
 }
 
@@ -104,19 +92,19 @@ bool World::is_battle_end() const
 }
 
 // アクターの追加
-void World::add_actor(Actor* actor)
+void World::add_actor(ActorPtr actor)
 {
     actors_.add(actor);
 }
 
 // アクターの検索
-Actor* World::find_actor(const std::string& name) const
+ActorPtr World::find_actor(const std::string& name) const
 {
     return actors_.find(name);
 }
 
 // 指定したタグ名を持つアクターの検索
-std::vector<Actor*> World::find_actor_with_tag(const std::string& tag) const
+std::vector<ActorPtr> World::find_actor_with_tag(const std::string& tag) const
 {
     return actors_.find_with_tag(tag);
 }
@@ -151,13 +139,13 @@ void World::collide_field(const Sphere& sphere, Vector3& position)
 }
 
 // カメラの取得
-Actor* World::camera()
+ActorPtr World::camera()
 {
     return camera_;
 }
 
 // ライトの取得
-Actor* World::light()
+ActorPtr World::light()
 {
     return light_;
 }

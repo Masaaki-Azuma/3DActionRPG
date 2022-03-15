@@ -100,7 +100,7 @@ void Skeleton::update_state(float delta_time)
 void Skeleton::move(float delta_time)
 {
 	//プレイヤーを検索し、存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_motion(Motion_Idle);
 		return;
@@ -191,7 +191,7 @@ void Skeleton::search(float delta_time)
 	position_ += velocity_ * delta_time;
 
 	//プレイヤーを検索し、存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_motion(Motion_Idle);
 		return;

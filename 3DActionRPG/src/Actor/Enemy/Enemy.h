@@ -1,6 +1,8 @@
 #ifndef ENEMY_H_
 #define ENEMY_H_
 
+#include <memory>
+
 #include "Actor/Actor.h"
 #include "Actor/SkinningMesh.h"
 #include "AssetsManager/EnemyDatabase.h"
@@ -39,7 +41,7 @@ protected:
 	//HPバーを表示
 	void draw_hp_gauge() const;
 	//プレイヤーを検索
-	Actor* find_player();
+	std::shared_ptr<Actor> find_player();
 	//プレイヤー方向のベクトルを取得
 	Vector3 get_vec_to_player();
 	//距離を取る

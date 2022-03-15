@@ -8,7 +8,7 @@ ActorManager::‾ActorManager()
 }
 
 // アクターの追加
-void ActorManager::add(Actor* actor)
+void ActorManager::add(ActorPtr actor)
 {
     actors_.push_back(actor);
 }
@@ -66,7 +66,7 @@ void ActorManager::collide()
 // 死亡しているアクターの削除
 void ActorManager::remove()
 {
-    for (auto i = actors_.begin(); i != actors_.end(); ) {
+   /* for (auto i = actors_.begin(); i != actors_.end(); ) {
         if ((*i)->is_dead()) {
             delete* i;
             i = actors_.erase(i);
@@ -74,11 +74,16 @@ void ActorManager::remove()
         else {
             ++i;
         }
-    }
+    }*/
+
+    actors_.erase(
+        std::remove_if(actors_.begin(), actors_.end(), [](ActorPtr& ptr) {return ptr->is_dead(); }),
+        actors_.end()
+    );
 }
 
 // アクターの検索
-Actor* ActorManager::find(const std::string& name) const
+ActorPtr ActorManager::find(const std::string& name) const
 {
     for (auto actor : actors_) {
         if (actor->name() == name) {
@@ -89,9 +94,9 @@ Actor* ActorManager::find(const std::string& name) const
 }
 
 // 指定したタグ名を持つアクターの検索
-std::vector<Actor*> ActorManager::find_with_tag(const std::string& tag) const
+std::vector<ActorPtr> ActorManager::find_with_tag(const std::string& tag) const
 {
-    std::vector<Actor*> result;
+    std::vector<ActorPtr> result;
     for (auto actor : actors_) {
         if (actor->tag() == tag) {
             result.push_back(actor);
@@ -129,9 +134,9 @@ void ActorManager::send_message(const std::string& message, void* param)
 // 消去
 void ActorManager::clear()
 {
-    for (auto actor : actors_) {
+    /*for (auto actor : actors_) {
         delete actor;
-    }
+    }*/
     actors_.clear();
 }
 

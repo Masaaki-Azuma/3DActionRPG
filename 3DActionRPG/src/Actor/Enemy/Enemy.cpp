@@ -108,14 +108,14 @@ void Enemy::draw_hp_gauge() const
 		Image::texture_handle(Texture_GaugeBarRed), TRUE);
 }
 
-Actor* Enemy::find_player()
+std::shared_ptr<Actor> Enemy::find_player()
 {
 	return world_->find_actor("Player");
 }
 
 Vector3 Enemy::get_vec_to_player()
 {
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) return Vector3::ZERO;
 	Vector3 vec = player->position() - position();
 	vec.y = 0.0f;
@@ -145,7 +145,7 @@ Vector3 Enemy::make_approach()
 
 void Enemy::generate_attack(const Sphere& collider, const std::string& name, float lifespan, float delay)
 {
-	world_->add_actor(new AttackCollider{ world_, collider, "EnemyAttackTag", name, "EnemyTag", lifespan, delay });
+	world_->add_actor(std::make_shared<AttackCollider>(world_, collider, "EnemyAttackTag", name, "EnemyTag", lifespan, delay));
 	has_attacked_ = true;
 }
 

@@ -101,7 +101,7 @@ void BlackKnight::update_state(float delta_time)
 void BlackKnight::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_state(State::Move, Motion_Idle);
 		return;
@@ -200,7 +200,7 @@ void BlackKnight::crack(float delta_time)
 {
 	if (has_excessed(1.0f)) {
 		sound_.play_SE(SE_BlackKnightSwingDown);
-		world_->add_actor(new CrackGenerator{ *world_, position(), forward() });
+		world_->add_actor(std::make_shared<CrackGenerator>(*world_, position(), forward()));
 	}
 
 	if (is_motion_end()) {

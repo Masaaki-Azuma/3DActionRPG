@@ -41,7 +41,7 @@ void Camera::draw() const
 void Camera::follow_target()
 {
 	//プレイヤーを検索して背後に張り付く
-	Actor* target = world_->find_actor("Player");
+	std::shared_ptr<Actor> target = world_->find_actor("Player");
 	if (!target) return;
 
 	//カメラ位置をセット

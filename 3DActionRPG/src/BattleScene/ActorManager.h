@@ -4,8 +4,10 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <memory>
 
-class Actor;    // アクタークラスの前方宣言
+class Actor;
+using ActorPtr = std::shared_ptr<Actor>;
 
 // アクターマネージャ
 class ActorManager
@@ -16,7 +18,7 @@ public:
     // デストラクタ
     ‾ActorManager();
     // アクターの追加
-    void add(Actor* actor);
+    void add(ActorPtr actor);
     // アクターの更新
     void update(float delta_time);
     // アクターの遅延更新
@@ -32,9 +34,9 @@ public:
     // 死亡しているアクターの削除
     void remove();
     // アクターの検索
-    Actor* find(const std::string& name) const;
+    ActorPtr find(const std::string& name) const;
     // 指定したタグ名を持つアクターの検索
-    std::vector<Actor*> find_with_tag(const std::string& tag) const;
+    std::vector<ActorPtr> find_with_tag(const std::string& tag) const;
     // アクター数を返す
     int count() const;
     // 指定したタグ名を持つアクター数を返す
@@ -49,7 +51,8 @@ public:
 
 private:
     // アクターリスト
-    std::list<Actor*> actors_;
+    //std::list<Actor*> actors_;
+    std::list<ActorPtr> actors_;
 };
 
 #endif

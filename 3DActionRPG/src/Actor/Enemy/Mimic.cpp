@@ -89,7 +89,7 @@ void Mimic::update_state(float delta_time)
 void Mimic::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_motion(Motion_Idle01);
 		return;
@@ -164,7 +164,7 @@ void Mimic::damage(float delta_time)
 
 void Mimic::imitate(float delta_time)
 {
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) return;
 	
 	//プレイヤーとの距離
@@ -222,7 +222,7 @@ void Mimic::scatter_jewel()
 		jewel_velocity = jewel_velocity * Matrix4x4::rotateY(360.0f / NumJewel * i);
 		Vector3 jewel_position = position_;
 		jewel_position.y = JewelHeight;
-		world_->add_actor(new JewelAttack{ world_, jewel_position, jewel_velocity });
+		world_->add_actor(std::make_shared<JewelAttack>( world_, jewel_position, jewel_velocity ));
 	}
 }
 

@@ -55,7 +55,7 @@ void Mage::update_state(float delta_time)
 void Mage::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = world_->find_actor("Player");
+	std::shared_ptr<Actor> player = world_->find_actor("Player");
 	if (!player) {
 		change_state(State::Move, Motion_Idle);
 		return;

@@ -54,9 +54,9 @@ void BattleScene::start(void* data)
 	scene_state_ = Scene_Start;
 
 	//アクター追加
-	world_.add_field(new Field{Mesh::ground_handle, Mesh::stage_collider_handle, Mesh::skybox_handle });
-	world_.add_actor(new Player{ &world_ , Vector3{0.0f, 0.0f, -500.0f} });
-	world_.add_camera(new Camera{ &world_ });
+	world_.add_field(std::make_shared<Field>(Mesh::ground_handle, Mesh::stage_collider_handle, Mesh::skybox_handle));
+	world_.add_actor(std::make_shared<Player>(&world_, Vector3{ 0.0f, 0.0f, -500.0f }));
+	world_.add_camera(std::make_shared<Camera>(&world_));
 
 	//MapSceneから送られたデータを取得
 	const std::string& enemy = *(static_cast<std::string*>(data));

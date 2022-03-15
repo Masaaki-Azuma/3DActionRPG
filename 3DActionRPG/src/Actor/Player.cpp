@@ -253,7 +253,7 @@ void Player::generate_attack(float lifespan, float delay)
 	//攻撃判定
 	Sphere attack{ 80.0f, position };
 
-	world_->add_actor(new AttackCollider{ world_, attack, "PlayerAttackTag", "AttackCollider", "PlayerTag", lifespan, delay });
+	world_->add_actor(std::make_shared<AttackCollider>(world_, attack, "PlayerAttackTag", "AttackCollider", "PlayerTag", lifespan, delay));
 }
 
 void Player::timely_generate_attack(float time)
@@ -267,7 +267,7 @@ void Player::timely_generate_attack(float time)
 Vector3 Player::camera_angle()
 {
 	//カメラを取得
-	Actor* camera = world_->camera();
+	std::shared_ptr<Actor> camera = world_->camera();
 	//無ければ終了
 	if (!camera)  return 0.0f;
 

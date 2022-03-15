@@ -2,9 +2,10 @@
 #define WORLD_H_
 
 #include "IWorld.h"
-#include "ActorManager.h"
 
 #include <unordered_map>
+
+#include "ActorManager.h"
 
 class Field;
 
@@ -23,11 +24,11 @@ public:
     // 消去
     void clear();
     // カメラの追加
-    void add_camera(Actor* camera);
+    void add_camera(ActorPtr camera);
     // ライトの追加
-    void add_light(Actor* light);
+    void add_light(ActorPtr light);
     // フィールドの追加
-    void add_field(Field* field);
+    void add_field(std::shared_ptr<Field> field);
     //敵討伐数を取得
     std::unordered_map<std::string, int>& basterd_list();
     bool is_battle_win() const;
@@ -35,11 +36,11 @@ public:
     bool is_battle_end() const;
 
     // アクターを追加
-    virtual void add_actor(Actor* actor) override;
+    virtual void add_actor(ActorPtr actor) override;
     // アクターの検索
-    virtual Actor* find_actor(const std::string& name) const override;
+    virtual ActorPtr find_actor(const std::string& name) const override;
     // 指定したタグ名を持つアクターの検索
-    virtual std::vector<Actor*> find_actor_with_tag(const std::string& tag) const override;
+    virtual std::vector<ActorPtr> find_actor_with_tag(const std::string& tag) const override;
     // アクター数を返す
     virtual int count_actor() const override;
     // 指定したタグ名を持つアクター数を返す
@@ -52,9 +53,9 @@ public:
     virtual void collide_field(const Sphere& sphere, Vector3& position) override;
 
     // カメラの取得
-    virtual Actor* camera() override;
+    virtual ActorPtr camera() override;
     // ライトの取得
-    virtual Actor* light() override;
+    virtual ActorPtr light() override;
     // フィールドの取得
     //virtual Field* field() override;
 
@@ -66,11 +67,11 @@ private:
     // アクターマネージャー
     ActorManager  actors_;
     // ライト
-    Actor* light_{ nullptr };
+    ActorPtr light_{ nullptr };
     // カメラ
-    Actor* camera_{ nullptr };
+    ActorPtr camera_{ nullptr };
     // フィールド
-    Field* field_{ nullptr };
+    std::shared_ptr<Field> field_{ nullptr };
     //討伐敵リスト
     std::unordered_map<std::string, int> basterd_list_;
 

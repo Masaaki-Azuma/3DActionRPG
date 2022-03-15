@@ -83,7 +83,7 @@ void Slime::idle(float delta_time)
 void Slime::move(float delta_time)
 {
 	//プレイヤーが存在しなかったら棒立ち状態
-	Actor* player = find_player();
+	std::shared_ptr<Actor> player = find_player();
 	if (!player) {
 		change_state(State::Move, Motion_Idle);
 		return;
