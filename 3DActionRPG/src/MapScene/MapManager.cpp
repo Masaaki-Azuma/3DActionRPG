@@ -98,8 +98,6 @@ void MapManager::load_enemy_possibility_table(const std::string& difficulty)
 {
 	//元の確率表を読み込み
 	CsvReader table{ "Assets/MapData/enemy_possibility_table.csv" };
-	//CsvReader table{ "Assets/MapData/enemy_possibility_mimic.csv" };
-	//CsvReader table{ "Assets/MapData/enemy_possibility_BK.csv" };
 
 	//全敵種族を変換後確率表に登録
 	for (int row = 0; row < table.rows(); ++row) {
