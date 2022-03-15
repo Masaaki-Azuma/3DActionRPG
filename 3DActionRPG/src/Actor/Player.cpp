@@ -75,8 +75,6 @@ void Player::update(float delta_time)
 
 void Player::draw() const
 {
-	//ForDebug
-	//collider().draw();
 	//メッシュを描画
 	mesh_.draw();
 }
@@ -87,10 +85,11 @@ void Player::react(Actor& other)
 		sound_.play_SE(SE_Damage);
 		//敵の攻撃に割り込まれたら、コンボリセット
 		combo_counter_ = 0;
+		//被弾中は無敵状態
+		enable_collider_ = false;
 		int damage = EnemyDatabase::GetInstance().get_attack(other.name());
 		take_damage(damage);
 		if (parameter_.hp <= 0) {
-			enable_collider_ = false;
 			parameter_.hp = 0;
 			change_state(State::Dead, Motion_Die, false);
 			mesh_.change_anim(Motion_Die, motion_loop_);
@@ -177,15 +176,6 @@ void Player::move(float delta_time)
 
 void Player::attack(float delta_time)
 {
-	////回避ボタンを押すと割り込んで回避状態へ
-	//if (Input::get_button_down(PAD_INPUT_2)) {
-	//	//攻撃状態を初期化
-	//	is_combo__ = false;
-	//	combo_counter__ = 0;
-	//	change_state(State::Avoid, Motion_RollingForward, false);
-	//	return;
-	//}
-
 	//各攻撃モーションの適切なタイミングで攻撃判定を生成
 	switch (motion_) {
 	case Motion_Attack01: timely_generate_attack(0.2f); break;
@@ -218,8 +208,8 @@ void Player::attack(float delta_time)
 
 void Player::damage(float delta_time)
 {
-	//TODO:ダメージ中一瞬当たり判定無効にする（連続攻撃は受けるが、同時攻撃は一つ分しか受けない）
 	if (is_motion_end()) {
+		enable_collider_ = true;
 		change_state(State::Move, Motion_Idle);
 		return;
 	}

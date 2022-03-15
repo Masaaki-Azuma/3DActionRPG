@@ -98,7 +98,6 @@ void Mage::move(float delta_time)
 
 void Mage::draw_debug() const
 {
-	//ForDebug:
 	static const int yellow = DxLib::GetColor(0, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	static const int blue = DxLib::GetColor(0, 0, 255);

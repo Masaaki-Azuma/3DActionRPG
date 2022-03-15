@@ -13,7 +13,7 @@ EnemySpawner::EnemySpawner(IWorld& world):
 
 void EnemySpawner::spawn(const std::string& enemy)
 {
-	//HACK:せっかく敵の名前とそろえたので、もっと簡潔な記述にならないか？
+	//敵名に応じた敵グループを生成
 	if (enemy == "Slime") {
 		world_.add_actor(new Slime{ &world_,  Vector3{ 0.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });
 		world_.add_actor(new Slime{ &world_,  Vector3{ -500.0f, 0.0f, 500.0f }, Vector3{ 0.0f, 180.0f, 0.0f } });

@@ -12,12 +12,7 @@
 
 //プレイヤーに関するセーブデータや進行データの管理クラス
 
-enum
-{
-	ColHp = 0,
-	ColAttack,
-	ColTotalGem,
-};
+
 
 class PlayerDatabase : public Singleton<PlayerDatabase>
 {

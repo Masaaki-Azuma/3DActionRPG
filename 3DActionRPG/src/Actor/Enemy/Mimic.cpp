@@ -228,7 +228,6 @@ void Mimic::scatter_jewel()
 
 void Mimic::draw_debug() const
 {
-	//ForDebug:
 	static const int yellow = DxLib::GetColor(255, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, yellow, yellow, false);

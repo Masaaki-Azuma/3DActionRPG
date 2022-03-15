@@ -4,6 +4,13 @@
 
 #include "Util/CsvReader.h"
 
+enum //パラメーターの種類を表すインデックス番号
+{
+	ColHp,
+	ColAttack,
+	ColTotalGem,
+};
+
 const int PlayerDatabase::LimitHP{ 10000 };
 const int PlayerDatabase::LimitAttack{ 300 };
 

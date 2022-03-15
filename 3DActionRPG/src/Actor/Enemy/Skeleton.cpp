@@ -134,7 +134,6 @@ void Skeleton::move(float delta_time)
 	}
 
 	if(velocity == Vector3::ZERO) DxLib::StopSoundMem(se_run_handle_);
-	//HACK:移動量の反映は別の場所でやった方がよいのでは？
 	velocity_ = velocity;
 	position_ += velocity_ * delta_time;
 	change_motion(motion);
@@ -213,7 +212,6 @@ bool Skeleton::can_be_flinched() const
 
 void Skeleton::draw_debug() const
 {
-	//ForDebug:
 	static const int yellow = DxLib::GetColor(255, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, yellow, yellow, false);

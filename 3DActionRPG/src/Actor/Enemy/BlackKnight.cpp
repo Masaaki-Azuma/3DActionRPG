@@ -33,7 +33,6 @@ const float AttackRadius{ 350.0f };  //プレイヤーを攻撃する範囲半�
 const float EscapeRadius{ 200.0f };
 const float MoveSpeed{ 200.0f };
 
-//TODO:コンボガードを入れれば、ゲームバランスがちょうどよくなりそう
 BlackKnight::BlackKnight(IWorld* world, const Vector3& position, const Vector3& rotation):
 	Enemy{ world, position, rotation }
 {
@@ -212,7 +211,6 @@ void BlackKnight::crack(float delta_time)
 
 void BlackKnight::draw_debug() const
 {
-	//ForDebug:
 	static const int blue = DxLib::GetColor(0, 0, 255);
 	static const int yellow = DxLib::GetColor(255, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);

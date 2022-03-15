@@ -10,13 +10,6 @@
 class Enemy : public Actor
 {
 public:
-	//struct Parameter
-	//{
-	//	int hp;             //体力
-	//	int attack;         //攻撃力
-	//	int max_stun_count; //被弾時に連続で硬直する最大回数
-	//};
-
 	//HACK:敵によって状態が違うためenumではなく、structでどうにかする。以下は必ず使う状態のみを記述
 	struct State
 	{
@@ -68,7 +61,7 @@ protected:
 	//モーションが終了したか？
 	bool is_motion_end() const;
 
-	//Fordebug
+	//ForDebug:敵ごとのデバッグ表示
 	virtual void draw_debug() const {};
 
 protected:

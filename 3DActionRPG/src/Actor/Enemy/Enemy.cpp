@@ -42,11 +42,11 @@ void Enemy::update(float delta_time)
 
 void Enemy::draw() const
 {
+	//メッシュ描画
 	mesh_.draw();
-
+	//残り体力描画
 	draw_hp_gauge();
 
-	//ForDebug
 	//collider().draw();
 	//draw_debug();
 }

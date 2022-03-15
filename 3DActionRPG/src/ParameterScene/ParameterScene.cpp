@@ -6,16 +6,16 @@
 #include "AssetsManager/Image.h"
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
+#include "AssetsManager/PlayerDatabase.h"
 #include "Util/PadInput.h"
 
-//HACK:PlayerDatabaseのenumとまとめられないか？
-enum //パラメータの強化内容
+enum //強化するパラメーターの選択状態
 {
     Enhance_hp = 0,
     Enhance_attack,
 };
 
-enum //選択可能な項目内容
+enum //メニューの選択状態
 {
     Menu_CheckParameter = 0,
     Menu_EnhanceParameter,
@@ -30,15 +30,18 @@ static const int MenuInterval{ 160 };
 //強化ボタン高さ間隔
 static const int EnhanceButtonInverval{ 400 };
 
-
-/*以下PlayerDatabaseのenumに対応*/
-//TODO:PlayerDatabaseとプログラム的に統合せよ
+enum //各種パラメーターを表す配列インデックス
+{
+    Col_Hp,
+    Col_Attack,
+};
 //必要ジェム数
 const int RequiredGemList[NumEnhanceableParameter]{ 100, 500 };
 //パラメータ上昇値
 const int RiseValue[NumEnhanceableParameter]{ 100, 10 };
 
 ParameterScene::ParameterScene():
+    p_DB_{PlayerDatabase::GetInstance()},
     input_{PadInput::GetInstance()}
 {
 }
@@ -174,12 +177,12 @@ void ParameterScene::select_enhanced_parameter()
 void ParameterScene::try_enhance_hp()
 {
     int possesed_gem = p_DB_.get_master_parameter().total_gem;
-    int required_gem = RequiredGemList[ColHp];
+    int required_gem = RequiredGemList[Col_Hp];
     //ジェムが足りており、かつ体力が最大強化されていなければ強化
     if (possesed_gem >= required_gem && p_DB_.get_master_parameter().hp < p_DB_.limit_hp()) {
         Sound::GetInstance().play_SE(SE_Enhance);
         p_DB_.use_gem(required_gem);
-        p_DB_.enhance_hp(RiseValue[ColHp]);
+        p_DB_.enhance_hp(RiseValue[Col_Hp]);
         hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
     }
     else {
@@ -190,12 +193,12 @@ void ParameterScene::try_enhance_hp()
 void ParameterScene::try_enhance_attack()
 {
     int possesed_gem = p_DB_.get_master_parameter().total_gem;
-    int required_gem = RequiredGemList[ColAttack];
+    int required_gem = RequiredGemList[Col_Attack];
     //ジェムが足りており、かつ体力が最大強化されていなければ強化
     if (possesed_gem >= required_gem && p_DB_.get_master_parameter().attack < p_DB_.limit_attack()) {
         Sound::GetInstance().play_SE(SE_Enhance);
         p_DB_.use_gem(required_gem);
-        p_DB_.enhance_attack(RiseValue[ColAttack]);
+        p_DB_.enhance_attack(RiseValue[Col_Attack]);
         attack_gauge_.extend(p_DB_.get_master_parameter().attack, p_DB_.limit_attack());
     }
     else {
@@ -203,56 +206,45 @@ void ParameterScene::try_enhance_attack()
     }
 }
 
+//画面左のメニュー
 void ParameterScene::draw_menu() const
 {
-    static const int brown = GetColor(26, 10, 4);
+    //テキスト色
+    static const int text_color = GetColor(26, 10, 4); //こげ茶
     //メニュー項目描画
     Image::draw_graph(Texture_buttonParameterCheck, 190, 130);
     Image::draw_graph(Texture_buttonParameterEnhance, 190, 130 + MenuInterval);
 
     //項目概要
     std::string message;
-    if (selected_menu_index == Menu_CheckParameter || menu_state == State::CheckParameter)  message = "現在のパラメーターを確認します";
-    else if (selected_menu_index == Menu_EnhanceParameter || menu_state == State::EnhanceParamter) message = "ジェムを使ってパラメーターを強化します";
+    if      (selected_menu_index == Menu_CheckParameter)   message = "現在のパラメーターを確認します";
+    else if (selected_menu_index == Menu_EnhanceParameter) message = "ジェムを使ってパラメーターを強化します";
     //文字列を改行
     std::string restructed_message = restruct_string(message);
-    DxLib::DrawStringToHandle(190, 550, restructed_message.c_str(), brown, Font::japanese_font_35);
+    DxLib::DrawStringToHandle(190, 550, restructed_message.c_str(), text_color, Font::japanese_font_35);
 }
 
 void ParameterScene::draw_detail_parameter() const
 {
-    static const int black = GetColor(0, 0, 0);
+    static const int text_color = GetColor(0, 0, 0);
     //hpゲージ描画
-    DxLib::DrawFormatStringToHandle(1280, 130, black, Font::japanese_font_35, "体力：%d", p_DB_.get_master_parameter().hp);
+    DxLib::DrawFormatStringToHandle(1280, 130, text_color, Font::japanese_font_35, "体力：%d", p_DB_.get_master_parameter().hp);
     hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_master_parameter().hp));
 
     //攻撃力ゲージ描画
-    DxLib::DrawFormatStringToHandle(1280, 130 + EnhanceButtonInverval, black, Font::japanese_font_35, "攻撃力：%d", p_DB_.get_master_parameter().attack);
+    DxLib::DrawFormatStringToHandle(1280, 130 + EnhanceButtonInverval, text_color, Font::japanese_font_35, "攻撃力：%d", p_DB_.get_master_parameter().attack);
     attack_gauge_.draw_gui(static_cast<float>(p_DB_.get_master_parameter().attack));
 
     //所持ジェム描画
-    DxLib::DrawFormatStringToHandle(800, 920, black, Font::japanese_font_35, "所持ジェム：　　　　　　　×%d", p_DB_.get_master_parameter().total_gem);
+    DxLib::DrawFormatStringToHandle(800, 920, text_color, Font::japanese_font_35, "所持ジェム：　　　　　　　×%d", p_DB_.get_master_parameter().total_gem);
     Image::draw_graph(Texture_gem, 1100, 910);
 
     //パラメーター強化に関する表示
     if (selected_menu_index == Menu_EnhanceParameter || menu_state == State::EnhanceParamter) {
-        //HPパラメータ昇降値
-        Image::draw_graph(Texture_buttonEnhance, 850, 280);
-        Image::draw_rota_graph(Texture_gem, 1200, 320);
-        DxLib::DrawFormatStringToHandle(1230, 305, black, Font::japanese_font_35, "×%d", RequiredGemList[ColHp]);
-        Image::draw_rota_graph(Texture_downArrow, 1370, 320);
-        Image::draw_rota_graph(Texture_rightArrow, 1480, 320);
-        DxLib::DrawFormatStringToHandle(1560, 305, black, Font::japanese_font_35, "HP %d", RiseValue[ColHp]);
-        Image::draw_rota_graph(Texture_upArrow, 1730, 320);
-
-        //ATKパラメータ昇降値
-        Image::draw_graph(Texture_buttonEnhance, 850, 280 + EnhanceButtonInverval);
-        Image::draw_rota_graph(Texture_gem, 1200, 320 + EnhanceButtonInverval);
-        DxLib::DrawFormatStringToHandle(1230, 305 + EnhanceButtonInverval, black, Font::japanese_font_35, "×%d", RequiredGemList[ColAttack]);
-        Image::draw_rota_graph(Texture_downArrow, 1370, 320 + EnhanceButtonInverval);
-        Image::draw_rota_graph(Texture_rightArrow, 1480, 320 + EnhanceButtonInverval);
-        DxLib::DrawFormatStringToHandle(1560, 305 + EnhanceButtonInverval, black, Font::japanese_font_35, "ATK %d", RiseValue[ColAttack]);
-        Image::draw_rota_graph(Texture_upArrow, 1730, 320 + EnhanceButtonInverval);
+        //体力強化メニュー
+        draw_hp_enhance_menu(text_color);
+        //攻撃力強化メニュー
+        draw_attack_enhance_menu(text_color);
     }
 
     //選択状態に応じた位置にメニューカーソル描画
@@ -262,16 +254,40 @@ void ParameterScene::draw_detail_parameter() const
     }
 }
 
+void ParameterScene::draw_hp_enhance_menu(int text_color) const
+{
+    Image::draw_graph(Texture_buttonEnhance, 850, 280);
+    Image::draw_rota_graph(Texture_gem, 1200, 320);
+
+    Font::draw(1230, 305, "×" + std::to_string(RequiredGemList[Col_Hp]), text_color, Font::japanese_font_35);
+    Image::draw_rota_graph(Texture_downArrow, 1370, 320);
+    Image::draw_rota_graph(Texture_rightArrow, 1480, 320);
+    Font::draw(1560, 305, "HP " + std::to_string(RiseValue[Col_Hp]), text_color, Font::japanese_font_35);
+    Image::draw_rota_graph(Texture_upArrow, 1730, 320);
+}
+
+void ParameterScene::draw_attack_enhance_menu(int text_color) const
+{
+    Image::draw_graph(Texture_buttonEnhance, 850, 280 + EnhanceButtonInverval);
+    Image::draw_rota_graph(Texture_gem, 1200, 320 + EnhanceButtonInverval);
+    Font::draw(1230, 305 + EnhanceButtonInverval, "×" + std::to_string(RequiredGemList[Col_Attack]), text_color, Font::japanese_font_35);
+    Image::draw_rota_graph(Texture_downArrow, 1370, 320 + EnhanceButtonInverval);
+    Image::draw_rota_graph(Texture_rightArrow, 1480, 320 + EnhanceButtonInverval);
+    Font::draw(1560, 305 + EnhanceButtonInverval, "ATK " + std::to_string(RiseValue[Col_Attack]), text_color, Font::japanese_font_35);
+    Image::draw_rota_graph(Texture_upArrow, 1730, 320 + EnhanceButtonInverval);
+}
+
 std::string ParameterScene::restruct_string(const std::string& str) const
 {
     //改行後の文字列
     std::string restructed_message;
     int count = 0;
-    const int max_char = 18;
+    static const int MaxChar = 18;
+    //半角文字MaxChar文字ごとに改行
     for (auto c : str) {
         restructed_message.push_back(c);
         count++;
-        if (count >= max_char) {
+        if (count >= MaxChar) {
             restructed_message.push_back('¥n');
             count = 0;
         }

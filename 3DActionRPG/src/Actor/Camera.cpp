@@ -19,7 +19,6 @@ Camera::Camera(IWorld* world):
 	name_ = "Camera";
 	tag_ = "CameraTag";
 	follow_target();
-	//position_ = Vector3{ 0, 500, -500 };
 	rotation_ = Vector3{ 20.0f, 0.0f, 0.0f };
 
 	Vector3 rad = rotation_ * MyMath::Deg2Rad;
@@ -45,8 +44,6 @@ void Camera::follow_target()
 	Actor* target = world_->find_actor("Player");
 	if (!target) return;
 
-	//arrange_camera();
-
 	//カメラ位置をセット
 	Vector3 offset = TargetOffset * Matrix4x4::rotateY(rotation_.y);
 
@@ -55,20 +52,14 @@ void Camera::follow_target()
 
 void Camera::rotate(float delta_time)
 {
+	//カメラ回転
 	Vector2 dir_Rstick = input_.GetRightStick();
 	rotation_.y += dir_Rstick.x * RotateSpeed;
-	//カメラ回転
-	/*if (Input::get_button(PAD_INPUT_RIGHT)) {
-		rotation_.y += RotateSpeed;
-	}
-	else if (Input::get_button(PAD_INPUT_LEFT)) {
-		rotation_.y -= RotateSpeed;
-	}*/
 }
 
+//ForDebug:カメラ位置調整用
 void Camera::arrange_camera()
 {
-	//ForDebug
 	if (Input::get_button(PAD_INPUT_8)) { //W
 		TargetOffset.y += 1.0f;
 	}

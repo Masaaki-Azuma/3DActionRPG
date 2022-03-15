@@ -2,9 +2,9 @@
 #define PARAMETER_SCENE_H_
 
 #include "IScene.h"
-#include "AssetsManager/PlayerDatabase.h"
 #include "Actor/ExtendableBarGauge.h"
 
+class PlayerDatabase;
 class PadInput;
 
 class ParameterScene :
@@ -14,7 +14,7 @@ private:
     //メニュー選択状態
     enum class State
     {
-        SelectMenu = 0,
+        SelectMenu,
         CheckParameter,
         EnhanceParamter,
     };
@@ -43,18 +43,27 @@ private:
     void draw_menu() const;
     //画面右の詳細を描画
     void draw_detail_parameter()const;
+    //体力強化周りの情報を描画
+    void draw_hp_enhance_menu(int text_color) const;
+    //攻撃力強化周りの情報を描画
+    void draw_attack_enhance_menu(int text_color) const;
     //文章を改行する
     std::string restruct_string(const std::string& str) const;
 
 private:
     bool is_end_{ false };
-    int selected_parameter_index{ 0 };
+    //画面左の選択メニューを表す
     int selected_menu_index{ 0 };
+    //パラメーター強化画面の選択パラメーターを表す
+    int selected_parameter_index{ 0 };
+    //メニュー選択状態
     State menu_state{ State::SelectMenu };
+    //体力ゲージUI
     ExtendableBarGauge hp_gauge_;
+    //攻撃力ゲージUI
     ExtendableBarGauge attack_gauge_;
 
-    PlayerDatabase& p_DB_{ PlayerDatabase::GetInstance() };
+    PlayerDatabase& p_DB_;
     PadInput& input_;
 
 };

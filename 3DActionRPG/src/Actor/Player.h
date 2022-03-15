@@ -62,7 +62,6 @@ private:
 	//モーションが終了したか？
 	bool is_motion_end() const;
 
-	//ForDebug
 	Vector3 camera_angle();
 	Vector3 camera_forward();
 

@@ -234,13 +234,12 @@ void MapManager::generate_nodes()
 
 void MapManager::link_nodes()
 {
-	CsvReader node_relation{ "Assets/MapData/node_relation.csv" }; //node,<nodeの横位置>,<nodeの縦位置>
+	CsvReader node_relation{ "Assets/MapData/node_relation.csv" };
 	int current_row = 0;
 
 	//各ノードが繋がる次のノードを登録
 	while (current_row < node_relation.rows()) {
 		/*  "node", <nodeの横位置>, <nodeの縦位置>  */
-		//ForDebug
 		assert(node_relation.get(current_row, 0) == "node" && "意図しない行を読み込みました");
 		//扱うノードの番号を取得
 		int node_depth, node_index;
@@ -258,7 +257,6 @@ void MapManager::link_nodes()
 			next_node_index = node_relation.geti(current_row, col);
 			node_list_[node_depth][node_index]->add_next(node_list_[node_depth + 1][next_node_index]);
 		}
-
 		//次の行へ
 		current_row++;
 	}

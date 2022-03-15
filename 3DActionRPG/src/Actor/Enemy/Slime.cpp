@@ -159,7 +159,6 @@ void Slime::damage(float delta_time)
 
 void Slime::draw_debug() const
 {
-	//ForDebug:
 	static const int green = DxLib::GetColor(0, 255, 0);
 	static const int red = DxLib::GetColor(255, 0, 0);
 	DrawSphere3D(DxConverter::GetVECTOR(position_), DetectionRadius, 4, green, green, false);
