@@ -28,7 +28,7 @@ void BattleScene::start(void* data)
     is_end_ = false;
 
 	//リソースの読み込み
-	Image::load("BattleScene");
+	Image::GetInstance().load("BattleScene");
 	Mesh::GetInstance().load("BattleScene");
 	Sound::GetInstance().load("BattleScene");
 	//ライト設定
@@ -115,7 +115,7 @@ void BattleScene::end()
 	//リソースの破棄
 	Sound::GetInstance().clear();
 	Mesh::GetInstance().clear();
-	Image::clear();
+	Image::GetInstance().clear();
 }
 
 void* BattleScene::data()

@@ -4,7 +4,7 @@
 class ExtendableBarGauge
 {
 public:
-	ExtendableBarGauge() = default;
+	ExtendableBarGauge() {};
 	ExtendableBarGauge(float left, float top, int width, int height, int frame_id, int bar_id, int barBG_id = -1);
 	‾ExtendableBarGauge();
 	void set_edge_width(int width);

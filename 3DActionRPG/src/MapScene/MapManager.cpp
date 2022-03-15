@@ -53,7 +53,7 @@ void MapManager::update(float delta_time)
 void MapManager::draw()
 {
 	//背景描画
-	Image::draw_graph(Texture_background_oldmap);
+	Image::GetInstance().draw_graph(Texture_background_oldmap);
 	//全エリアを描画
 	draw_areas();
 	//カーソルを描画
@@ -311,7 +311,7 @@ void MapManager::draw_areas()
 void MapManager::draw_player()
 {
 	Vector3 position = prev_area_node_->position();
-	Image::draw_rota_graph(Texture_icon_player, position.x, position.y);
+	Image::GetInstance().draw_rota_graph(Texture_icon_player, position.x, position.y);
 }
 
 void MapManager::draw_cursor()
@@ -319,7 +319,7 @@ void MapManager::draw_cursor()
 	//選択箇所をアイコンで示す
 	if (prev_area_node_->next().empty()) return; //ゴールなら描画の必要なし
 	Vector3 pos_next_area = prev_area_node_->next().at(area_index_)->position();
-	Image::draw_rota_graph(Texture_cursor, pos_next_area.x, pos_next_area.y - 60.0f, 0.6f);
+	Image::GetInstance().draw_rota_graph(Texture_cursor, pos_next_area.x, pos_next_area.y - 60.0f, 0.6f);
 }
 
 void MapManager::draw_instruction()

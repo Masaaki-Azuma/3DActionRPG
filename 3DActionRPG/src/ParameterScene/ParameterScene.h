@@ -6,6 +6,7 @@
 
 class PlayerDatabase;
 class PadInput;
+class Image;
 
 class ParameterScene :
     public IScene
@@ -65,7 +66,7 @@ private:
 
     PlayerDatabase& p_DB_;
     PadInput& input_;
-
+    Image& image_;
 };
 #endif//!PARAMETER_SCENE_H_
 

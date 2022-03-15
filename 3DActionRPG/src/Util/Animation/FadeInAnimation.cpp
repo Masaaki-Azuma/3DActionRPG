@@ -78,7 +78,7 @@ void FadeInAnimation::draw() const
     DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha_);
 
     switch (mode_) {
-    case Mode_Texture: Image::draw_rota_graph(texture_, position_.x, position_.y);         break;
+    case Mode_Texture: Image::GetInstance().draw_rota_graph(texture_, position_.x, position_.y);         break;
     case Mode_Text:    Font::draw_centered(position_.y, text_, font_color_, font_handle_); break;
     }
     //不透明度の影響を無効化

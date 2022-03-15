@@ -4,7 +4,6 @@
 
 #include "AssetsManager/Image.h"
 
-
 ExtendableBarGauge::ExtendableBarGauge(float left, float top, int width, int height, int frame_id, int bar_id, int barBG_id):
 	left_{ left },
 	top_{ top },
@@ -29,21 +28,22 @@ void ExtendableBarGauge::set_edge_width(int width)
 
 void ExtendableBarGauge::div_frame()
 {
+	Image& image = Image::GetInstance();
 	//管理中の分割画像を破棄
 	clear_image();
 	//ゲージ枠画像を分割
-	frame_left_ = DxLib::DerivationGraph(0, 0, edge_width_, height_, Image::texture_handle(frame_id_));
-	frame_right_ = DxLib::DerivationGraph(width_ - edge_width_, 0, edge_width_, height_, Image::texture_handle(frame_id_));
-	frame_mid_ = DxLib::DerivationGraph(edge_width_, 0, width_ - edge_width_ * 2, height_, Image::texture_handle(frame_id_));
+	frame_left_ = DxLib::DerivationGraph(0, 0, edge_width_, height_, image.texture_handle(frame_id_));
+	frame_right_ = DxLib::DerivationGraph(width_ - edge_width_, 0, edge_width_, height_, image.texture_handle(frame_id_));
+	frame_mid_ = DxLib::DerivationGraph(edge_width_, 0, width_ - edge_width_ * 2, height_, image.texture_handle(frame_id_));
 	//ゲージバー画像を分割
-	bar_left_ = DxLib::DerivationGraph(0, 0, edge_width_, height_, Image::texture_handle(bar_id_));
-	bar_right_ = DxLib::DerivationGraph(width_ - edge_width_, 0, edge_width_, height_, Image::texture_handle(bar_id_));
-	bar_mid_ = DxLib::DerivationGraph(edge_width_, 0, width_ - edge_width_ * 2, height_, Image::texture_handle(bar_id_));
+	bar_left_ = DxLib::DerivationGraph(0, 0, edge_width_, height_, image.texture_handle(bar_id_));
+	bar_right_ = DxLib::DerivationGraph(width_ - edge_width_, 0, edge_width_, height_, image.texture_handle(bar_id_));
+	bar_mid_ = DxLib::DerivationGraph(edge_width_, 0, width_ - edge_width_ * 2, height_, image.texture_handle(bar_id_));
 	//ゲージバー背景画像を分割
 	if (barBG_id_ != -1) {
-		barBG_left_ = DxLib::DerivationGraph(0, 0, edge_width_, height_, Image::texture_handle(barBG_id_));
-		barBG_right_ = DxLib::DerivationGraph(width_ - edge_width_, 0, edge_width_, height_, Image::texture_handle(barBG_id_));
-		barBG_mid_ = DxLib::DerivationGraph(edge_width_, 0, width_ - edge_width_ * 2, height_, Image::texture_handle(barBG_id_));
+		barBG_left_ = DxLib::DerivationGraph(0, 0, edge_width_, height_, image.texture_handle(barBG_id_));
+		barBG_right_ = DxLib::DerivationGraph(width_ - edge_width_, 0, edge_width_, height_, image.texture_handle(barBG_id_));
+		barBG_mid_ = DxLib::DerivationGraph(edge_width_, 0, width_ - edge_width_ * 2, height_, image.texture_handle(barBG_id_));
 	}
 }
 

@@ -3,10 +3,13 @@
 
 #include "IScene.h"
 
+class Image;
+
 class TitleScene :
     public IScene
 {
 public:
+    TitleScene();
     virtual void start(void* data = nullptr) override;
     virtual void update(float delta_time) override;
     virtual void draw() const override;
@@ -21,6 +24,8 @@ private:
 private:
     bool is_end_{ false };
     int select_index_{ 0 };
+
+    Image& image_;
 };
 #endif//!TITLE_SCENE_H_
 

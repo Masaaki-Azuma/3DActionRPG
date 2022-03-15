@@ -15,7 +15,7 @@ MapScene::MapScene():
 
 void MapScene::start(void* data)
 {
-    Image::load("MapScene");
+    Image::GetInstance().load("MapScene");
     is_end_ = false;
     Sound::GetInstance().load("MapScene");
 
@@ -70,7 +70,7 @@ std::string MapScene::next() const
 void MapScene::end()
 {
     Sound::GetInstance().clear();
-    Image::clear();
+    Image::GetInstance().clear();
 }
 
 void* MapScene::data()

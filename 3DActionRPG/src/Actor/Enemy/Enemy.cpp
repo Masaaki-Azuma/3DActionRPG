@@ -105,7 +105,7 @@ void Enemy::draw_hp_gauge() const
 		-GaugeWidth / 2 + GaugeWidth * current_hp_rate,  GaugeHeight / 2,
 		-GaugeWidth / 2 + GaugeWidth * current_hp_rate, -GaugeHeight / 2,
 		-GaugeWidth / 2, -GaugeHeight / 2,
-		Image::texture_handle(Texture_GaugeBarRed), TRUE);
+		Image::GetInstance().texture_handle(Texture_GaugeBarRed), TRUE);
 	DxLib::SetUseZBuffer3D(TRUE);
 }
 

@@ -3,8 +3,7 @@
 #include <assert.h>
 
 
-std::vector<int> Image::texture_id_list(256, -1);
-int Image::texture_couter{ 0 };
+std::vector<int> texture_id_list(256, -1);
 
 void Image::load(const std::string& scene)
 {
@@ -60,7 +59,7 @@ void Image::clear(const std::string& scene)
     }
 }
 
-const int Image::texture_handle(int texture_id)
+int Image::texture_handle(int texture_id)
 {
     return texture_id_list[texture_id];
 }

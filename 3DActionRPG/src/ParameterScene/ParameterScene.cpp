@@ -42,13 +42,14 @@ const int RiseValue[NumEnhanceableParameter]{ 100, 10 };
 
 ParameterScene::ParameterScene():
     p_DB_{PlayerDatabase::GetInstance()},
-    input_{PadInput::GetInstance()}
+    input_{PadInput::GetInstance()},
+    image_{image_.GetInstance()}
 {
 }
 
 void ParameterScene::start(void* data)
 {
-    Image::load("ParameterScene");
+    image_.load("ParameterScene");
     Sound::GetInstance().load("ParameterScene");
 
     is_end_ = false;
@@ -79,7 +80,7 @@ void ParameterScene::update(float delta_time)
 void ParameterScene::draw() const
 {
     //背景描画
-    Image::draw_graph(Texture_background_parameter);
+    image_.draw_graph(Texture_background_parameter);
     //画面左のメニュー
     draw_menu();
     //画面右の詳細
@@ -98,7 +99,7 @@ std::string ParameterScene::next() const
 
 void ParameterScene::end()
 {
-    Image::clear();
+    image_.clear();
 }
 
 void* ParameterScene::data()
@@ -211,8 +212,8 @@ void ParameterScene::draw_menu() const
     //テキスト色
     static const int text_color = GetColor(26, 10, 4); //こげ茶
     //メニュー項目描画
-    Image::draw_graph(Texture_buttonParameterCheck, 190, 130);
-    Image::draw_graph(Texture_buttonParameterEnhance, 190, 130 + MenuInterval);
+    image_.draw_graph(Texture_buttonParameterCheck, 190, 130);
+    image_.draw_graph(Texture_buttonParameterEnhance, 190, 130 + MenuInterval);
 
     //項目概要
     std::string message;
@@ -236,7 +237,7 @@ void ParameterScene::draw_detail_parameter() const
 
     //所持ジェム描画
     DxLib::DrawFormatStringToHandle(800, 920, text_color, Font::japanese_font_35, "所持ジェム：　　　　　　　×%d", p_DB_.get_master_parameter().total_gem);
-    Image::draw_graph(Texture_gem, 1100, 910);
+    image_.draw_graph(Texture_gem, 1100, 910);
 
     //パラメーター強化に関する表示
     if (selected_menu_index == Menu_EnhanceParameter || menu_state == State::EnhanceParamter) {
@@ -248,32 +249,32 @@ void ParameterScene::draw_detail_parameter() const
 
     //選択状態に応じた位置にメニューカーソル描画
     switch (menu_state) {
-    case State::SelectMenu:      Image::draw_rota_graph(Texture_cursor, 125.0f, 175.0f + MenuInterval * selected_menu_index);               break;
-    case State::EnhanceParamter: Image::draw_rota_graph(Texture_cursor, 790.0f, 320.0f + EnhanceButtonInverval * selected_parameter_index); break;
+    case State::SelectMenu:      image_.draw_rota_graph(Texture_cursor, 125.0f, 175.0f + MenuInterval * selected_menu_index);               break;
+    case State::EnhanceParamter: image_.draw_rota_graph(Texture_cursor, 790.0f, 320.0f + EnhanceButtonInverval * selected_parameter_index); break;
     }
 }
 
 void ParameterScene::draw_hp_enhance_menu(int text_color) const
 {
-    Image::draw_graph(Texture_buttonEnhance, 850, 280);
-    Image::draw_rota_graph(Texture_gem, 1200, 320);
+    image_.draw_graph(Texture_buttonEnhance, 850, 280);
+    image_.draw_rota_graph(Texture_gem, 1200, 320);
 
     Font::draw(1230, 305, "×" + std::to_string(RequiredGemList[Col_Hp]), text_color, Font::japanese_font_35);
-    Image::draw_rota_graph(Texture_downArrow, 1370, 320);
-    Image::draw_rota_graph(Texture_rightArrow, 1480, 320);
+    image_.draw_rota_graph(Texture_downArrow, 1370, 320);
+    image_.draw_rota_graph(Texture_rightArrow, 1480, 320);
     Font::draw(1560, 305, "HP " + std::to_string(RiseValue[Col_Hp]), text_color, Font::japanese_font_35);
-    Image::draw_rota_graph(Texture_upArrow, 1730, 320);
+    image_.draw_rota_graph(Texture_upArrow, 1730, 320);
 }
 
 void ParameterScene::draw_attack_enhance_menu(int text_color) const
 {
-    Image::draw_graph(Texture_buttonEnhance, 850, 280 + EnhanceButtonInverval);
-    Image::draw_rota_graph(Texture_gem, 1200, 320 + EnhanceButtonInverval);
+    image_.draw_graph(Texture_buttonEnhance, 850, 280 + EnhanceButtonInverval);
+    image_.draw_rota_graph(Texture_gem, 1200, 320 + EnhanceButtonInverval);
     Font::draw(1230, 305 + EnhanceButtonInverval, "×" + std::to_string(RequiredGemList[Col_Attack]), text_color, Font::japanese_font_35);
-    Image::draw_rota_graph(Texture_downArrow, 1370, 320 + EnhanceButtonInverval);
-    Image::draw_rota_graph(Texture_rightArrow, 1480, 320 + EnhanceButtonInverval);
+    image_.draw_rota_graph(Texture_downArrow, 1370, 320 + EnhanceButtonInverval);
+    image_.draw_rota_graph(Texture_rightArrow, 1480, 320 + EnhanceButtonInverval);
     Font::draw(1560, 305 + EnhanceButtonInverval, "ATK " + std::to_string(RiseValue[Col_Attack]), text_color, Font::japanese_font_35);
-    Image::draw_rota_graph(Texture_upArrow, 1730, 320 + EnhanceButtonInverval);
+    image_.draw_rota_graph(Texture_upArrow, 1730, 320 + EnhanceButtonInverval);
 }
 
 std::string ParameterScene::restruct_string(const std::string& str) const

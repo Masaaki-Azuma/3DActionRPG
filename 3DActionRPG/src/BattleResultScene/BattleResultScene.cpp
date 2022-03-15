@@ -28,7 +28,8 @@ static const std::vector<std::pair<int, int>> time_bonus_gem_list{              
 
 BattleResultScene::BattleResultScene():
     BG_height_{0.0f},
-    e_DB_{EnemyDatabase::GetInstance()}
+    e_DB_{EnemyDatabase::GetInstance()},
+    image_{Image::GetInstance()}
 {
 }
 
@@ -37,7 +38,7 @@ void BattleResultScene::start(void* data)
     Sound& sound = Sound::GetInstance();
     sound.stop_BGM();
     sound.load("BattleResultScene");
-    Image::load("BattleResultScene");
+    image_.load("BattleResultScene");
 
     is_end_ = false;
     scene_timer_.reset();
@@ -129,7 +130,7 @@ void BattleResultScene::end()
 {
     //ジェムを一時入手ジェムとして計上
     PlayerDatabase::GetInstance().add_gem(calc_total_gem());
-    Image::clear();
+    image_.clear();
 }
 
 void* BattleResultScene::data()
@@ -176,7 +177,7 @@ int BattleResultScene::calc_total_gem() const
 //背景描画
 void BattleResultScene::draw_BG() const
 {
-    Image::draw_rota_graph(Texture_board_battleResult, Screen::Width / 2, BG_height_);
+    image_.draw_rota_graph(Texture_board_battleResult, Screen::Width / 2, BG_height_);
 
 }
 
@@ -215,14 +216,14 @@ void BattleResultScene::draw_line_result(float height, int text_color, const std
     //一体以上敵を倒した場合描画
     if (e_name != "") {
         // 敵のアイコン
-        Image::draw_graph(e_DB_.enemy_icon_table(e_name), 800.0f, height - 50);
+        image_.draw_graph(e_DB_.enemy_icon_table(e_name), 800.0f, height - 50);
         //敵討伐数
         Font::draw(920, height, "×" + std::to_string(e_basterd), text_color, Font::japanese_font_50);
         //右矢印
-        Image::draw_graph(Texture_rightArrow, 1130, height);
+        image_.draw_graph(Texture_rightArrow, 1130, height);
     }
     //ジェム画像
-    Image::draw_graph(Texture_gem, 1260, height);
+    image_.draw_graph(Texture_gem, 1260, height);
     //ジェム数
     int gem = calc_enemy_gem(e_name, e_basterd);
     Font::draw(1350, height, "×" + std::to_string(gem), text_color, Font::japanese_font_50);
@@ -237,10 +238,10 @@ void BattleResultScene::draw_time_bonus() const
         static const Vector3 timer_pos{ 850, bonus_height };
         result_time_.draw(timer_pos);
         //右矢印
-        Image::draw_graph(Texture_rightArrow, 1130, bonus_height);
+        image_.draw_graph(Texture_rightArrow, 1130, bonus_height);
     }
     //ジェム画像
-    Image::draw_graph(Texture_gem, 1260, bonus_height);
+    image_.draw_graph(Texture_gem, 1260, bonus_height);
     //ジェム数
     int gem = calc_bonus_gem();
     Font::draw(1350, bonus_height, "×" + std::to_string(gem), text_color, Font::japanese_font_50);
@@ -249,7 +250,7 @@ void BattleResultScene::draw_time_bonus() const
 //総ジェム描画
 void BattleResultScene::draw_total_result() const
 {
-    Image::draw_graph(Texture_gem, 1260, total_height);
+    image_.draw_graph(Texture_gem, 1260, total_height);
     Font::draw(1350, total_height, "×" + std::to_string(calc_total_gem()), text_color, Font::japanese_font_50);
 }
 

@@ -24,7 +24,7 @@ void AreaNode::update(float delta_time)
 void AreaNode::draw() const
 {
 	//エリア円表示
-	Image::draw_rota_graph(Texture_mapArea, position_.x, position_.y);
+	Image::GetInstance().draw_rota_graph(Texture_mapArea, position_.x, position_.y);
 	//敵が存在するときはモンスター表示
 	if (e_DB_.enemy_icon_table(enemy_) != -1) {
 		icon_anim_.draw();

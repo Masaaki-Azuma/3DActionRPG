@@ -8,6 +8,7 @@
 
 #include "BattleScene/TimerUI.h"
 
+class Image;
 class EnemyDatabase;
 
 //毎バトル後に呼ばれるシーン
@@ -59,6 +60,7 @@ private:
     BattleResultData result_;
     //敵データベース参照
     EnemyDatabase& e_DB_;
+    Image& image_;
 };
 #endif//!BATTLE_RESULT_SCENE_H_
 
