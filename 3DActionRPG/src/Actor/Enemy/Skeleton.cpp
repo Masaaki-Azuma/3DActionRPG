@@ -36,6 +36,7 @@ Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotati
 
 	name_ = "Skeleton";
 	move_speed_ = RunSpeed;
+	state_ = StateSkeleton::Move;
 	collider_ = Sphere{ 60.0f, Vector3{0.0f, 50.0f, 0.0f} };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);

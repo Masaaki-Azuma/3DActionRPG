@@ -31,6 +31,7 @@ Slime::Slime(IWorld* world, const Vector3& position, const Vector3& rotation):
 
 	name_ = "Slime";
 	move_speed_ = MoveSpeed;
+	state_ = State::Move;
 	collider_ = Sphere{ 50.0f, Vector3{0.0f, 20.0f, 0.0f} };
 	motion_ = Motion_Idle;
 	parameter_ = e_DB_.get_parameter(name_);
