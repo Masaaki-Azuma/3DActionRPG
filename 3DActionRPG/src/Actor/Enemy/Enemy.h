@@ -12,7 +12,7 @@
 class Enemy : public Actor
 {
 public:
-	//HACK:敵によって状態が違うためenumではなく、structでどうにかする。以下は必ず使う状態のみを記述
+	//敵の基本状態を定義
 	struct State
 	{
 		static const unsigned int Move   = 0;
@@ -67,7 +67,7 @@ protected:
 	virtual void draw_debug() const {};
 
 protected:
-	//HACK:アニメーション付きのアクターは別に基底クラスを設けるべき
+	//アニメーションするメッシュ
 	SkinningMesh mesh_;
 	//状態
 	unsigned int state_;

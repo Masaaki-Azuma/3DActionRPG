@@ -173,7 +173,6 @@ void ParameterScene::select_enhanced_parameter()
 
 }
 
-//HACK:引数に扱うパラメータを渡して、まとめようよ
 void ParameterScene::try_enhance_hp()
 {
     int possesed_gem = p_DB_.get_master_parameter().total_gem;

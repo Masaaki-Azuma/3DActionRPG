@@ -28,7 +28,6 @@ static const float AttackRadius{ 200.0f };     //プレイヤーを攻撃し始�
 static const float RunSpeed{ 380.0f };       //移動スピード
 static const float WalkSpeed{ 150.0f };       //移動スピード
 
-//HACK:Enemy基底クラスにまとめられる処理はないか？
 Skeleton::Skeleton(IWorld* world, const Vector3& position, const Vector3& rotation):
 	Enemy{ world, position, rotation }
 {
@@ -97,7 +96,6 @@ void Skeleton::update_state(float delta_time)
 	}
 }
 
-//HACK:音声停止処理が散らかっている、うまくまとめよ
 void Skeleton::move(float delta_time)
 {
 	//プレイヤーを検索し、存在しなかったら棒立ち状態
