@@ -31,7 +31,7 @@ SlideInAnimation::SlideInAnimation(int texture_id, int image_width, int image_he
     height_{image_height},
     speed_{slide_speed},
     target_{target},
-    position_{Screen::Width / 2, -image_height}
+    position_{static_cast<float>(Screen::Width / 2), static_cast<float>(-image_height)}
 {
     reset();
 }
