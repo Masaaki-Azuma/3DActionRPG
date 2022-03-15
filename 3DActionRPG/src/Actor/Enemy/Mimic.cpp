@@ -53,10 +53,11 @@ Mimic::Mimic(IWorld* world, const Vector3& position, const Vector3& rotation):
 void Mimic::react_player_attack(Actor& other)
 {
 	if (other.tag() == "PlayerAttackTag") {
-		//ひるめ回数を増やす
-		flinch_count_++;
 		//プレイヤーの攻撃力分ダメージを受ける
 		take_damage(PlayerDatabase::GetInstance().get_current_parameter().attack);
+		if (state_ == StateMimic::Rage)  return;
+		//ひるみ回数を増やす
+		flinch_count_++;
 		if (parameter_.hp <= 0) {
 			//当たり判定を無効化
 			enable_collider_ = false;
@@ -207,7 +208,7 @@ void Mimic::rage(float delta_time)
 	}
 
 	if (has_elapsed(5.0f)) {
-		sound_.stop_SE(SE_MimicLongAttack);
+		sound_.stop_SE(SE_MimicRage);
 		change_state(StateMimic::Move, Motion_Idle01);
 	}
 }
