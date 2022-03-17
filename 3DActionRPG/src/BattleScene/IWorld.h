@@ -33,7 +33,8 @@ public:
     virtual void add_basterd(const std::string& enemy_name) = 0;
     //フィールドとの押し出し判定
     virtual void collide_field(const Sphere& sphere, Vector3& position) = 0;
-
+    //バトルシーンが終了したか？
+    virtual bool is_battle_end() const = 0;
     // フィールドの取得
     //virtual Field* field() = 0;
     // カメラの取得

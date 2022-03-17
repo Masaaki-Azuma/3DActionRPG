@@ -29,6 +29,11 @@ enum
 	Texture_GaugeBarGreen,
 	Texture_GaugeBarRed,
 	Texture_GaugeBarGray,
+	Texture_ControllerUI,
+	Texture_Spark,
+	Texture_CircleMap,
+	Texture_MapIconRed,
+	Texture_MapIconGreen,
 	Texture_buttonParameterCheck,
 	Texture_buttonParameterEnhance,
 	Texture_background_parameter,
@@ -45,11 +50,7 @@ enum
 	Texture_board_gameResult,
 };
 
-/*
- 現状2通りの画像へのアクセス方法がある
- １．公開画像ハンドルを直接使ってDxLib関数で描画
- ２．texture_handle()にテクスチャIDを入れることで間接的に変数を得る
-*/
+//テクスチャ管理クラス
 class Image : public Singleton<Image>
 {
 public:

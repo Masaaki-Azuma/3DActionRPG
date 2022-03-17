@@ -47,7 +47,7 @@ public:
     Vector3 position() const;
     // 移動量を取得
     Vector3 velocity() const;
-    //回転角度を取得
+    //回転角度(度数法)を取得
     Vector3 rotation() const;
     // 現在の位置の応じた衝突判定データを取得
     Sphere collider() const;
