@@ -41,6 +41,9 @@ void Image::load(const std::string& scene)
 
     load_texture("Assets/Image/controll_icon.png", Texture_ControllerUI, scene, { "BattleScene" });
     load_texture("Assets/Image/spark_icon.png", Texture_Spark, scene, { "BattleScene" });
+    load_texture("Assets/Image/mapUI.png", Texture_CircleMap, scene, { "BattleScene" });
+    load_texture("Assets/Image/mapIcon_red.png", Texture_MapIconRed, scene, { "BattleScene" });
+    load_texture("Assets/Image/mapIcon_green.png", Texture_MapIconGreen, scene, { "BattleScene" });
 
     load_texture("Assets/Image/background_parameter.png", Texture_background_parameter, scene, { "ParameterScene" });
     load_texture("Assets/Image/button_parameterCheck.png", Texture_buttonParameterCheck, scene, { "ParameterScene" });

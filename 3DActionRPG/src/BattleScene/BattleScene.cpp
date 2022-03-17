@@ -7,6 +7,7 @@
 #include "AssetsManager/PlayerDatabase.h"
 #include "Util/PadInput.h"
 #include "Actor/ControllUI.h"
+#include "Actor/MapUI.h"
 #include "Actor/Camera.h"
 #include "Actor/Player.h"
 
@@ -53,7 +54,8 @@ void BattleScene::start(void* data)
 	scene_state_ = Scene_Start;
 
 	//アクター追加
-	world_.add_actor(std::make_shared<ControllUI>(Vector3{ 1700, 900 }));
+	world_.add_actor(std::make_shared<ControllUI>(world_, Vector3{ 1700, 900 }));
+	world_.add_actor(std::make_shared<MapUI>(world_, Vector3{ 180, 900 }));
 	int stage_mesh = Mesh::GetInstance().mesh_handle(Mesh_StageMesh);
 	int stage_collider = Mesh::GetInstance().mesh_handle(Mesh_StageCollider);
 	int skybox = Mesh::GetInstance().mesh_handle(Mesh_Skybox);
