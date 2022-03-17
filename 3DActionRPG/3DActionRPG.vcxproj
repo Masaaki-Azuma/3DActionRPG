@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Actor\ControllUI.cpp" />
     <ClCompile Include="src\Actor\CrackAttack.cpp" />
     <ClCompile Include="src\Util\PadInput.cpp" />
     <ClCompile Include="src\Util\SimpleTimer.cpp" />
@@ -86,6 +87,7 @@
     <ClCompile Include="src\BattleScene\TimerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Actor\ControllUI.h" />
     <ClInclude Include="src\Actor\CrackAttack.h" />
     <ClInclude Include="src\Util\PadInput.h" />
     <ClInclude Include="src\Util\SimpleTimer.h" />
