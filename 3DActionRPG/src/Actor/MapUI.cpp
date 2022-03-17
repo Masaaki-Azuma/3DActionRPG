@@ -28,11 +28,8 @@ void MapUI::draw() const
 	Image& image = Image::GetInstance();
 	//マップ円描画
 	image.draw_rota_graph(Texture_CircleMap, position().x, position().y);
-	//プレイヤー描画
-	image.draw_rota_graph(Texture_MapIconGreen, position().x, position().y);
-
-	Vector3 player_pos = player->position();
 	//敵描画
+	Vector3 player_pos = player->position();
 	for (auto& enemy : enemies) {
 		Vector3 enemy_pos = enemy->position();
 		Vector3 icon_pos = calc_icon_pos(enemy_pos, player_pos, angleY);
@@ -40,6 +37,8 @@ void MapUI::draw() const
 			image.draw_rota_graph(Texture_MapIconRed, icon_pos.x, icon_pos.y);
 		}
 	}
+	//プレイヤー描画
+	image.draw_rota_graph(Texture_MapIconGreen, position().x, position().y);
 }
 
 Vector3 MapUI::calc_icon_pos(const Vector3& target_pos, const Vector3& center_pos, float angleY) const
