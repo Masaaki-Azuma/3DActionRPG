@@ -125,7 +125,7 @@ void Skeleton::move(float delta_time)
 			DxLib::PlaySoundMem(se_run_handle_, DX_PLAYTYPE_LOOP);
 		}
 	}
-	else if (has_elapsed(5.0f)) {
+	else if (has_excessed(5.0f)) {
 		DxLib::StopSoundMem(se_run_handle_);
 		velocity_ = make_approach().Normalize() * WalkSpeed;
 		change_state(StateSkeleton::Search, Motion_WalkForward);
@@ -196,7 +196,13 @@ void Skeleton::search(float delta_time)
 		return;
 	}
 
-	//プレイヤーとの距離
+	//一定時間後、向きを変えて再び探索状態へ
+	if (has_elapsed(3.0f)) {
+		velocity_ = make_approach().Normalize() * WalkSpeed;
+		change_state(StateSkeleton::Search, Motion_WalkForward);
+	}
+
+	//プレイヤーが近くに来たら走って接近
 	float distance = get_vec_to_player().Length();
 	if (distance <= DetectionRadius) {
 		change_state(State::Move, Motion_Run);
