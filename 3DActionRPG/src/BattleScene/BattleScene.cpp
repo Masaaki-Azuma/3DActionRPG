@@ -6,8 +6,9 @@
 #include "AssetsManager/Font.h"
 #include "AssetsManager/PlayerDatabase.h"
 #include "Util/PadInput.h"
-#include "Actor/ControllUI.h"
-#include "Actor/MapUI.h"
+#include "Actor/UI/ControllUI.h"
+#include "Actor/UI/MapUI.h"
+#include "Actor/UI/GaugeActor.h"
 #include "Actor/Camera.h"
 #include "Actor/Player.h"
 
@@ -39,11 +40,7 @@ void BattleScene::start(void* data)
 
 	DxLib::SetCameraNearFar(200.0f, 50000.0f);
 
-	//HPゲージ
-	hp_gauge_ = ExtendableBarGauge{ 150, 100, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray};
-	hp_gauge_.extend(p_DB_.get_master_parameter().hp, p_DB_.limit_hp());
-	hp_gauge_.set_edge_width(3);
-	//タイマー
+	//タイマーUI
 	timer_.set_color(DxLib::GetColor(200, 200, 200));
 	timer_.set_font(Font::japanese_font_60_edge);
 	timer_.reset();
@@ -56,6 +53,7 @@ void BattleScene::start(void* data)
 	//アクター追加
 	world_.add_actor(std::make_shared<ControllUI>(world_, Vector3{ 1700, 900 }));
 	world_.add_actor(std::make_shared<MapUI>(world_, Vector3{ 180, 900 }));
+	world_.add_actor(std::make_shared<GaugeActor>(150, 100, 540, 40, Texture_GaugeFrame, Texture_GaugeBarGreen, Texture_GaugeBarGray));
 	int stage_mesh = Mesh::GetInstance().mesh_handle(Mesh_StageMesh);
 	int stage_collider = Mesh::GetInstance().mesh_handle(Mesh_StageCollider);
 	int skybox = Mesh::GetInstance().mesh_handle(Mesh_Skybox);
@@ -87,8 +85,6 @@ void BattleScene::draw() const
 {
 	//アクターの描画
 	world_.draw();
-	//HPゲージ描画
-	hp_gauge_.draw_gui(static_cast<float>(p_DB_.get_current_parameter().hp));
 	//タイマー描画
 	timer_.draw_center(40.0f);
 

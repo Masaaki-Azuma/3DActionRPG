@@ -8,8 +8,7 @@
 #include "TimerUI.h"
 #include "EnemySpawner.h"
 #include "BattleResultScene/BattleResultScene.h"
-#include "Actor/ExtendableBarGauge.h"
-#include "Util/Animation/FadeInAnimation.h"
+#include "Animation/FadeInAnimation.h"
 
 class PlayerDatabase;
 
@@ -42,8 +41,6 @@ private:
     Light light_;
     //敵生成器
     EnemySpawner enemy_spawner_;
-    //HPゲージ
-    ExtendableBarGauge hp_gauge_;
     //バトル開始テキスト
     FadeInAnimation start_text_;
     //タイマー
@@ -52,11 +49,12 @@ private:
     //シーン終了フラグ
     bool is_end_{ false };
     //シーン状態
-    int scene_state_;
+    int scene_state_{ -1 };
     //バトルリザルトシーン
     BattleResultScene result_scene_;
     //リザルト
     BattleResultScene::BattleResultData result_;
+
     //プレイヤーデータ参照
     PlayerDatabase& p_DB_;
 };
