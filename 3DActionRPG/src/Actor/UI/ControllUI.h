@@ -1,7 +1,7 @@
 #ifndef CNTROLL_UI_H_
 #define CNTROLL_UI_H_
 
-#include "Actor.h"
+#include "../Actor.h"
 
 class Image;
 class PadInput;

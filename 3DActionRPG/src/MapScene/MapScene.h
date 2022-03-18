@@ -5,7 +5,7 @@
 
 #include <string>
 
-#include "Actor/ExtendableBarGauge.h"
+#include "UI/ExtendableBarGauge.h"
 
 
 class MapManager;

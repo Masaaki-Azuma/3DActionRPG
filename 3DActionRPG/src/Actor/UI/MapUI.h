@@ -1,7 +1,7 @@
 #ifndef MAP_UI_H_
 #define MAP_UI_H_
 
-#include "Actor.h"
+#include "../Actor.h"
 
 class MapUI :
     public Actor

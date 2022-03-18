@@ -7,7 +7,7 @@
 #include "Util/SkinningMesh.h"
 #include "AssetsManager/EnemyDatabase.h"
 #include "AssetsManager/Sound.h"
-#include "Actor/ExtendableBarGauge.h"
+#include "UI/ExtendableBarGauge.h"
 
 class Enemy : public Actor
 {

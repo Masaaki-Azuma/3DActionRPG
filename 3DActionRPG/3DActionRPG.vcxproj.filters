@@ -41,14 +41,14 @@
     <ClCompile Include="src\Actor\Enemy\Skeleton.cpp" />
     <ClCompile Include="src\AssetsManager\Font.cpp" />
     <ClCompile Include="src\Actor\Enemy\Mage.cpp" />
-    <ClCompile Include="src\Actor\ExtendableBarGauge.cpp" />
-    <ClCompile Include="src\Util\Animation\AppearAnimation.cpp" />
+    <ClCompile Include="src\UI\ExtendableBarGauge.cpp" />
+    <ClCompile Include="src\Animation\AppearAnimation.cpp" />
     <ClCompile Include="src\Util\Vector2.cpp" />
-    <ClCompile Include="src\Util\Animation\SlideInAnimation.cpp" />
+    <ClCompile Include="src\Animation\SlideInAnimation.cpp" />
     <ClCompile Include="src\BattleScene\Light.cpp" />
     <ClCompile Include="src\BattleScene\Field.cpp" />
     <ClCompile Include="src\BattleScene\TimerUI.cpp" />
-    <ClCompile Include="src\Util\Animation\FadeInAnimation.cpp" />
+    <ClCompile Include="src\Animation\FadeInAnimation.cpp" />
     <ClCompile Include="src\AssetsManager\Sound.cpp" />
     <ClCompile Include="src\Actor\AttackCollider\JewelAttack.cpp" />
     <ClCompile Include="src\BattleScene\EnemySpawner.cpp" />
@@ -56,8 +56,9 @@
     <ClCompile Include="src\Util\SimpleTimer.cpp" />
     <ClCompile Include="src\Actor\CrackAttack.cpp" />
     <ClCompile Include="src\Util\PadInput.cpp" />
-    <ClCompile Include="src\Actor\ControllUI.cpp" />
-    <ClCompile Include="src\Actor\MapUI.cpp" />
+    <ClCompile Include="src\Actor\UI\ControllUI.cpp" />
+    <ClCompile Include="src\Actor\UI\MapUI.cpp" />
+    <ClCompile Include="src\Actor\UI\GaugeActor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actor\Actor.h" />
@@ -104,15 +105,15 @@
     <ClInclude Include="src\Actor\Enemy\Skeleton.h" />
     <ClInclude Include="src\AssetsManager\Font.h" />
     <ClInclude Include="src\Actor\Enemy\Mage.h" />
-    <ClInclude Include="src\Actor\ExtendableBarGauge.h" />
-    <ClInclude Include="src\Util\Animation\AppearAnimation.h" />
+    <ClInclude Include="src\UI\ExtendableBarGauge.h" />
+    <ClInclude Include="src\Animation\AppearAnimation.h" />
     <ClInclude Include="src\Util\Vector2.h" />
-    <ClInclude Include="src\Util\Animation\SlideInAnimation.h" />
+    <ClInclude Include="src\Animation\SlideInAnimation.h" />
     <ClInclude Include="src\MapScene\NullNode.h" />
     <ClInclude Include="src\BattleScene\Light.h" />
     <ClInclude Include="src\BattleScene\Field.h" />
     <ClInclude Include="src\BattleScene\TimerUI.h" />
-    <ClInclude Include="src\Util\Animation\FadeInAnimation.h" />
+    <ClInclude Include="src\Animation\FadeInAnimation.h" />
     <ClInclude Include="src\AssetsManager\Sound.h" />
     <ClInclude Include="src\Actor\AttackCollider\JewelAttack.h" />
     <ClInclude Include="src\BattleScene\EnemySpawner.h" />
@@ -120,7 +121,8 @@
     <ClInclude Include="src\Util\SimpleTimer.h" />
     <ClInclude Include="src\Actor\CrackAttack.h" />
     <ClInclude Include="src\Util\PadInput.h" />
-    <ClInclude Include="src\Actor\ControllUI.h" />
-    <ClInclude Include="src\Actor\MapUI.h" />
+    <ClInclude Include="src\Actor\UI\ControllUI.h" />
+    <ClInclude Include="src\Actor\UI\MapUI.h" />
+    <ClInclude Include="src\Actor\UI\GaugeActor.h" />
   </ItemGroup>
 </Project>

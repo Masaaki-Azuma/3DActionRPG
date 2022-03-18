@@ -9,7 +9,7 @@
 #include <utility>  //pair
 
 #include "Util/Vector3.h"
-#include "Util/Animation/SlideInAnimation.h"
+#include "Animation/SlideInAnimation.h"
 
 class AreaNode;
 class CsvReader;

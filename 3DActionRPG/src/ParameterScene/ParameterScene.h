@@ -2,7 +2,7 @@
 #define PARAMETER_SCENE_H_
 
 #include "IScene.h"
-#include "Actor/ExtendableBarGauge.h"
+#include "UI/ExtendableBarGauge.h"
 
 class PlayerDatabase;
 class PadInput;
