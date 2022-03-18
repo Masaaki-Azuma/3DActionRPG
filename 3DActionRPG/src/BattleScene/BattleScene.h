@@ -6,7 +6,6 @@
 #include "Light.h"
 #include "Field.h"
 #include "TimerUI.h"
-#include "EnemySpawner.h"
 #include "BattleResultScene/BattleResultScene.h"
 #include "Animation/FadeInAnimation.h"
 
@@ -39,8 +38,6 @@ private:
     World world_;
     //ライト
     Light light_;
-    //敵生成器
-    EnemySpawner enemy_spawner_;
     //バトル開始テキスト
     FadeInAnimation start_text_;
     //タイマー

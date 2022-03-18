@@ -5,6 +5,7 @@
 #include "AssetsManager/Sound.h"
 #include "AssetsManager/Font.h"
 #include "AssetsManager/PlayerDatabase.h"
+#include "EnemySpawner.h"
 #include "Util/PadInput.h"
 #include "Actor/UI/ControllUI.h"
 #include "Actor/UI/MapUI.h"
@@ -20,7 +21,6 @@ enum
 };
 
 BattleScene::BattleScene():
-	enemy_spawner_{ world_ },
 	p_DB_{PlayerDatabase::GetInstance()},
 	start_text_{ "Battle Start!", Font::japanese_font_120_edge, DxLib::GetColor(207, 205, 175), Vector3{0.0f, 200.0f, 0.0f}, 0.5f}
 {
@@ -65,6 +65,7 @@ void BattleScene::start(void* data)
 	const std::string& enemy = *(static_cast<std::string*>(data));
 	//敵を生成
 	spawn_enemy(enemy);
+	
 	
 	Sound::GetInstance().play_BGM(BGM_Battle);
 	Sound::GetInstance().set_BGM_volume(0.8f);
@@ -169,7 +170,7 @@ bool BattleScene::is_settled() const
 
 void BattleScene::spawn_enemy(const std::string& enemy)
 {
-	enemy_spawner_.spawn(enemy);
-
-	
+	//敵生成器
+	static EnemySpawner enemy_spawner{ world_ };
+	enemy_spawner.spawn(enemy);
 }
