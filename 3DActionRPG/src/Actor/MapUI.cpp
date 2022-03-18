@@ -28,6 +28,7 @@ void MapUI::draw() const
 	Image& image = Image::GetInstance();
 	//マップ円描画
 	image.draw_rota_graph(Texture_CircleMap, position().x, position().y);
+	if (!player) return;
 	//敵描画
 	Vector3 player_pos = player->position();
 	for (auto& enemy : enemies) {
