@@ -26,6 +26,8 @@ void Application::Run() {
 
     SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST); // スレッドの優先度を上げておく
 
+    //ログ出力を無効化
+    SetOutApplicationLogValidFlag(FALSE);
     // 画面リフレッシュレートと目標フレームレートが等しい場合は垂直同期を有効に、等しくない場合は垂直同期を無効にする
     SetWaitVSyncFlag(GetRefreshRate() == TargetFPS ? TRUE : FALSE);
     SetWindowText("ゲームタイトル"); // ウィンドウのタイトル
