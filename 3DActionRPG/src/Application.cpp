@@ -30,7 +30,7 @@ void Application::Run() {
     SetOutApplicationLogValidFlag(FALSE);
     // 画面リフレッシュレートと目標フレームレートが等しい場合は垂直同期を有効に、等しくない場合は垂直同期を無効にする
     SetWaitVSyncFlag(GetRefreshRate() == TargetFPS ? TRUE : FALSE);
-    SetWindowText("ゲームタイトル"); // ウィンドウのタイトル
+    SetWindowText("Brave Blade"); // ウィンドウのタイトル
     SetGraphMode(Screen::Width, Screen::Height, 32); // ウィンドウサイズ（画面解像度）の指定
     ChangeWindowMode(Screen::IsWindowScreen); // ウィンドウモードにする（FALSEを指定するとフルスクリーンになる）
     SetAlwaysRunFlag(TRUE); // ウィンドウが非アクティブでも動作させる
