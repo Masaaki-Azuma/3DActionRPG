@@ -20,7 +20,6 @@ public:
 	static int japanese_font_50;
 	static int japanese_font_60_edge;
 	static int japanese_font_120_edge;
-	static int english_font_35;
 
 private:
 	Font() = default;
