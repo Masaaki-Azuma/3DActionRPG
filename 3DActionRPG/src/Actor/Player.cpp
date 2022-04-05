@@ -78,6 +78,12 @@ void Player::draw() const
 {
 	//メッシュを描画
 	mesh_.draw();
+	Vector2 dir_Lstick = input_.GetLeftStick();
+	Vector2 dir_Rstick = input_.GetRightStick();
+
+	DrawFormatString(0, 0, GetColor(255, 255, 255), "R(%f, %f)", dir_Rstick.x, dir_Rstick.y);
+	DrawFormatString(0, 20, GetColor(255, 255, 255), "L(%f, %f)", dir_Lstick.x, dir_Lstick.y);
+
 }
 
 void Player::react(Actor& other)
