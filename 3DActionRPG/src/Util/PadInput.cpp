@@ -1,7 +1,9 @@
 #include "PadInput.h"
 
+#include <algorithm>
 #include <cmath>
 
+static const float StickThreshold{ 0.35f };
 
 void PadInput::Init()
 {
@@ -55,14 +57,25 @@ bool PadInput::GetButtonUp(int buttonId)
 
 Vector2 PadInput::GetRightStick()
 {
-	Vector2 direction = Vector2{ static_cast<float>(GetRightStickX()), static_cast<float>(GetRightStickY()) };
-	return direction.Normalize();
+	//-1〜1にクランプ
+	float RX = (std::min)((std::max)(GetRightStickX() / 32767.0f, -1.0f), 1.0f);
+	float RY = (std::min)((std::max)(GetRightStickY() / 32767.0f, -1.0f), 1.0f);
+	//スティックの傾きが一定以下なら0とみなす
+	if (std::fabsf(RX) < StickThreshold) RX = 0.0f;
+	if (std::fabsf(RY) < StickThreshold) RY = 0.0f;
+	return Vector2{ RX, RY };
 }
 
 Vector2 PadInput::GetLeftStick()
 {
-	Vector2 direction = Vector2{ static_cast<float>(GetLeftStickX()), static_cast<float>(GetLeftStickY()) };
-	return direction.Normalize();
+	//-1〜1にクランプ
+	float LX = (std::min)((std::max)(GetLeftStickX() / 32767.0f, -1.0f), 1.0f);
+	float LY = (std::min)((std::max)(GetLeftStickY() / 32767.0f, -1.0f), 1.0f);
+	//スティックの傾きが一定以下なら0とみなす
+	if (std::fabsf(LX) < StickThreshold) LX = 0.0f;
+	if (std::fabsf(LY) < StickThreshold) LY = 0.0f;
+	return Vector2{ LX, LY };
+	
 }
 
 int PadInput::GetRightStickX()
@@ -96,6 +109,10 @@ float PadInput::GetLeftStickAngle()
 }
 
 //(スティックの指定、得る方向の指定)
+
+/// <param name="stick">スティックの指定</param>
+/// <param name="axis">得る方向の指定</param>
+/// <returns></returns>
 float PadInput::GetStickInputDirection(Stick stick, Axis axis)
 {
 	if (stick == Stick::RIGHT) {
